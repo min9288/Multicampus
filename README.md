@@ -1,5 +1,29 @@
 # Multicampus
 
+## 0. 목차
+**[1. 개요](#1-개요)**  
+**[2. 교육 일정](#2-교육-일정)**  
+
+<details>
+<summary>교육 일정 상세보기</summary>
+<div markdown="1">
+	
+| 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 |  
+| :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: |  
+| [2.1](#21-1일차2022-01-17) | [2.2](#22-2일차2022-01-18) | [2.3](#23-3일차2022-01-19) |
+
+</div>
+</details>  
+
+<details>
+<summary>교육 내용 시작점 상세보기</summary>
+<div markdown="1">
+
+**[1. PYTHON](#21-2일차2022-01-18)**  
+
+</div>
+</details>  
+
 ## 1. 개요
 - 이 문서는 멀티캠퍼스 교육 중 만들어지는 문서들을 저장하기 위한 Repository입니다.
 
@@ -26,3 +50,48 @@
                   이러면 기존의 3.4가 필요한 다른 모듈이 문제가 됨
  -> 해결책 : 각 프로젝트별로 가상환경을 세팅하여 작업
             envs라는 폴더아래 - 각 가상환경 폴더가 생성 - 그 안에 라이브러리가 생성됨
+         
+### 2.3 3일차(2022-01-19) 
+
+ # 1단계 (반복문 없이 작업)
+  folderName='./picture/'
+  fileName='pic1.jpg' ; print(folderName+fileName)
+  fileName='pic2.jpg' ; print(folderName+fileName)
+ -----------------------------------------
+ # 2단계 (fileName을 리스트화해서 인덱싱)
+  folderName='./picture/'
+  fileName=['pic1.jpg', 'pic2.jpg', 'pic3.jpg']
+  print(folderName+fileName[0])
+  print(folderName+fileName[1])
+ -------------------------------------------------------
+ # 3단계 (fileName 리스트 인덱싱 값 변수추가)
+  folderName='./picture/'
+  fileName=['pic1.jpg', 'pic2.jpg', 'pic3.jpg']
+  i=0 ; print(folderName+fileName[i])
+  i=1 ; print(folderName+fileName[i])
+ ----------------------------------------------
+ # 4단계 (for를 이용한 반복문 & i값 갯수)
+  folderName='./picture/'
+  fileName=['pic1.jpg', 'pic2.jpg', 'pic3.jpg']
+  cnt=len(fileName)
+  for i in range(cnt):  
+  print(folderName+fileName[i])
+ ----------------------------------------------
+ # 5단계(fileName 리스트추가 자동화)
+  import os
+  folderName='./picture/'
+  fileName=os.listdir(folderName)
+
+  cnt=len(fileName)
+  for i in range(cnt):  
+   print(folderName+fileName[i])
+ --------------------------------------------------------------------------------
+ # 6단계(fileName중 확장자(.을 기준으로 나누는 뒷글자임)가 'jpg'인 자료만)
+  import os
+  folderName='./picture/'
+  fileName=os.listdir(folderName)
+
+  for i in range(cnt): # 
+      tmp=fileName[i].split('.')[1]
+      if tmp=='jpg':
+          print(folderName + fileName[i])
