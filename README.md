@@ -19,7 +19,7 @@
 <summary>교육 내용 시작점 상세보기</summary>
 <div markdown="1">
 
-**[1. PYTHON](#21-2일차2022-01-18)**  
+**[1. PYTHON](#22-2일차2022-01-18)**  
 
 </div>
 </details>  
