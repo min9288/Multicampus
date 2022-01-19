@@ -53,31 +53,31 @@
          
 ### 2.3 3일차(2022-01-19) 
 
- # 1단계 (반복문 없이 작업)
+ - 1단계 (반복문 없이 작업)
   folderName='./picture/'
   fileName='pic1.jpg' ; print(folderName+fileName)
   fileName='pic2.jpg' ; print(folderName+fileName)
  -----------------------------------------
- # 2단계 (fileName을 리스트화해서 인덱싱)
+ - 2단계 (fileName을 리스트화해서 인덱싱)
   folderName='./picture/'
   fileName=['pic1.jpg', 'pic2.jpg', 'pic3.jpg']
   print(folderName+fileName[0])
   print(folderName+fileName[1])
  -------------------------------------------------------
- # 3단계 (fileName 리스트 인덱싱 값 변수추가)
+ - 3단계 (fileName 리스트 인덱싱 값 변수추가)
   folderName='./picture/'
   fileName=['pic1.jpg', 'pic2.jpg', 'pic3.jpg']
   i=0 ; print(folderName+fileName[i])
   i=1 ; print(folderName+fileName[i])
  ----------------------------------------------
- # 4단계 (for를 이용한 반복문 & i값 갯수)
+ - 4단계 (for를 이용한 반복문 & i값 갯수)
   folderName='./picture/'
   fileName=['pic1.jpg', 'pic2.jpg', 'pic3.jpg']
   cnt=len(fileName)
   for i in range(cnt):  
   print(folderName+fileName[i])
  ----------------------------------------------
- # 5단계(fileName 리스트추가 자동화)
+ - 5단계(fileName 리스트추가 자동화)
   import os
   folderName='./picture/'
   fileName=os.listdir(folderName)
@@ -86,7 +86,7 @@
   for i in range(cnt):  
    print(folderName+fileName[i])
  --------------------------------------------------------------------------------
- # 6단계(fileName중 확장자(.을 기준으로 나누는 뒷글자임)가 'jpg'인 자료만)
+ - 6단계(fileName중 확장자(.을 기준으로 나누는 뒷글자임)가 'jpg'인 자료만)
   import os
   folderName='./picture/'
   fileName=os.listdir(folderName)
