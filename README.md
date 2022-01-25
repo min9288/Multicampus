@@ -233,26 +233,26 @@ else:
   ```
  - 이스케이프 문자
     ``` 
-        >>> print(‘\tabc’)
-        abc
-        >>> print(‘a\tbc’)
-        a bc
-        >>> print(‘ab\tc’)
-        ab c
-        >>> print(‘I love back slash \\’)
+	>>> print(‘\tabc’)
+	abc
+	>>> print(‘a\tbc’)
+	a bc
+	>>> print(‘ab\tc’)
+	ab c
+	>>> print(‘I love back slash \\’)
 
-    \n 개행(줄바꿈)
-    \t 탭
-    \r 캐리지 리턴
-    \0 널(null)
-    \\ 문자 \
-    \’ 단일 인용부호
-    \” 다중 인용부호
-
+	\n 개행(줄바꿈)
+	\t 탭
+	\r 캐리지 리턴
+	\0 널(null)
+	\\ 문자 \
+	\’ 단일 인용부호
+	\” 다중 인용부호
     ```
 - 데이터 타입 변환 : str()
  1. str() 함수를 사용하여 데이터 타입을 문자열로 변환 가능
   - int(), float() 는 마찬가지로 각각 int와 float 로 변환한다.
+  
   ``` 
    >>> str(98.6)
     ‘98.6’
@@ -260,7 +260,6 @@ else:
     ‘10000.0’
     >>> str(True)
     ‘True’ 
-
   ```
 
 - 문자열 자르기 : 음수 인덱스 사용
@@ -273,11 +272,11 @@ else:
  2. 다른 시퀀스 타입에서도 사용 가능하다.
 
  ``` 
- >>> letters = ‘abcdefghijklmnopqrstuvwxyz’ 
- >>> len(letters) 26 
- >>> empty = ‘’ 
- >>> len(empty) 
- 0
+	 >>> letters = ‘abcdefghijklmnopqrstuvwxyz’ 
+	 >>> len(letters) 26 
+	 >>> empty = ‘’ 
+	 >>> len(empty) 
+	 0
  ```
 
  - 문자열 함수
