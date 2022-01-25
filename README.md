@@ -210,11 +210,11 @@ else:
 
 - 문자열
  - 문자를 다루는 방법 – string
-  ``` 
-    mystring = “hello world”
-    my_string2 = ‘hello world’
+	  ``` 
+	    mystring = “hello world”
+	    my_string2 = ‘hello world’
 
-  ```
+	  ```
  - 문자열 결합 : +
   ``` 
     first_name='Monty'
@@ -222,14 +222,12 @@ else:
     full_name= full_name+last_name
     full_name
     -> 'MontyPython'
-    
   ```
  - 문자열 복제 : *
-   ``` 
+  ``` 
     >>> greet = ‘Hello ‘ * 4 + ‘\n’
     >>> end = ‘Goodbye.’
     >>> print(greet + greet + end)
-    
   ```
  - 이스케이프 문자
     ``` 
