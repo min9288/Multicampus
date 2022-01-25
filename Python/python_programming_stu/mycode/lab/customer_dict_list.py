@@ -28,5 +28,18 @@ for cust in customer_list:
         print(f'{key} = {cust[key]}')
 
 for cust in customer_list:
+    print(cust.items())
     for k, v in cust.items():
         print(f'{k} = {v}')
+
+'''
+    zip() : index가 같은 아이템들을 묶어주는 (zipping) 해주는 함수
+    
+'''
+
+key_list = ['정당', '선거구']
+value_list = ['열린민주당', '비례대표']
+zip_result = zip(key_list, value_list)
+print(zip_result)
+for val in zip_result:
+    print(val)
