@@ -443,3 +443,275 @@ else:
   ```
 
 ### 2.5 7일차(2022-01-25) 
+
+  ## 제어문
+  - 코드구조
+    - 흐름 제어 : Flow Control
+      1. 구조적 프로그래밍 : 순차구조, 선택구조, 반복구조로 이루어짐
+    
+    - bool 타입
+      1. True 참
+      2. False 거짓
+
+  - 비교 연산자
+    - 파이썬에서의 6개의 비교 연산자
+      1. '<' : less than
+      2. '<=' : less than equal to
+      3. '==' : equal to
+      4. '>=' : greater than equal to
+      5. '>' : greater than
+      6. '!=' : not equal to
+
+  - flow - if
+    - if - 조건문 (Conditional)
+      1. if 는 조건문으로 if 문에 따라오는 문장이 True 이면 특정한 문장이 수행된다.
+      2. 점수가 90점 이상이면 A학점을 받는다
+        ``` 
+          score = 92
+          if score >= 90:
+          print(‘grade A’)
+        ```
+      3. 조건문에는 if 라는 키워드를 사용한다
+      4. if 다음에는 ‘조건＇이 존재하는데 이 ‘조건‘ 이 참 (True)이면 들여쓰기 한 문장이 실행된다
+      5. if 문장 끝에는 콜론 ( : ) 을 입력한다
+      6. if 문의 ‘조건‘ 이 참 (True)일 때 실행되는 문장은 들여쓰기를 해야 한다
+  
+    - if ~ elif ~ else 다중 구문
+      1. 점수가 60점 이상이면 합격이고 이하이면 불합격 이다
+        ```
+          score = 59 
+          if score >= 60: 
+            print(‘합격’) 
+          else: 
+            print(‘불합격‘)
+        ```
+    
+    - True 와 False
+      1. 확인할 요소가 bool 형이 아니면 True와 False 를 어떻게 구별할까?
+      2. False 값을 명시적으로 False 값이라고 할 필요없다.
+      3. 다음 값은 모두 False 이다.
+        ```
+          null -> None
+          int 타입 0 -> 0
+          float 타입 0 -> 0.0
+          빈 문자열 -> ''
+          빈 리스트 -> []
+          빈 튜플 -> ()
+          빈 딕셔너리 -> {}
+        ```
+  - for 루프 – Dictionary
+    - for 문
+      1. 0부터 10까지 출력하기
+        ```
+          for i in [0,1,2,3,4,5,6,7,8,9,10]: 
+              print(i)
+
+          for i in range(0, 11): 
+              print(i)
+        ```
+      
+      2. for 와 list (list는 tuple로도 가능, 속도가 더 빠름)
+        ```
+          favorite_hobby = [‘reading’,’fishing’,’shopping’]
+          for hobby in favorite_hobby:
+          print(‘%s is my favorite hobby’ % hobby)
+        ```
+
+      3. for 와 dictionary
+        ```
+          wish_travel_city = {‘bangkok’:’Thai’, ’Los Angeles’:’USA’,      ’Manila’:’Philiphines’} 
+          
+          for city, country in wish_travel_city.items(): 
+              print(‘%s in %s’ % (city, country))
+        ```
+      
+    - for 루프 – 리스트의 각 아이템을 순환
+      ```
+        prices = [2.50, 3.50, 4.50]
+        for price in prices:
+        print('Price is', price)
+      ```
+
+      ```
+        import random
+
+        for i in range(10):
+            ticket = random.randint(1, 1000)
+            print(ticket)
+      ```
+
+      ```
+        import random
+        r1 = random.random()
+        print(r1)
+      ```
+
+      ```
+        import random
+
+        r2 = random.choice([1,2,3,4,5])
+        print(r2)
+      ```
+
+      ```
+        r3 = random.randint(1,1000)
+        print(r3)
+      ```
+
+  - for 루프 - range() 함수
+    - range() 사용하기
+      ```
+        for looper in [1,2,3,4,5]:
+            print('hello')
+        for looper in range(0,5):
+            print 'hello'
+      ```
+
+    - 간격을 두고 세기
+      ```
+        for i in range(1,10,2):
+            # 1부터 10까지 2씩 증가시키면서 반복문 수행
+            print(i)
+      ```
+    
+    - 역순으로 반복문 수행
+      ```
+        for i in range(10,1,-1):
+        # 10부터 1까지 -1씩 감소시키면서 반복문 수행
+        print(i)
+      ```
+  - While 루프
+    - while 문 – 조건이 만족하는 동안 반복 명령문을 수행
+      ``` 
+        i = 1
+        while i < 10:
+            print(i)
+            i += 1
+      ```
+
+  - 반복의 제어 – break, continue , else
+    - break 특정 조건에서 반복 종료
+      ```
+        for i in range(10):
+            if i == 5: break    # i가 5가 되면 반복 종료
+            print(i)
+        print("EOP")      # 반복 종료 후 "EOP" 출력
+
+        ** break로 종료된 반복문은 else block이 수행되지 않음
+      ```
+
+    - continue 특정 조건에서 남은 반복 명령 skip
+      ```
+        for i in range(10):
+            if i == 5: continue    # i가 5가 되면 i를 출력하지 않음
+            print(i)
+        print("EOP")      # 반복 종료 후 "EOP" 출력
+      ```
+
+    - 반복 조건이 만족하지 않을 경우 반복 종료 시 1회 수행
+      ```
+        for i in range(10):
+            print(i)
+        else:
+            print("EOP")
+      ```
+      ```
+        i = 0
+        while i < 10:
+            print(i)
+            i += 1
+        else:
+            print("EOP") 
+      ```
+
+### 2.6 8일차(2022-01-26)
+  ## Data Structure
+  - 자료구조(Data Structure) 란?
+    1. 메모리상에서 데이터를 효율적으로 관리하는 방법
+    2. 검색,저장 등의 작업에서 효율성을 고려하여 메모리 사용량과 실행시간 등을 최소화 해준다.
+    3. 파이썬에서 List, Tuple, Set, Dictionary 등의 기본 데이터 구조를 제공한다.
+    4. 스택과 큐 ( Stack & Queue )
+    5. 튜플과 집합 ( Tuple & Set )
+    6. 사전 ( Dictionary )
+  
+  - 스택 ( Stack )
+    1. 나중에 넣은 데이터를 먼저 반환 하도록 설계된 메모리 구조로 Last In First Out ( LIFO ) 구현됨
+    2. Data의 입력을 Push, 출력을 Pop 이라고 함
+    3. 파이썬은 List를 사용하여 스택 구조를 활용
+    4. push를 append() / pop을 pop() 사용
+
+  - 큐 ( Queue )
+    1. 처음에 넣은 데이터를 먼저 반환 하도록 설계된 메모리 구조로 FIFO ( First In First Out) 구현됨
+    2. Stack 과 반대 되는 개념
+    3. 파이썬은 List를 사용하여 큐 구조를 활용
+    4. put을 append(), get을 pop(0) 사용
+  
+  - 튜플 (Tuples) – Read Only
+    1. 값의 변경이 불가능한 리스트
+    2. 선언 시 “[ ]” 가 아닌 “( )” 를 사용
+    3. 리스트의 연산, 인덱싱, 슬라이싱 등을 동일하게 사용함
+      ```
+        t = (1)   # 일반정수로 인식
+        1
+
+        t = (1,)    # 값이 하나인 Tuple은 반드시 "," 를 붙여야 함
+        (1,)
+      ```
+  
+  - 튜플과 리스트
+    1. 튜플은 더 적은 공간을 사용한다.
+    2. 실수로 튜플의 항목이 손상될 염려가 없다.
+    3. 함수의 파라미터들은 튜플로 전달된다.
+    4. 튜플을 사용하는 이유는 프로그램을 작동하는 동안 변경되지 않는 데이터의 저장
+    5. 예) 학번, 이름, 우편번호 등
+  
+  - 집합(Set) – 중복 허용 안함
+    1. 값을 순서 없이 저장, 중복을 허용하지 않는 자료형
+    2. set 객체 선언을 이용하여 객체 생성
+      ```
+        >>> s = set([1,2,3,1,2,3])    # set 함수를 사용 1,2,3을 집합 객체 생성
+        >>> s
+        {1,2,3}
+
+        >>> s.add(1)    # 한 원소 1만 추가 -> 중복 불허로 추가 되지 않음
+        >>> s
+        {1,2,3}
+
+        >>> s.remove(1)   # 1 삭제
+        >>> s
+        {2,3}
+
+        >>> s.update([1,4,5,6,7])   # [1,4,5,6,7] 추가
+        >>> s
+        {1,2,3,4,5,6,7}
+
+        >>> s.discard(3)    # 3삭제
+        >>> s
+        {1,2,4,5,6,7}
+
+        >>> s.clear()   # 모든 원소 삭제
+      ```
+  
+  - 집합(Set) 의 연산
+    - 수학에서 활용하는 다양한 집합 연산 가능
+    ```
+      >>> s1 = set([1,2,3,4,5])
+      >>> s2 = set([3,4,5,6,7])
+
+      >>> s1.union(s2)    # s1 과 s2의 합집합
+      {1,2,3,4,5,6,7}
+      >>> s1 | s2     s1.union(s2)
+      {1,2,3,4,5,6,7}
+
+      >>> s1.intersection(s2)     # s1 과 s2의 교집합
+      {3,4,5}
+      >>> s1 & s2     # s1.intersection(s2)
+      {3,4,5}
+
+      >>> s1.difference(s2)     # s1 과 s2의 차집합
+      {1,2}
+      >>> s1 - s2     # s1.difference(s2)
+      {1,2}
+    ```
+
+### 2.7 9일차(2022-01-27) 
