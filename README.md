@@ -713,5 +713,815 @@ else:
       >>> s1 - s2     # s1.difference(s2)
       {1,2}
     ```
+  
+  - Dictionary – 키/값 쌍으로 데이터를 관리
+    1. 리스트와 유사하지만 인덱스 대신에 키를 통해 값을 찾는다.
+      - key와 value를 매칭하여 key로 value를 검색한다. 다른 언어에서는 Hash Table 이라는 용어를 사용한다.
+        ```
+          slang = {'cheerio' : 'goodbye', 'knackered' : 'tired', 'yonks' : 'ages'}
+        ```
+      
+    2. 딕셔너리 생성
+      ```
+        - 빈 딕셔너리 만들기
+        slang = {}
+
+        - 딕셔너리 아이템 추가
+        slang['cheerio']  = 'goodbye'
+        slang['smashing'] = 'terrific'        # 딕셔너리에 키/값 쌍으로 된 아이템을 추가
+        slang['knackered'] = 'tired'
+        print(slang)
+      ```
+    
+    3. 아이템 업데이트
+      ```
+        slang['smashing'] = 'awesome'
+        print(slang['smashing'])
+      ```
+    
+    4. Dictionary – 아이템 삭제
+      ```
+        slang = {'cheerio' : 'goodbye', 'knackered' : 'tired', 'smashing' : 'terrific'}
+        del slang['cheerio']      # del 키워드 사용해서 삭제
+        print(slang)
+      ```
+    
+    5. 모든 항목 삭제 : clear()
+      ```
+        slang.clear()
+      ```
+    
+    6. 딕셔너리로 변환 : dict()
+      ```
+        >>> lol = [[‘a’, ‘b’], [‘c’, ‘d’], [‘e’, ‘f’]]
+        >>> dict(lol)
+        {‘c’: ‘d’, ‘a’: ‘b’, ‘e’: ‘f’}
+
+        >>> los = [ ‘ab’, ‘cd’, ‘ef’]
+        >>> dict(los)
+        {‘c’: ‘d’, ‘a’: ‘b’, ‘e’: ‘f’}
+
+        >>> tos = (‘ab’, ‘cd’, ’ef’)
+        >>> dict(tos)
+        {‘c’: ‘d’, ‘a’: ‘b’, ‘e’: ‘f’}
+      ```
+    
+    7. 멤버쉽 테스트 : in
+      - 딕셔너리에 키가 있는지 테스트
+        ```
+          >>> pythons = {‘Chapman’: ‘Graham’, ‘Cleese’: ‘John’, ’Johns’: ‘Terry’, ‘Palin’: ‘Michael’}
+          >>> ‘Chapman’ in pythons
+          True
+          >>> ’Palin’ in pythons
+          True
+          >>> ‘Michael’ in pythons
+          False
+        ```
+    
+    8. 모든 키 가져오기 : key()
+      ```
+        >>> signals = {‘green’: ‘go’, ‘yellow’: ‘go faster’, ‘red’: ‘stop’}
+        >>> signals.keys()
+        dict_keys(['green', 'yellow', 'red'])
+      ```
+    
+    9. 모든 값 가져오기 : values()
+      ```
+        >>> signals.values()
+        dict_values(['go', 'go faster', 'stop'])
+      ```
+    
+    10. 모든 키-값 쌍 가져오기 : items()
+      ```
+        >>> signals.items()
+        dict_items([('green', 'go'), ('yellow', 'go faster'), ('red', 'stop')])
+      ```
+  - 여러 시퀀스 순회하기 : zip()
+    1. zip() 함수를 사용하여 여러 시퀀스 병렬로 순회하기
+      - 여러 시퀀스 중 가장 짧은 시퀀스가 완료되면 zip()은 멈춘다.
+        ```
+          >>> days = [‘Monday’, ‘Tuesday’, ‘Wednesday’]
+          >>> fruits = [‘banana’, ‘orange’, ‘peach’]
+          >>> drinks = [‘coffee’, ‘tea’, ‘beer’]
+          >>> desserts = [‘tiramisu’, ‘ice cream’, ‘pie’, ‘pudding’]
+          >>> for day, fruit, drink, dessert in zip(days, fruits, drinks, desserts):
+          ... print(day, “: drink”, drink, “- eat”, fruit, “- enjoy”, dessert)
+          ...
+          Monday : drink coffee – eat banana – enjoy tiramisu
+          Tuesday : drink tea – eat orange – enjoy ice cream
+          Wednesday : drink beer – eat peach – enjoy pie
+        ```
+
+        ```
+          >>> engilsh = ‘Monday’, ‘Tuesday’, ‘Wednesday’
+          >>> french = ‘Lundi’, ‘Mardi’, ‘Mercredi’
+          >>>
+          >>> list(zip(english, french))
+          [(‘Monday’, ‘Lundi’), (‘Tuesday’, ‘Mardi’), (‘Wednesday’, ‘Mercredi’)]
+          >>> dict(zip(english, french))
+          {‘Monday’: ‘Lundi’, ‘Tuesday’: ‘Mardi’, ‘Wednesday’: ‘Mercredi’}
+        ```
+
+  - 숫자 시퀀스 생성하기 : range()
+    1. 리스트나 튜플을 사용하여 저장하지 않더라도 특정 범위의 숫자 시퀀스를 생성한다.
+      - 컴퓨터 메모리를 전부 사용하지 않고 아주 큰 범위를 생성할 수 있게 해줌
+      - range(start, stop, step)
+        ```
+          >>> for x in range(0,3): 
+          ... print(x) 
+          ... 
+          0 
+          1 
+          2 
+          >>> list[range(0,3)] 
+          [0, 1, 2]
+        ```
+    2. zip(), range() 와 같은 함수는 순회 가능한 (iterable) 객체를 반환한다.
+      - for .. in 형태로 값을 순회할 수 있다.
+      - 객체를 리스트와 같은 시퀀스로 변환할 수 있다.
+        ```
+          >>> for x in range(2, -1, -1):
+          ... print(x)
+
+          >>> for x in range(0, 11, 2):
+          ... print(x)
+
+          >>> list(range(2000, 2016, 2)
+        ```
+  
+  - setdefault() 함수
+    1. 딕셔너리에 값을 추가하려고 할 때 해당 키가 없으면 추가하는 코드
+      ```
+        spam = {'name': 'Pooka', 'age': 5}
+        if 'color' not in spam:
+            spam['color'] = 'black'
+      ```
+    
+    2. setdefault() 는 해당 키가 없으면 추가
+      ```
+        >>> spam = {'name': 'Pooka', 'age': 5}
+        >>> spam.setdefault('color', 'black')
+        'black'
+
+        >>> spam
+        {'color': 'black', 'age': 5, 'name': 'Pooka'}
+
+        >>> spam.setdefault('color', 'white')
+        'black'
+
+        >>> spam
+        {'color': 'black', 'age': 5, 'name': 'Pooka'}
+      ```
+    
+    3. Exercise : 문장 속에 나타나는 문자 갯수를 카운팅해서 딕셔너리 형태로 표현
+      ```
+        문장 : message = 'It was a bright cold day in April, and the clocks were striking thirteen.’
+
+        결과 :
+        {' ': 13, ',': 1, '.': 1, 'A': 1, 'I': 1, 'a': 4, 'c': 3, 'b': 1, 'e': 5, 'd': 3, 'g': 2, 'i': 6, 'h': 3, 'k': 2, 'l': 3, 'o': 2, 'n': 4, 'p': 1, 's': 3, 'r': 5, 't': 6, 'w': 2, 'y': 1}
+      ```
+  
+  ## Coding Convention
+  - 사람의 이해를 돕기 위한 규칙이 필요함
+  - 그 규칙을 코딩 컨벤션 ( Coding Convention ) 이라고 함
+
+  - 파이썬 Coding Convention ( https://spoqa.github.io/2012/08/03/about-python-coding-convention.html )
+    1. 명확한 규칙은 없음
+    2. 때로는 팀마다, 프로젝트 마다 따로
+    3. 중요한 건 일관성 지키는 것임
+    4. 읽기 좋은 코드가 좋은 코드
+  
+  - 파이썬 코딩 컨벤션의 예시
+    1. 들여쓰기는 Tab or 4 Space 논쟁!
+    2. 일반적으로 4 Space를 권장함
+    3. 중요한 건 혼합하지 않으면 된다.
+  
+  - PEP8 – 파이썬 Coding Convention의 기준 ( https://www.python.org/dev/peps/pep-0008/ )
+    1. PEP ( Python Enhance Proposal )
+    2. 파이썬 코드 개선을 위한 제안서이며 코딩 기준을 제시함
+    3. PEP8 파이썬 코딩 컨벤션에서 제시하는 기준들
+      ```
+        : 들여쓰기 공백 4칸을 권장
+        : 한 줄은 최대 79자 까지
+        : 불필요한 공백은 피함
+        : = 연산자는 1칸 이상 띄우지 않음
+        : 주석은 항상 갱신, 불필요한 주석은 삭제함.
+        : 소문자 l(엘), 대문자 O, 대문자 I (아이) 금지
+        : 함수명은 소문자로 구성하고, 두 단어는 밑줄로 연결함
+      ```
+  
+  - PEP8 – 파이썬 Coding Convention의 기준
+    1. “flake8” 모듈로 체크 : flake8 <파일명>
+    2. pip install flake8
+
+## 함수
+- 함수란?
+  * 어떤 일을 수행하는 코드의 덩어리
+  * 코드를 논리적인 단위로 분리
+  * 캡슐화 : 인터페이스만 알면 타인의 코드를 사용할 수 있다.
+
+- 함수의 정의
+  1. 함수 선언은 def 로 시작
+  2. 함수의 시작과 끝은 들여쓰기(indentation)로 구분
+  3. 시작과 끝을 명시하지 않음
+  4. 함수 이름 뒤에 오는 ( ) 안에 함수로 전달하는 인자(파라미터)를 적음
+
+- 함수 선언 문법
+  * 함수이름, Parameter, Return Value(optional)
+    ```
+      def 함수 이름 (parmaeter #1 ....):
+          수행문 #1(statements)
+          수행문 #2(statements)
+          return <반환값>
+    ```
+
+- Parameter vs Argument
+  - Parameter : 함수의 입력 값 인터페이스
+  - Argument : 실제 Parameter에 대입된 값
+
+- 함수의 파라미터
+  * 위치 파라미터
+  * 키워드 파라미터
+    ```
+      def connect_URI(server, port):
+          str = ‘http://’ + server + ‘:’ + port
+          return str
+
+      connect_URI(‘test.com’, ‘8080’)
+      connect_URI(port=‘8080’, server=‘test.com’)
+
+      connect_URI(‘test.com’, port=‘8080’)
+      connect_URI(port=‘8080’, ‘test.com’)
+    ```
+
+- 기본 파라미터 값 지정
+  1. 파라미터에 기본값을 지정할 수 있다.
+  2. 함수를 호출할 때 파라미터를 제공하지 않으면 기본값을 사용한다.
+    ```
+      def times(a=10, b=20): 
+          return a * b 
+
+      x = times() 
+      y = times(5) 
+      
+      print(x) 
+      print(y)
+    ```
+  
+- 함수 파라미터 : 가변 파라미터
+- *p : tuple type parameter
+- **p : dict type parameter
+
+- 리턴 값 return
+  1. 함수를 종료하고 해당 함수를 호출한 곳으로 돌아감
+  2. 함수를 실행할 때 모든 함수 관련 리소스(변수 포함)를 스택에 저장 return 시 스택에서 제거
+  3. 파이썬은 다중값을 리턴값 으로 전달 가능 (실제 튜플에 저장되어 리턴 됨)
+  4. return 을 사용하지 않거나, return 만 적었을 때도 함수가 종료 (None 객체를 돌려줌)
+
+- 함수 작성 가이드 라인
+  1. 함수는 가능하면 짧게 작성할 것 (줄 수를 줄일 것)
+  2. 함수 이름에 함수의 역할, 의도가 명확히 들어낼 것
+    ```
+      def print_hello_world():
+          print("Hello, World")
+      
+      def get_hello_world():
+          return "Hello, World"
+    ```
+  3. 하나의 함수에는 유사한 역할을 하는 코드만 포함
+    ```
+      def add_variables(x, y):
+          return x + y
+      
+      def add_variables(x, y):
+          print(x, y)
+          return x + y
+    ```
+  4. 인자로 받은 값 자체를 바꾸진 말 것 (임시변수 선언)
+
+- 함수는 언제 만드는가?
+  1. 공통적으로 사용되는 코드는 함수로 변환
+  2. 복잡한 수식 -> 식별 가능한 이름의 함수의 변환
+  3. 복잡한 조건 -> 식별 가능한 이름의 함수로 변환
+
+- 함수 – 변수의 범위
+  - 변수의 범위 ( Scoping Rule )
+    - 변수가 사용되는 범위
+    - 지역변수( local variable) : 함수 내부에서만 사용
+    - 전역변수(Global variable) : 프로그램 전체에서 사용, 함수 내부에서도 사용 가능, 하지만 함수 내에 전역변수와 같은 이름의 변수를 선언하면 새로운 지역변수가 생긴다.
+    - 함수 내에서 전역변수 사용 시 global 키워드 사용
+
+- Split 함수
+  * String type의 값을 나눠서 List 형태로 변환
+    ```
+      >>> items = 'zero one two three'.split()'   # 빈칸을 기준으로 문자열 나누기
+      >>> print(items)
+        ['zero', 'one', 'two', 'three']
+      >>> langs = 'python, java, javascript'
+      >>> a,b,c = langs.split(",")    # ","를 기준으로 문자열 나누어 각 값을 a,b,c에 언패킹
+
+      >>> url = 'mail.naver.com'
+      >>> subdomain,domain,type = url.split(".")    # "."를 기준으로 문자열 나누기
+    ```
+
+- Join 함수
+  * String List를 합쳐 하나의 String으로 반환할 때 사용
+    ```
+      >>> colors = ['red', 'blue', 'green', 'yellow']
+      >>> result = ''.join(colors)
+      >>> result
+      'redbluegreenyellow'
+
+      >>> result = ' '.join(colors)   # 연결 시 빈칸 1칸으로 연결
+      >>> result
+      'red blue green yellow'
+
+      >>> result = ', '.join(colors)  # 연결 시 ", "으로 연결
+      >>> result
+      'red, blue, green, yellow'
+
+      >>> result = "-".join(colors)   # 연결 시 "-"으로 연결
+      >>> result
+      'red-blue-green-yellow' 
+    ```
+
+- List Comprehensions
+  1. 기존 List 사용하여 간단히 다른 List를 만드는 기법
+  2. 포괄적인 List, 포함되는 리스트라는 의미로 사용됨
+  3. 파이썬에서 가장 많이 사용되는 기법 중 하나
+  4. 일반적으로 for + append 보다 속도가 빠름
+
+- Enumerate
+  * List의 element를 추출할 때 번호를 붙여서 추출
+
+- Zip
+  * 두 개의 list의 값을 병렬적으로 추출함
+
+## 람다와 Map/Reduce
+- 람다함수란?
+  - 함수의 이름 없이 쓸 수 있는 익명함수
+  - 수학의 람다 대수에서 유래함
+
+  ``` 
+    # 일반함수
+    def f(x, y):
+        return x + y
+    
+    print(f(1,4))
+
+    # 람다함수
+    f = lambda x, y: x + y
+
+    print(f(1, 4))
+  ```
+
+- Map 함수
+  1. Sequence 자료형 각 element에 동일한 function을 적용함
+    - map(function_name, list_data)
+  2. 두 개 이상의 list에도 적용 가능함, if filter도 사용가능
+  3. python3 는 iteration을 생성 à list을 붙여줘야 list 사용가능
+  4. 실행시점의 값을 생성, 메모리 효율적
+
+- Reduce 함수
+  1. map function과 달리 list에 똑같은 함수를 적용해서 통합
+
+## 객체와 클래스
+- Class Naming 규칙
+  1. 변수와 Class 명 , function 명은 Naming을 작성하는 규칙이 존재함
+  2. Snake_Case : 띄워 쓰기 부분에 “_” 를 추가한다. 뱀 처럼 늘여 쓰기, 파이썬 함수명 / 변수명에 사용함
+  3. CamelCase : 띄워 쓰기 부분에 대문자 낙타의 등 모양, 파이썬 클래스명에 사용함
+
+- Class 구현하기 in Python - Attribute
+  1. Attribute 추가는 __init__, self 와 함께
+  2. __init__ 은 객체 초기화 예약 함수 ( 즉, 생성자 )
+  3. __는 특수한 예약 함수나 private 변수에 사용됨
+
+- Class 구현하기 in Python - Function
+  1. Function 추가는 기존의 함수와 같지만, 반드시 self 를 추가해야 class에 속한 함수로 인정됨
+
+- 상속 ( Inheritance ) – Person 클래스
+  1. 부모클래스로 부터 속성과 메서드를 상속 받은 자식 클래스를 생성하는 것
+  2. 부모 클래스 : Person
+  3. 자식 클래스 : Employee
+
+- 다형성 ( Polymorphism ) ( https://goo.gl/lBy9uf )
+  1. 메서드의 Signature는 동일하고, 내부 로직은 다르게 작성한다.
+  2. Dynamic Typing 특성으로 인해 파이썬에서는 같은 부모 클래스의 상속에서 주로 발생함
+
+- 캡슐화 ( Encapsulation, Visibility )
+  1. 캡슐화 또는 정보 은닉 ( Information Hiding)
+  2. 객체의 정보를 볼 수 있는 레벨을 조절하는 것
+  3. 클래스를 설계할 때, 클래스 간 간섭 / 정보 공유의 최소화
+
+## 모듈과 패키지 pip
+- 모듈이란?
+  1. 프로그램에서는 작은 프로그램 조각들, 모듈들을 모아서 하나의 큰 프로그램을 개발한다.
+  2. 프로그램을 모듈화 시키면 다른 프로그램에서 사용하기 쉽다.
+  3. 파이썬 모듈로 분리해서 프로그램 좀 더 구조화 할 수 있음
+  4. 파이썬의 Module == py 파일을 의미한다.
+  5. import 문을 사용해서 Module을 호출한다.
+
+- 모듈을 import 하는 4 가지 방법
+  1. 모듈명을 import 하기
+    ```
+      import fah_converter
+      print(fah_converter.convert_c_to_f(41.6))
+    ```
+  2. 모듈명을 Alias 설정하기
+    ```
+      import fah_converter as fah
+      print(fah.convert_c_to_f(41.6))
+    ```
+  3. 모듈에서 특정 함수 또는 클래스만 import 하기
+    ```
+      from fah_converter import convert_c_to_f
+      print(convert_c_to_f(41.6))
+    ```
+  4. 모듈에서 모든 함수 또는 클래스를 import 하기
+    ```
+      from fah_converter import *
+      print(convert_c_to_f(41.6))
+    ```
+
+- 빌트인 모듈 : 파이썬 설치 시 제공되는 내장 모듈
+  ```
+    >>> import sys
+    >>> sys.path # 모듈이 설치된 경로를 확인할 수 있음
+    >>> import random
+    >>> print(random.randint(0,100) # 0~100 사이의 정수 난수를 발생시킴
+  ```
+
+- 써드파티 모듈 : 외부 모듈로써 별도로 설치가 필요함
+  * 파이썬 커뮤니티에 의해 지금도 계속 개발되고 배포되고 있음
+
+- 써드파티 모듈 설치 관리자 : pypi
+  1. 파이썬 모듈 중앙 저장소
+  2. https://pypi.python.org/pypi
+  3. 비교해 보기 : 자바 Maven Repository, 자바스크립트 NPM(node pakage manager) 저장소
+
+- pip 을 사용해 모듈 설치
+  - requests 모듈은 파이썬에 내장되어 있지 않다. pip 을 사용해서 설치해야 한다.
+    ```
+      pip install 모듈명
+    ```
+
+- 패키지, package
+  1. 모듈 : 함수와 클래스를 정리해서 파일로 분리시키는 방법
+  2. 패키지 : 다양한 모듈들의 합, 폴더로 연결됨
+    - __init__.py 파일이 디렉토리에 위치하면 파이썬은 패키지로 인식
+    - 다양한 오픈 소스들이 모두 패키지로 관리됨
+
+- Package 내에서 다른 폴더의 모듈을 부를 때 호출하는 방법
+  1. 절대참조
+    - from game.graphic.render import render_test
+  2. 현재 디렉토리 기준
+    - from .render import render_test
+  3. 부모 디렉토리 기준
+    - from ..sound.echo import echo_test
 
 ### 2.7 9일차(2022-01-27) 
+
+## 예외처리와 로깅
+- Exception 유형
+  1. 예상 가능한 예외
+    - 발생 여부를 사전에 인지할 수 있는 예외
+    - 사용자의 잘못된 입력, 파일 호출 시에 파일 없음
+    - 개발자가 반드시 명시적으로 정의해야 함
+  2. 예상이 불가능한 예외
+    - 인터프리터 과정에서 발생하는 예외, 개발자 실수
+    - 리스트의 범위를 넘어 가는 값 호출, 정수 0으로 나눔
+    - 수행 불가시 인터프리터가 자동 호출
+
+- Exception Handling
+  - 예외가 발생한 경우 후속 조치 등 대처 필요가 필요함
+
+- 프로그램의 비정상 적인 종료를 막는 방법
+  - 에러가 발생 할 가능성이 있는 코드를 사전에 처리해 주는 방법
+  - 예) 파일을 다룰 때 파일이 없거나 쓰기 금지로 설정 된 경우
+  - 데이터베이스 연결 시 DB쪽 이슈
+  - 네트웍 관련 코드에서 네트웍 이슈
+
+- try ~ except 를 이용한 에러로 부터의 복구
+  ```
+    try:
+        예외 발생 가능 코드
+    except <Exception Type>:
+        예외 발생시 대응하는 코드
+  ```
+
+- Built-in Exception : 기본적으로 제공되는 예외. ( https://docs.python.org/3/library/exceptions.html )
+  ```
+    IndexError -> List의 Index 범위를 넘어갈 때
+    NameError -> 존재하지 않은 변수를 호출 할 때
+    ZeroDivisionError -> 0으로 숫자를 나눌 때
+    ValueError -> 변환할 수 없는 문자 / 숫자를 변환할 때
+    FileNotFoundError -> 존재하지 않는 파일을 호출할 때
+  ```
+
+  ```
+    price = input("Enter the price: ")
+    try:
+        price = float(price)
+        print('Price =', price)
+    except ValueError:
+        print('Not a number!')
+  ```
+
+  ```
+    price = input("Enter the price: ")
+    try:
+        price = float(price)
+        print('Price =', price)
+    except ValueError as err:
+        print(err)
+  ```
+
+- try ~ except ~ else 를 이용한 에러로 부터의 복구
+  ```
+    try:
+        예외 발생 가능 코드
+    except <Exception Type>:
+        예외 발생시 대응하는 코드
+    else:
+        예외가 발생하지 않을 때 동작하는 코드
+  ```
+
+- try ~ except ~ finally 를 이용한 에러로 부터의 복구
+  ```
+    try:
+        예외 발생 가능 코드
+    except <Exception Type>:
+        예외 발생시 대응하는 코드
+    finally:
+        예외 발생 여부와 상관없이 실행됨
+  ```
+
+- raise 구문 : 필요에 따라 강제로 Exception을 발생
+  ```
+    raise <Exception Type>(예외정보)
+  ```
+
+- 사용자 정의 예외 만들기
+  - 새로운 예외 타입을 만들기 위해서는 class 객체 타입을 정의해야 한다.
+    ```
+      class BizException(Exception): 
+          pass
+    ```
+
+- 예외 발생 : raise
+  - 특정한 상황에서 예외를 발생 시킬 수 있다.
+    - raise BizException
+      ```
+        try:
+            raise BizException(‘error occurred’)
+        except BizException as e:
+            print(e)
+      ```
+
+- 로그 남기기 - Logging
+  - 로그 메세지를 디스플레이 하고자 할 때 사용
+    1. 프로그램이 실행되는 동안 일어나는 정보를 기록을 남기기
+    2. 유저의 접근, 프로그램의 Exception, 특정 함수의 사용
+    3. Console 화면에 출력, 파일에 남기기, DB에 남기기 등등
+    4. 기록된 로그를 분석하여 의미 있는 결과를 도출 할 수 있음
+    5. 실행시점에서 남겨야 하는 기록, 개발시점에서 남겨야 하는 기록
+  
+  - Print vs Logging
+    1. 기록을 print로 남기는 것도 가능함
+    2. 그러나 Console 창에만 남기는 기록은 분석 시 사용불가
+    3. 때로는 레벨 별(개발, 운영)로 기록을 남길 필요도 있음
+    4. 모듈별로 별도의 logging을 남길 필요도 있음
+    5. 이러한 기능을 체계적으로 지원하는 모듈이 필요함
+
+- Logging Level ( https://stackoverflow.com/questions/2031163/when-to-use-the-different-log-levels )
+  1. 프로그램 진행 상황에 따라 다른 Level의 Log를 출력함
+  2. 개발 시점, 운영 시점 마다 다른 Log가 남을 수 있도록 지원함
+  3. DEBUG > INFO > WARNING > ERROR > Critical
+
+- logging 모듈
+  - 로그 메세지를 콘솔에 출력
+    1. 코드 제일 위쪽에 로깅 설정 코드를 추가
+      ```
+        import logging
+
+        logging.basicConfig(level=logging.DEBUG, format=' %(asctime)s - %(levelname)s - %(message)s')
+      ```
+    2. 팩토리얼 코드 로깅 예제 (디버깅을 위해 print() 사용 권장하지 않음)
+      ```
+        import logging
+        logging.basicConfig(level=logging.DEBUG, format=' %(asctime)s - %(levelname)s - %(message)s') logging.debug('Start of program')
+
+        def factorial(n):
+            logging.debug('Start of factorial(%s)' % (n))
+            total = 1
+            for i in range(n + 1):
+                total *= i
+                logging.debug('i is ' + str(i) + ', total is ' + str(total))
+            logging.debug('End of factorial(%s)' % (n))
+            return total
+
+        print(factorial(5))
+        logging.debug('End of program')
+      ```
+  
+  - 로그 메세지를 파일로 저장
+    1. 로깅 설정 코드 부분을 수정
+      ```
+        import logging
+
+        logging.basicConfig(filename='myProgramLog.txt', level=logging.DEBUG,
+        format=' %(asctime)s - %(levelname)s - %(message)s')
+      ```
+    
+    2. 팩토리얼 코드 로깅 예제
+      ```
+        import logging logging.basicConfig(level=logging.DEBUG, format=' %(asctime)s - %(levelname)s - %(message)s') logging.debug('Start of program')
+
+        def factorial(n): 
+            logging.debug('Start of factorial(%s)' % (n)) 
+            total = 1 
+            for i in range(n + 1): 
+              total *= i 
+              logging.debug('i is ' + str(i) + ', total is ' + str(total)) 
+            logging.debug('End of factorial(%s)' % (n)) 
+            return total
+
+        print(factorial(5)) 
+        logging.debug('End of program')
+      ```
+
+## 파일 다루기
+- 파일 읽기
+  - 파일 처리를 위해 open 키워드를 사용함
+    ```
+      # 접근모드
+      r -> 읽기모드 : 파일을 읽기만 할 때 사용
+      w -> 쓰기모드 : 파일에 내용을 쓸 때 사용
+      a -> 추가모드 : 파일의 마지막에 새로운 내용을 추가 시킬 때 사용
+    ```
+
+    ```
+      f = open("<파일이름>", "접근모드")
+      f.close()
+    ```
+  
+  - open() / close() 로 파일 읽기
+    ```
+      f = open("i_have_a_dream.txt", "r")
+      contents = f.read()
+      print(contents)
+      f.close()
+    ```
+  
+  - with 구문으로 파일 읽기
+    ```
+      with open("i_have_a_dream.txt", "r") as my_file:
+          content = my_file.read()
+          print(type(contents), contents)
+    ```
+  
+  - 한 줄씩 읽어 List Type으로 반환함
+    ```
+      with open("i_have_a_dream.txt", "r") as my_file:
+          content_list = my_file.readlines()    # 파일 전체를 list로 반환
+          print(type(content_list))   # Type 확인
+          print(content_list)     # 리스트 값 출력
+    ```
+  
+  - with 구문과 함께 사용하기
+    ```
+      with open("i_have_a_dream.txt", "r") as my_file:
+          contents = my_file.read()
+          print(type(contents), contents)
+    ```
+
+- 파일 쓰기
+  - mode는 “w”, encoding=“utf8”
+    ```
+      f = open("count_log.txt", "w", encoding = "utf-8")
+      for i in range(1, 11):
+          data = "%d번째 줄입니다.\n" % i
+          f.write(data)
+      f.close()
+    ```
+  
+  - mode는 “a”는 추가 모드
+    ```
+      with open("count_log.txt", "a", encoding = "utf-8") as f:
+          for i in range(1, 11):
+            data = "%d번째 줄입니다.\n" % i
+            f.write(data)
+    ```
+
+- 디렉토리 생성
+  - os 모듈을 사용하여 디렉토리 만들기
+    ```
+      import os
+      os.mkdir("log")
+    ```
+
+  - 디렉토리가 있는지 확인하기
+    ```
+      if not os.path.isdir("log"):
+          os.mkdir("log")
+    ```
+
+- 파일 – pickle
+  - Pickle 이란?
+    1. 파이썬의 객체를 영속화(pesistence) 하는 build-in 객체
+    2. 데이터, object 등 실행 중 정보를 저장한 후에 불러와서 사용가능하다.
+    3. 저장해야 하는 정보, 계산 결과 ( 모델 ) 등 활용이 많음
+
+- 파일과 파일경로
+  - 리눅스와 맥에서는 ( / )를 사용, 윈도우에서는 ( \ ) 사용
+    ```
+      >>> import os
+      >>> os.path.join('usr', 'bin', 'spam')
+      'usr\\bin\\spam’
+
+      >>> myFiles = ['accounts.txt', 'details.csv', 'invite.docx']
+      >>> for filename in myFiles:
+              print(os.path.join('C:\\Users\\python', filename)) 
+              
+      C:\Users\python\accounts.txt
+      C:\Users\python\details.csv
+      C:\Users\python\invite.docx
+    ```
+  
+  - 윈도우의 dir 과 리눅스의 ls 명령과 유사한
+    - glob 모듈
+    - glob.glob(‘*’) : 현재 디렉토리의 모든 파일을 리스트로 반환
+
+- 디렉토리 관리
+  - 현재 작업 디렉토리 : Current Working Directory
+    1. os.getcwd() : 현재 작업디렉토리를 보여줌
+    2. os.chdir() : 디렉토리 변경
+      ```
+        >>> import os
+        >>> os.getcwd()
+        'C:\\Python34'
+        >>> os.chdir('C:\\Windows\\System32')
+        >>> os.getcwd()
+        'C:\\Windows\\System32'
+      ```
+  
+  - Dir name 과 base name
+    ```
+      >>> path = 'C:\\Windows\\System32\\calc.exe' 
+      >>> os.path.basename(path) 
+      'calc.exe' 
+      >>> os.path.dirname(path) 
+      'C:\\Windows\\System32'
+    ```
+
+## XML과 JSON
+- XML이란?
+  - 정보의 구조에 대한 정보인 스키마와 DTD 등으로 정보에 대한 정보(메타정보)가 표현되며, 용도에 따라 다양한 형태로 변경가능
+  - XML은 컴퓨터(예: PC <-> 스마트폰)간에 정보를 주고받기 매우 유용한 저장 방식으로 쓰이고 있음
+
+- XML Parsing in Python
+  - XML도 HTML과 같이 구조적 MarkUp 언어
+  - 정규표현식으로 Parsing이 가능함
+  - 그러나 좀 더 손쉬운 도구들이 개발되어 있음
+  - 가장 많이 쓰이는 parser인 beautifulsoup으로 파싱
+
+- BeautifulSoup
+  - HTML, XML 등 Markup 언어 Scraping을 위한 대표적인 도구
+  - https://www.crummy.com/software/BeautifulSoup/
+  - lxml 과 html5lib 과 같은 Parser를 사용함
+  - 속도는 상대적으로 느리나 간편히 사용할 수 있음
+
+- BeautifulSoup 설치
+  - pip install lxml
+  - pip install beautifulsoup4
+
+- BeautifulSoup 모듈 사용
+  - 모듈 호출
+    - from bs4 import BeautifulSoup
+  
+  - 객체 생성
+    - soup = BeautifulSoup(books_xml, "lxml")
+  
+  - Tag 찾는 함수 find_all 생성
+    - soup.find_all("author")
+  
+  - find_all : 정규식과 마찬가지로 해당 패턴을 모두 반환
+  - find('invention-title')
+  - get_text() : 반환된 패턴의 값 반환 (태그와 태그 사이)
+    - <tag>값<tag>
+
+- JSON
+  - JavaScript Object Notation
+  - 원래 웹 언어인 Java Script의 데이터 객체 표현 방식
+  - 간결성으로 기계 / 인간이 모두 이해하기 편함
+  - 데이터 용량이 적고, Code로의 전환이 쉬움
+  - 이로 인해 XML의 대체제로 많이 활용되고 있음
+
+- JSON in 파이썬
+  - JSON 모듈을 사용하여 손 쉽게 파싱 및 저장 가능
+  - 데이터 저장 및 읽기는 dict type과 상호 호환 가능
+  - 웹에서 제공하는 API는 대부분 정보 교환 시 JSON 활용
+  - 페이스북, 트위터, Github 등 거의 모든 사이트
+  - 각 사이트 마다 Developer API의 활용법을 찾아 사용
+
+### 2.8 10일차(2022-01-28)
