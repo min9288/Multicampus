@@ -1525,3 +1525,385 @@ else:
   - 각 사이트 마다 Developer API의 활용법을 찾아 사용
 
 ### 2.8 10일차(2022-01-28)
+
+## RDBMS(Relational Database Management System) 이해
+
+  1. 데이터베이스란?
+  
+    - 체계화된 데이터의 모임
+    - 여러 응용 시스템들의 통합된 정보를 저장하여 , 운영할 수 있는 공용 데이터의 묶음
+    - 논리적으로 연관된 하나 이상의 자료 모음으로 , 데이터를 고도로 구조화함으로써 검색 갱신등의 데이터 관리를 효율화함
+    - DBMS: 데이터베이스를 관리하는 시스템
+
+    - 데이터베이스 장점
+      1. 데이터 중복 최소화
+      2. 데이터 공유
+      3. 일관성 , 무결성 , 보안성 유지
+      4. 최신의 데이터 유지
+      5. 데이터의 표준화 가능
+      6. 데이터의 논리적 , 물리적 독립성
+      7. 용이한 데이터 접근
+      8. 데이터 저장 공간 절약
+    
+    - 데이터베이스 단점
+      1. 데이터베이스 전문가 필요
+      2. 많은 비용 부담
+      3. 시스템의 복잡함
+
+  2. RDBMS(Relational Database Management System, 관계형 데이터베이스 관리 시스템)
+
+    1. 데이터베이스의 한 종류로, 가장 많이 사용됨
+    2. 역사가 오래되어, 가장 신뢰성이 높고, 데이터 분류, 정렬, 탐색 속도가 빠름
+    3. 관계형 데이터베이스 = 테이블!
+    4. 2차원 테이블(Table) 형식을 이용하여 데이터를 정의하고 설명하는 데이터 모델
+    5. 관계형 데이터베이스에서는 데이터를 속성(Attribute)과 데이터 값(Attribute Value)으로 구조화(2차원 Table 형태로 만들어짐)
+    6. 데이터를 구조화한다는 것은 속성(Attribute)과 데이터 값(Attribute Value) 사이에서 관계(Relation)을 찾아내고 이를 테이블 모양의 구조로 도식화함의 의미함
+
+    - Primary Key and Foreign Key
+      1. Primary Key(기본키): Primary Key는 한 테이블(Table)의 각 로우(Row)를 유일하게 식별해주는 컬럼(Column)으로, 각 테이블마다 Primary Key가 존재해야 하며, NULL 값을 허용하지 않고, 각 로우(Row)마다 유일한 값이어야 한다.
+      2. Foreign Key(외래키 또는 외부키): Foreign Key는 한 테이블의 필드(Attribute) 중 다른 테이블의 행(Row)을 식별 할 수 있는 키
+  
+  3. 데이터베이스 스키마(Schema)
+    - 데이터베이스의 테이블 구조 및 형식, 관계 등의 정보를 형식 언어(formal language)로 기술한 것
+
+    1. 관계형 데이터베이스를 사용하여 데이터를 저장할 때 가장 먼저 할 일은 데이터의 공통 속성을 식별하여 컬럼(Column)으로 정의하고, 테이블(Table)을 만드는 것
+    2. 통상적으로 하나의 테이블이 아닌 여러 개의 테이블로 만들고, 각 테이블 구조, 형식, 관계를 정의함
+    3. 이를 스키마라고 하며, 일종의 데이터베이스 설계도로 이해하면 됨
+    4. 데이터베이스마다 스키마를 만드는 언어가 존재하며, 해당 스키마만 있으면 동일한 구조의 데이터베이스를 만들 수 있음 (데이터베이스 백업과는 달리 데이터 구조만 동일하게 만들 수 있음)
+
+  4. SQL(Structured Query Language)
+    - 관계형 데이터베이스 관리 시스템에서 데이터를 관리하기 위해 사용되는 표준 프로그래밍 언어
+    - 데이터베이스 스키마 생성 및 수정 , 테이블 관리 , 데이터 추가 , 수정 , 삭제 , 조회 등 데이터베이스와 관련된 거의 모든 작업을 위해 사용되는 언어
+    - 데이터베이스마다 문법에 약간의 차이가 있지만 , 표준 SQL 을 기본으로 하므로 , 관계형 데이터베이스를 다루기 위해서는 필수적으로 알아야 함
+    - SQL 은 크게 세 가지 종류로 나뉨
+      1. 데이터 정의 언어 (DDL, Data Definition Language)
+      2. 데이터 처리 언어 (DML, Data Manipulation Language)
+      3. 데이터 제어 언어 (DCL, Data Control Language)
+    
+  5. 데이터 정의 언어 (DDL, Data Definition Language): 데이터 구조 정의
+    - 테이블 (TABLE), 인덱스 (INDEX) 등의 개체를 만들고 관리하는데 사용되는 명령
+    - CREATE, ALTER, DROP 등이 있음
+  
+  6. 데이터 조작 언어 (DML, Data Manipulation Language): 데이터 CRUD [Create(생성), Read(읽기), Update(갱신), Delete(삭제)]
+    - INSERT 테이블 (Table) 에 하나 이상의 데이터 추가
+    - UPDATE 테이블 (Table) 에 저장된 하나 이상의 데이터 수정
+    - DELETE 테이블 (Table) 의 데이터 삭제
+    - SELECT 테이블 (Table) 에 저장된 데이터 조회
+  
+  7. 데이터 제어 언어 (DCL, Data Control Language): 데이터 핸들링 권한 설정 , 데이터 무결성 처리 등 수행
+    - GRANT 데이터베이스 개체 (테이블 , 인덱스 등) 에 대한 사용 권한 설정
+    - BEGIN 트랜잭션 (Transaction) 시작
+    - COMMIT 트랜잭션 (Transaction) 내의 실행 결과 적용
+    - ROLLBACK 트랜잭션 (Transaction) 의 실행 취소
+    ```
+      # 실습 일반 사용자 계정 생성하기
+
+      C:\> mysql –u root –p 
+      MariaDB [(none)]> show databases; 
+      MariaDB [mysql]> use mysql 
+      MariaDB [mysql]> create user python@localhost identified by 'python'; 
+      MariaDB [mysql]> grant all on *.* to spring@localhost; MariaDB [mysql]> flush privileges; 
+      MariaDB [mysql]> exit;
+    ```
+
+## SQL DDL(Data Definition Language) 이해 및 실습
+  1. 데이터베이스
+    - 데이터베이스 안에는 여러 개의 데이터베이스 이름이 존재한다.
+    - 각 데이터베이스 이름 안에는 여러 개의 테이블이 존 재한다.
+      ```
+        # 실습 데이터베이스 생성 , 목록 보기 , 사용
+
+          C:\> mysql –u python –p 
+        1. 데이터베이스 생성
+          CREATE DATABASE 데이터베이스명; 
+        2. 데이터베이스 목록 보기
+          SHOW DATABASES; 
+        3. 데이터베이스 사용 시
+          USE 데이터베이스명;
+        4. 데이터베이스 삭제
+          DROP DATABASE [IF EXISTS] 데이터베이스명;
+      ```
+  
+  2. 테이블
+    1. 테이블 생성
+      ```
+        CREATE TABLE 테이블명 (
+          컬럼명 데이터형,
+          컬럼명 데이터형,
+          ...
+          Primary key 가 될 필드 지정
+        )
+      ```
+    
+    2. 숫자 타입의 컬럼 정의 문법
+      ```
+        CREATE TABLE minu_table(
+          id INT [UNSIGNED] [NOT NULL] [AUTO_INCREMENT]
+        );
+      ```
+      - id : 컬럼명 - 가능한 영어 소문자 중심으로 명명
+      - INT : 컬럼에 대한 데이터 타입 선언
+      - [UNSIGNED] : 옵션 사항 (0 ~ 255)
+      - [NOT NULL] : NOT NULL 명시하면 데이터 입력시, 해당 컬럼 데이터에 값이 할당되지 않는 경우를 허락하지 않겠다는 의미
+      - [AUTO_INCREMENT] : AUTO_INCREMENT 명시하면, 해당 테이블에 데이터 등록시 해당 컬럼은 자동으로 숫자가 1씩 증가하며 저장됨
+
+      * 숫자형 데이터 타입
+        데이터 유형|정의|
+        |------|---|
+        |TINYINT|정수형 데이터 타입(1byte) -128 ~ +128 또는 0 ~ 255 수 표현 가능|
+        |SMALLINT|정수형 데이터 타입(2byte) -32768 ~ +32767 또는 0 ~ 65536 수 표현 가능|
+        |MEDIUMINT|정수형 데이터 타입(3byte) -8388608 ~ +8388607 또는 0 ~ 16777215 수 표현 가능|
+        |INT|정수형 데이터 타입(4byte) -2147483648 ~ +2147483647 또는 0 ~ 4294967295 수 표현 가능|
+        |BIGINT|정수형 데이터 타입(8byte) 무제한 수 표현 가능|
+        |FLOAT(정수부 길이, 소수부 자릿수)|부동 소수형 데이터 타입(4byte)|
+        |DECIMAL(정수부 길이, 소수부 자릿수)|고정 소수형 데이터 타입고정(길이 + 1byte)|
+        |DOUBLE(정수부 길이, 소수부 자릿수)|부동 소수형 데이터 타입(8byte)|
+    
+    3. 문자 타입의 컬럼 정의 문법
+      ```
+        CREATE TABLE minu_table(
+          name VARCHAR(50),
+          ....
+        );
+      ```
+      - name : 컬럼명, 가능한 영어 소문자 중심으로 명명
+      - VARCHAR(n) : 컬럼에 대한 문자형 데이터 타입 선언
+
+      - 문자형 데이터 타입
+        1. CHAR(n) : 고정 길이 데이터 타입, 정확히 (n <= 255)
+        2. VARCHAR(n) : 가변 길이 데이터 타입 (n <= 65535)
+        3. TINYTEXT(n) : 문자열 데이터 (n <= 255)
+        4. TEXT(n) : 문자열 데이터(n <= 65535)
+        5. MEDIUMTEXT(n) : 문자열 데이터(n <= 16777215)
+        6. LONGTEXT(n) : 문자열 데이터(n <= 4294967295)
+
+    4. 시간 타입의 컬럼 정의 문법
+      ```
+        CREATE TABLE minu_table(
+          ts DATE,
+          ....
+        );
+      ```
+      - ts : 컬럼명, 가능한 영어 소문자 중심으로 명명
+      - DATE : 컬럼에 대한 시간 타입 선언
+
+      - 시간형 데이터 타입
+        1. DATE : 날짜(YYYY-MM-DD) 형태의 기간 표현 데이터 타입(3byte)
+        2. TIME : 시간(hh:mm:ss) 형태의 기간 표현 데이터 타입 (3byte)
+        3. DATETIME : 날짜와 시간(YYYY-MM-DD hh:mm:ss) 형태 '1001-01-01 00:00:00' 부터 '9999-12-31 23:59:59' 까지의 값 표현
+        4. TIMESTAMP : 1970-01-01 00:00:00 이후부터 시스템 현재 시간까지의 지난 시간을 초로 환산하여 숫자로 표현
+        5. YEAR(n)과 같은 형식으로 사용
+          - n은 2와 4 지정 가능
+          - 2인 경우는 70 에서 69 까지
+          - 4인 경우는 1970 에서 2069 까지 표시
+    
+    5. Primary Key 가 될 필드 지정 문법
+      ```
+        CREATE TABLE minu_table(
+          컬럼명 데이터형,
+          ....
+          PRIMARY KEY(컬럼명1, 컬럼명2, .....)
+        );
+      ```
+      - 컬럼명1, 컬럼명2, .... : PRIMARY KEY 로 지정할 컬럼명을 넣음 (한 개 이상을 지정할 수 있음, 보통은 한 개를 지정함) PRIMARY KEY 로 지정할 컬럼은 NULL 값을 등록할 수 없어야 하고, 컬럼 안에서 같은 값이 없도록 각 값이 유일해야 함 따라서, 해당 컬럼은 보통 NOT NULL(NULL 값 방지) AUTO_INCREMENT(유일함) 선언이 되어 있는 경우가 많음
+
+        ```
+          CREATE TABLE mytable(
+            id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+            name VARCHAR(50) NOT NULL,
+            modelnumber VARCHAR(15) NOT NULL,
+            series VARCHAR(30) NOT NULL,
+            PRIMARY KEY(id)
+          );
+        ```
+
+        ```
+          # 실습 테이블 생성 , 조회
+            C:\> mysql –u python –p 
+            MariaDB [(none)]> SHOW DATABASES; 
+            MariaDB [(python_db)]> USE python_db; 
+            MariaDB [(python_db)]> CREATE TABLE mytable ( 
+              id INT UNSIGNED NOT NULL AUTO_INCREMENT, 
+              name VARCHAR(50) NOT NULL, 
+              modelnumber VARCHAR(15) NOT NULL, 
+              series VARCHAR(30) NOT NULL, 
+              PRIMARY KEY(id) 
+              ); 
+              MariaDB [(python_db)]> SHOW TABLES; 
+              MariaDB [(python_db)]> desc mytable;
+        ```
+
+    6. 테이블 삭제
+      - 기본 문법
+        ```
+          DROP TABLE [IF EXISTS] 테이블명;
+
+          # IF EXISTS 옵션은 해당 데이터베이스 이름이 없더라도 오류를 발생시키지 말라는 의미
+        ```
+
+    7. 테이블 구조 수정
+      - 테이블에 새로운 컬럼 추가
+        ```
+          ALTER TABLE [테이블명] ADD COLUMN [추가할 컬럼명][추가할 컬럼 데이터형]
+          
+          ALTER TABLE mytable ADD COLUMN model_type varchar(10) NOT NULL;
+        ```
+      
+      - 테이블 컬럼 타입 변경
+        ```
+          ALTER TABLE [테이블명] MODIFY COLUMN [변경할 컬럼명][변경할 컬럼 타입]
+          
+          ALTER TABLE mytable MODIFY COLUMN model_type varchar(20) NOT NULL;
+        ```
+      
+      - 테이블 컬럼 이름 변경
+        ```
+          ALTER TABLE [테이블명] CHANGE COLUMN [기존 컬럼명][변경할 컬럼명][변경할 컬럼 타입]
+          
+          ALTER TABLE mytable CHANGE COLUMN model_type rename_type varchar(20) NOT NULL;
+        ```
+      
+      - 테이블 컬럼 삭제
+        ```
+          ALTER TABLE [테이블명] DROP COLUMN [삭제할 컬럼명]
+          
+          ALTER TABLE mytable DROP COLUMN model_type;
+        ```
+  
+## SQL DML(Data Manipulation Language) 이해 및 실습 (focusing on CRUD)
+  1. 4.1. CRUD [Create(생성), Read(읽기), Update(갱신), Delete(삭제)
+    - 데이터 관리는 결국 데이터 생성 , 읽기(검색), 수정(갱신), 삭제를 한다는 의미
+  
+  2. 데이터 생성
+    - 테이블에 컬럼에 맞추어 데이터를 넣는 작업
+    - 기본 문법 (INSERT)
+      1. 테이블 전체 컬럼에 대응하는 값을 모두 넣기
+        ```
+          INSERT INTO 테이블명 VALUES(값1, 값2, ...);
+        ```
+      2. 테이블 특정 컬럼에 대응하는 값만 넣기 (지정되지 않은 컬럼은 디폴트값 또는 NULL값이 들어감)
+        ```
+          INSERT INTO 테이블명(col1, col2, ...) VALUES(값1, 값2, ...);
+        ```
+      
+      ```
+        # 실습 - 데이터 생성
+
+        MariaDB [(python_db)]> INSERT INTO mytable VALUES(1, 'i7', '7700', 'Kaby Lake'); 
+        MariaDB [(python_db)]> INSERT INTO mytable (name, model_num, model_type) VALUES('i7', '7500', 'Kaby Lake'); 
+        MariaDB [(python_db)]> INSERT INTO mytable VALUES('i7', 'G4600', 'Kaby Lake'); 
+        MariaDB [(python_db)]> INSERT INTO mytable VALUES('i7', '7600', 'Kaby Lake');
+      ```
+  
+  3. 데이터 읽기
+    - 테이블에 저장된 데이터를 읽는 작업
+    - 기본 문법 (SELECT)
+      1. 테이블 전체 컬럼의 데이터 모두 읽기
+        ```
+          SELECT * FROM 테이블명;
+        ```
+      2. 테이블 특정 컬럼의 데이터만 읽기
+        ```
+          SELECT 컬럼1, 컬럼2, ... FROM 테이블명;
+        ```
+      3. 테이블 특정 컬럼의 데이터를 검색하되, 표시할 컬럼명도 다르게 하기
+        ```
+          SELECT 컬럼1 AS 바꿀컬럼이름, 컬럼2 AS 바꿀컬럼이름 FROM 테이블명;
+        ```
+      4. 데이터 정렬해서 읽기
+        - ORDER BY 정렬할 기준 컬럼명 DESC / ASC
+        - DESC는 내림차순 ASC 오름차순
+          ```
+            SELECT * FROM 테이블명 ORDER BY 정렬할 기준 컬럼명 DESC; 
+          ```
+
+          ```
+            SELECT 컬럼1, 컬럼2 FROM 테이블명 ORDER BY 정렬할기준컬럼명 ASC;
+          ```
+      5. 조건에 맞는 데이터만 검색하기 (비교)
+        - WHERE 조건문으로 조건 검색
+        - 예) WHERE 컬럼명 < 값
+        - 예) WHERE 컬럼명 > 값
+        - 예) WHERE 컬럼명 = 값
+          ```
+            SELECT * FROM 테이블명 WHERE 필드명 = '값'
+          ```
+      6. 조건에 맞는 데이터만 검색하기 (논리 연산자)
+        - WHERE 조건문으로 조건 검색
+        - 논리 연산자 활용
+        - 예) WHERE 컬럼명 < 값 OR 컬럼명 > 값
+        - 예) WHERE 컬럼명 > 값 AND 컬럼명 < 값
+          ```
+            SELECT * FROM 테이블명 WHERE (필드명='값') OR (필드명 = '값');
+          ```
+
+          ```
+            SELECT * FROM 테이블명 WHERE (필드명='값') AND (필드명 = '값');
+          ```
+      7. 조건에 맞는 데이터만 검색하기 (LIKE 를 활용한 부분 일치)
+        - WHERE 조건문으로 조건 검색
+        - LIKE 활용
+        - 예) 홍으로 시작되는 값을 모두 찾을 경우
+          ```
+            SELECT * FROM 테이블명 WHERE 필드명 LIKE '홍%';
+          ```
+        - 예) 홍이 들어간 값을 모두 찾을 경우
+          ```
+            SELECT * FROM 테이블명 WHERE 필드명 LIKE '%홍%';
+          ```
+        - 예) 홍으로 시작되고 뒤에 2글자가 붙을 경우
+          ```
+            SELECT * FROM 테이블명 WHERE 필드명 LIKE '홍__';
+          ```
+      8. 결과 중 일부만 데이터 가져오기 (LIMIT 을 활용)
+        - LIMIT 활용
+        - 예) 결과중 처음부터 10개만 가져오기
+          ```
+            SELECT * FROM 필드명 LIMIT 10;
+          ```
+        - 예) 결과중 100번째 부터, 10개만 가져오기
+          ```
+            SELECT * FROM 필드명 LIMIT 100, 10;
+          ```
+      9. 조건 조합
+        - 위에서 나열한 조건을 조합해서 다양한 Query를 작성할 수 있음
+        - 조합 순서 SELECT FROM WHERE ORDER BY LIMIT
+          ```
+            SELECT id, name FROM mytable
+            WHERE id < 4 AND name LIKE '%i%'
+            ORDER BY name DESC
+            LIMIT 2;
+          ```
+
+        ```
+          # 실습 - 데이터 조회
+          SELECT * FROM mytable WHERE model_num LIKE '7700%' SELECT * FROM mytable WHERE name LIKE '%i7%' 
+          SELECT * FROM mytable WHERE model_type LIKE '%Kaby Lake%' LIMIT 1
+        ```
+    
+    4. 데이터 수정
+      - 테이블에 저장된 데이터를 수정하는 작업
+      - 기본 문법(UPDATE)
+        1. 보통 WHERE 조건문과 함께 쓰여서, 특정한 조건에 맞는 데이터만 수정하는 경우가 많음
+          ```
+            UPDATE 테이블명 SET 수정하고 싶은 컬럼명 = '수정하고 싶은 값' WHERE 특정 컬럼 = '값';
+          ```
+        2. 다수의 컬럼 값을 수정할 수도 있음
+          ```
+            UPDATE 테이블명 SET 수정하고 싶은 컬럼명1 = '수정하고 싶은 값', 수정하고 싶은 컬럼명2 = '수정하고 싶은 값', 수정하고 싶은 컬럼명3 = '수정하고 싶은 값'
+            WHERE 특정 컬럼 < '값';
+          ```
+    
+    5. 데이터 삭제
+      - 테이블에 저장된 데이터를 삭제하는 작업
+      - 기본 문법(DELETE)
+        1. 보통 WHERE 조건문과 함께 쓰여서, 특정한 조건에 맞는 데이터만 삭제하는 경우가 많음
+          ```
+            DELETE FROM 테이블명 WHERE 특정 컬럼 = '값'
+          ```
+        2. 테이블에 저장된 모든 데이터를 삭제할 수도 있음
+          ```
+            DELETE FROM 테이블명;
+          ```
+
+
