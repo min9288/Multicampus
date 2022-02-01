@@ -1906,4 +1906,532 @@ else:
             DELETE FROM 테이블명;
           ```
 
+## SQL DCL(Data Control Language) 이해 및 실습
+  1. mysql 사용자 확인 , 추가 , 비밀번호 변경 , 삭제
+    1. mysql 사용자 확인
+      ```
+        # mysql -u root -p
+        use mysql;
+        selelct + from user;
+      ```
+    2. 사용자 추가
+      ```
+        # mysql -u root -p
+        use mysql;
+      ```
+      - 로컬에서만 접속 가능한 userid 생성
+        ```
+          create user 'userid' @localhost identified by '비밀번호';
+        ```
+      - 모든 호스트에서 접속 가능한 userid 생성
+        ```
+          create user 'userid'@'%' identified by '비밀번호';
+        ```
+    3. 사용자 비밀번호 변경
+      ```
+        SET PASSWORD FOR 'userid'@'%' = '신규비밀번호';
+      ```  
+    4. 사용자 삭제
+      ```
+        # mysql -u root -p
+        use mysql;
+        drop user 'userid'@'%';
+      ```
+    
+  2. mysql 접속 허용 관련 설정
+    - 로컬에서만 접속 허용
+      ```
+        GRANT ALL ON DATABASE.TABLE to 'root'@localhost identified by '비밀번호';
+      ```
+    - 특정 호스트에만 접속 허용
+      ```
+        GRANT ALL ON DATABASE.TABLE to 'root'@www.blim.co.kr identified by '비밀번호';
+      ```
+    - 모든 호스트에만 접속 허용
+      ```
+        GRANT ALL ON DATABASE.TABLE to 'root'@'%' identified by '비밀번호';
+      ```
+    - 옵션 상세
+      1. ALL - 모든 권한 / SELECT, UPDATE - 조회, 수정 권한 등으로 권한 제한 가능
+      2. DATABASE.TABLE - 특정 데이터베이스에 특정 테이블에만 권한을 줄 수 있음 / *.* - 모든 데이터베이스에 모든 테이블 권한을 가짐
 
+## SubQuery
+  - 쿼리안의 또 다른 쿼리 - subquery
+    1. SELECT col1, (SELECT....) - 스칼라 서브쿼리(Scalar Sub Query) : 하나의 컬럼처럼 사용 (표현 용도)
+    2. FROM(SELECT...) - 인라인 뷰(Inline View) : 하나의 테이블처럼 사용 (테이블 대체 용도)
+    3. WHERE col = (SELECT...) - 일반 서브쿼리 : 하나의 변수(상수)처럼 사용 (서브쿼리의 결과에 따라 달라지는 조건절)
+  
+  1. Inline View
+    - 인라인 뷰는 SELECT 절의 결과를 FROM 절에서 하나의 테이블처럼 사용하고 싶을 때 사용합니다.
+  
+  2. Sub Query(일반 서브쿼리)
+    - 일반 서브쿼리는 SELECT 절의 결과를 WHERE 절에서 하나의 변수(상수)처럼 사용하고 싶을 때 사용합니다.
+    - 일반 서브쿼리는 WHERE 절에 사용하는 만큼, 조건에 필요한 단일 행 서브쿼리 / 다중 행 서브쿼리와 함께 사용됩니다.
+
+## 데이터수집과 분석 with Python
+
+- 웹 스크래핑 : 파이썬으로 데이터 수집/처리 에서의 위치
+  1. 데이터 수집
+    - 오픈 API
+    - 웹 스크래핑
+  2. 데이터 가공
+    - 데이터 랭글링 (Data Wrangling)
+    - 데이터 클리닝
+    - 데이터 분석이나 머신러닝(딥러닝)을 위한 전처리
+  3. 데이터 분석
+    - 통계적 분석
+    - 머신러닝 (딥러닝)
+  4. 데이터 저장
+    - 관계형 / NoSQL 데이터베이스
+    - 엑셀파일, CSV/TSV, JSON, YAML
+  5. 커뮤니케이션
+    - 이메일, 메신저, slack
+    - 데이터 시각화
+
+- 개발환경 구성
+  1. Anaconda (https://www.continuum.io/anaconda-overview)
+    - 대용량 데이터 처리, 예측 분석, 과학 계산용 파이썬 배포판입니다. Anaconda아나콘다는 NumPy, SciPy, matplotlib, pandas, IPython, Jupyter Notebook, 그리고 scikit-learn을 모두 포함합니다.
+    - macOS, 윈도우, 리눅스를 모두 지원하며 매우 편리한 기능을 제공하므로 파이썬 과학 패키지가 없는 사람에게 추천하는 배포판 입니다.
+  
+  2. Miniconda 설치 – http://conda.pydata.org/miniconda.html
+    - Anaconda는 데이터 분석을 위한 오픈 소스 Python 플랫폼입니다. 단 한 번의 설치로 모든 환경 설정을 한 번에 끝내주기 때문에 사용하기에 아주 좋습니다.
+    - 한편 miniconda는 Anaconda의 핵심 부분만을 추출해서 재구성한 플랫폼으로, 고유한 패키지 관리 시스템인 conda와 기본적인 Python만을 포함하고 있기 때문에 설치 소요 시간이 더 짧습니다.
+  
+  3. Conda 버전 업데이트 : conda update conda
+  4. Python 버전 확인 : python --version
+  5. Ipython 설치 : pip install ipython
+  6. Jupyter Notebook 설치 : pip install jupyter
+  7. Jupyter Notebook 실행방법 : jupyter notebook
+    - Jupyter Notebook이 실행되면 http://localhost:8888에서 실행됨, 웹 브라우저를 실행하여 해당 URL로 접속하면, Jupyter Notebook의 GUI 화면을 확인, 상단의 New 버튼을 클릭, 맨 하단의 Python 3 메뉴를 클릭하면, 새로운 notebook을 생성하고 편집이 가능하다.
+
+- Jupyter notebook
+  1. IPython 에서 최근 Jupyter 로 이름이 변경
+  2. 기본 파이썬 쉘(REPL) 에 몇 가지 강력한 기능을 추가한 것
+  3. 데이터 분석 할 때 주로 많이 사용됨
+  4. 노트 형식의 주석(문서화)을 추가 할 수 있는 것이 특징
+  5. 웹브라우저에서 수행되어 시각화와 스크립트의 저장이 간편함
+  6. http://jupyter.org
+
+## Web Scraping : Requests, Beautifulsoup, Selenium
+  1. 웹 데이터 수집
+    - 웹 데이터
+      - EMC - Digital Universe (2020년에는 35ZB, 생성된 데이터의 95% 디지털화)
+    - 데이터 수집의 3단계
+      1. 1단계 : 대상선정
+        - 목적 데이터의 위치를 파악
+      2. 2단계 : 수집
+        - 대상 위치에서 원하는 데이터를 수집
+      3. 3단계 : 정리
+        - 수집된 데이터를 정리
+  
+  2. 웹 데이터 수집 - 자동화
+    - 웹스크래핑과 크롤러
+      - 스크래핑 - 각각의 페이지에서 정보를 추출하는 행위
+      - 크롤러 - 자동으로 정보추출을 반복 하는 프로그램
+
+    - 반 자동화 프로그램
+      - 수 작업의 일부를 프로그래밍 지원하는 형태
+      - 1단계 : 수집할 페이지를 지정하여 프로그램 시작 —> 수동
+      - 2단계 : 대상 페이지를 내려 받고 특정 데이터 추출 —> 프로그램
+      - 3단계 : 수집한 데이터를 일정 형식으로 저장 —> 수동 또는 프로그램
+    
+    - 완전 자동화 프로그램
+      - 반 자동화 프로그램의 모든 부분을 자동화 프로그램으로 작성하여 실행
+      - 스케쥴링을 이용하여 순환/반복 기능을 가짐 - 크롤러
+      - 변화에 취약 하다는 단점 존재
+  
+  3. 웹 데이터 수집 - 주의사항
+    - 수집 데이터의 처리와 저작권
+      - 웹 사이트의 정보는 기본적으로 저작물
+      - 정보를 읽어올 수 있다고 해서, 마음대로 활용할 수 있다는 것은 아닙니다. 저작권에 유의해 주세요.
+      - 2016년 재정된 저작권법 제 30조 : 정보 해석을 목적으로 저작물을 복제/번안 가능
+    
+    - 웹 사이트의 리소스 압박과 업무 방해
+      - 웹 사이트의 자원을 독점하게 되면 다른 사람이 웹 사이트를 이용할 수 없음
+      - 무한 크롤러 사용 시 업무방해 혐의 적용 가능
+    
+    - 크롤러와 API
+      - 해당 사이트에서 API 지원 여부 확인
+  
+  4. 크롤링 사례
+    - 구글 : 수 많은 웹 사이트를 크롤링하여 검색서비스 제공
+    - 지진발생 알림 : 각종 커뮤니티에서 지진에 관련된 글을 수집하여 지진 발생시 텔레그램으로 알림
+  
+  5. Web 의 이해
+    - 웹 페이지 Web Page
+      - 웹 상의 문서
+      - 우리가 보고 있는 웹 사이트들은 문서로 이루어져 있다.
+      - 텍스트, 그림, 소리, 동영상 등을 표현 가능
+      - 대부분 HTML 이라는 언어로 이루어져 있음
+    
+    - 서버와 클라이언트
+      - Client : 서비스를 요청하는 프로그램
+      - Server : 요청에 대해 응답을 해주는 프로그램
+    
+    - 웹 페이지 해석 순서
+      1. 클라이언트가 서버에게 contents를 요청한다.
+      2. 서버는 요청 받은 contents를 클라이언트에게 건네준다.
+      3. 브라우저는 서버에게 받은 HTML을 해석하여 화면에 보여준다.
+    
+    - HTTP - Hyper Text Transfer Protocol
+      1. 서버와 클라이언트 사이에서 정보를 주고 받기 위한 규약
+      2. 시작줄, 헤더(Header), 본문(Body) 으로 이루어져 있음
+      3. 9개의 메소드가 존재하지만 주로 GET과 POST만 쓰인다.
+  
+  6. HTTP
+    - GET
+      1. Body 없이 Header만으로 전송된다.
+      2. 링크 / 북마크 가 가능하다.
+      3. 요청에 길이 제한이 있다.
+      4. URL의 ? 뒤에 쿼리 문자열이 올 수 있다.
+      5. 쿼리 문자열은 key와 value를 가지고 있으며, 각 쿼리는 & 로 구분한다.
+    
+    - POST
+      1. Body에 query data가 들어간다.
+      2. 링크 / 북마크가 불가능하다.
+      3. 데이터 길이에 제한이 없다.
+      4. URL을 가지지 않으므로 주로 중요한 데이터를 다룰 때 사용한다.
+  
+  7. HTTP Client 모듈 - Python
+    - urllib
+      1. Python built-in module
+      2. 간편하게 HTTP request를 보낼 수 있음
+      3. 로그인 및 세션을 유지하기가 번거로움
+
+    - Requests
+      1. 간편하게 HTTP request를 보낼 수 있음
+      2. 세션을 유지하기가 용이함
+      3. python2 / python3 완벽 지원
+      4. 코드가 간결하고 documentation이 잘 되어 있음
+    
+    - Selenium : 웹브라우저 자동화 tool
+      1. javascript/css 지원, 기존 GUI 브라우저 자동화 라이브러리
+      2. 사람이 웹서핑 하는 것과 동일한 환경, 대신에 리소스를 많이 사용함
+      3. 웹브라우저에서 HTML에 명시된 이미지/CSS/JavaScript를 모두 자동 다운로드/적용
+  
+  8. requests 설치
+    - pip install requests
+    - 파이썬에서는 기본 라이브러리로 urllib가 제공되지만, 이보다 간결한 코드로 다양한 HTTP요청을 할 수 있는 최고의 라이브러리
+    - JavaScript 처리가 필요한 경우에는 selenium을 고려할 수도 있지만 이 경우에도 requests 적용이 가능할 수도 있습니다. 크롤링 할 페이지에 대해 다각도로 검토가 필요합니다.
+    - 크롤링 시에 웹 요청에 requests를 쓸 수 있다면, 가장 효율적으로 처리 가능
+  
+  9. requests: GET 요청
+    - 단순 GET 요청
+      ```
+        import requests
+        response = requests.get('http://news.naver.com/main/home.nhn')
+      ```
+    
+    - GET 요청 시에 커스텀 헤더 지정
+      ```
+        request_headers = {
+              'User-Agent': ('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 '
+              '(KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36'),
+              'Referer': 'http://news.naver.com/main/home.nhn', # 뉴스홈
+        }
+        response = requests.get('http://news.naver.com/main/main.nhn', headers=request_headers)
+
+        # requests 라이브러리에서의 기본 User-Agent값은 'python-requests/버전'입니다.
+        서버에 따라 User-Agent 값으로 응답 거부 여부를 결정 하기도 합니다.
+      ```
+    
+    - GET 요청 시에 GET인자(? 뒤에 붙이는 urlencoded) 지정
+      1. params 인자로 dict 지정 : 동일 Key의 인자를 다수 지정 불가
+        ```
+          get_params = {'mode': 'LSD', 'mid': 'shm', 'sid1': '105'}    # IT/과학 탭을 위한 GET인자
+          response = requests.get('http://news.naver.com/main/main.nhn', params=get_params)
+        ```
+      
+      2. params 인자로 (key, value) 형식의 tuple 지정 : 동일 Key의 인자를 다수 지정 가능
+        ```
+          get_params = [('mode', 'LSD'), ('mid', 'shm'), ('sid1', '105')]
+          response = requests.get('http://news.naver.com/main/main.nhn', params=get_params)
+          get_params = (('k1', 'v1'), ('k1', 'v3'), ('k2', 'v2'))
+          response = requests.get('http://httpbin.org/get', params=get_params)
+        ```
+  10. requests: GET 응답
+    - 상태코드
+      ```
+        >>> response.status_code #int
+        >>> response.ok # status_code가 200이상 400미만의 값인지 여부 (bool)
+      ```
+    
+    - 응답 헤더
+      ```
+        dict 타입이 아니라 requests.structures.CaseInsensitiveDict 타입
+        Key문자열은 대소문자를 가리지 않습니다.
+        각 헤더의 값은 헤더이름을 Key로 접근 하여 획득
+
+        >>> response.headers
+        >>> response.headers['Content-Type'] # Key문자열 대소문자에 상관없이 접근
+        'text/html; charset=UTF-8'
+        >>> response.headers['content-type']
+        'text/html; charset=UTF-8'
+        >>> response.encoding
+        'UTF-8'
+      ```
+    
+    - 응답 Body
+      ```
+        bytes_data = response.content     # 응답 Raw 데이터 (bytes)
+        str_data = response.text    # response.encoding으로 디코딩하여 유니코드 변환
+      ```
+      - 이미지 데이터일 경우에는 .content만 사용
+        ```
+          with open('flower.jpg', 'wb') as f:
+                    f.write(response.content)
+        ```
+      - 문자열 데이터일 경우에는 .text를 사용
+        ```
+          html = response.text
+          html = response.content.decode('utf8')    # 혹은 .content 필드를 직접 디코딩
+        ```
+      - json 포맷의 응답일 경우
+        - json.loads(응답문자열)을 통해 직접 Deserialize를 수행 혹은 .json()함수를 통해 Deserialize 수행
+          ```
+            import json
+            obj = json.loads(response.text)
+            obj = response.json()   # 위와 동일
+          ```
+    
+    - 한글 인코딩
+      - charset 정보가 없을 경우, 먼저 utf8로 디코딩을 시도하고 UnicodeDecodeError가 발생할 경우, iso-8859-1 (latin-1)로 디코딩을 수행. 이때 한글이 깨진 것처럼 보여집니다. 이때는 다음과 같이 직접 인코딩을 지정한 후에 .text에 접근해주세요.
+        ```
+          >>> response.encoding
+          'iso-8859-1'
+          >>> response.encoding = 'euc-kr'
+          >>> html = response.text
+        ```
+      - 혹은 .content를 직접 디코딩 할 수도 있습니다.
+      - " >>> html = response.content.decode('euc-kr') "
+  
+  11. requests: POST 요청
+    - 단순 POST 요청
+      ```
+        response = requests.post('http://httpbin.org/post')
+      ```
+
+    - 단순 POST 요청시 커스텀 헤더, GET 인자 지정
+      ```
+        request_headers = {
+              'User-Agent': ('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 '
+              '(KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36'),
+              'Referer': 'http://httpbin.org',
+        }
+        get_params = {'k1': 'v1', 'k2': 'v2'}
+        response = requests.post('http://httpbin.org/post', headers=request_headers, params=get_params)
+      ``` 
+
+    - data인자로 dict지정 : 동일 Key의 인자를 다수 지정 불가
+      ```
+        data = {'k1': 'v1', 'k2': 'v2'}
+        response = requests.post('http://httpbin.org/post', data=data)
+      ```
+    
+    - data인자로 (key, value) 형식의 tuple 지정 : 동일 Key의 인자를 다수 지정 가능
+      ```
+        data = (('k1', 'v1'), ('k1', 'v3'), ('k2', 'v2'))
+        response = requests.post('http://httpbin.org/post', data=data)
+      ```
+    
+    - JSON POST 요청
+      1. JSON 인코딩
+        ```
+          import json
+          json_data = {'k1': 'v2', 'k2': [1, 2, 3], 'name': ‘Django'}
+        ```
+      2. json포맷 문자열로 변환한 후, data인자로 지정
+        ```
+          json_string = json.dumps(json_data, ensure_ascii=False)
+          response = requests.post('http://httpbin.org/post', data=json_string)
+        ```
+      3. 객체를 json인자로 지정하면, 내부적으로 json.dumps 처리
+        ```
+          response = requests.post('http://httpbin.org/post', json=json_data)
+        ```
+
+    - 파일 업로드 요청
+      ```
+        # multipart/form-data 인코딩
+        files = {
+            'photo1': open('f1.jpg', 'rb'), # 데이터만 전송
+            'photo2': open('f2.jpg', 'rb'),
+            'photo3': ('f3.jpg', open('f3.jpg', 'rb'), 'image/jpeg', {'Expires': '0'}),
+        }
+        post_params = {'k1': 'v1'}
+        response = requests.post('http://httpbin.org/post', files=files, data=post_params)
+      ```
+  
+  12. 파싱 - Parsing
+    - 가공되지 않은 문자열에서 필요한 부분을 추출하여 의미있는 (구조화된) 데이터로 만드는 과정
+  
+  13. HTML DOM
+    - HTML DOM = HTML 엘레먼트(태그) 로 구성된 Tree
+      ```
+        <!DOCTYPE html>
+        <html>
+            <head>
+                <title>타이틀</title>
+            </head>
+            <body>
+                <h1>제일 큰 제목</h1>
+                <div>파이썬 웹 스크래핑</div>
+            </body>
+        </html>
+      ```
+      - html > body > div > 는 앞선 엘레먼트의 자식 (child)
+  
+  14. 웹상에서 특정 문자열 정보를 가져 오려면?
+    1. 방법1: 정규 표현식을 활용
+      - 가장 빠른 처리가 가능하나, 정규 표현식 Rule을 만드는 것이 많이 번거롭고 복잡합니다.
+      - 때에 따라 필요할 수도 있습니다.
+    2. 방법2: HTML Parser 라이브러리를 활용
+      - DOM Tree을 탐색하는 방식으로 적용이 쉽습니다.
+      - ex) BeautifulSoup4, lxml
+  
+  15. BeautifulSoup
+    1. https://www.crummy.com/software/BeautifulSoup/bs4/doc/
+    2. pip install BeautifulSoup4
+
+      - 파싱을 도와 주는 강력한 python 라이브러리
+      - HTML/XML Parser : HTML/XML문자열에서 원하는 태그 정보를 추출합니다.
+      - 정규식을 작성할 필요 없이 tag, id, class 등의 이름으로 쉽게 파싱 가능
+      - 쉽고 간결하며, documentation이 매우 잘 되어 있음
+
+  16. BeautifulSoup 코드
+    ```
+      from bs4 import BeautifulSoup
+      html = '''
+      <ol>
+        <li>NEVER - 국민의 아들</li>
+        <li>SIGNAL - TWICE</li>
+        <li>LONELY - 씨스타</li>
+        <li>I LUV IT - PSY</li>
+        <li>New Face - PSY</li>
+      </ol>
+      '''
+      soup = BeautifulSoup(html, 'html.parser')
+      for tag in soup.select('li'):
+      print(tag.text)
+    ```
+  
+  17. BeautifuleSoup Parser
+    - BeautifulSoup4 내장 파서
+      ```
+        soup = BeautifulSoup(파싱할문자열, 'html.parser')
+      ```
+    
+    - lxml HTML 파서 사용 (외부 C 라이브러리)
+      1. html.parser 보다 좀 더 유연하고, 빠른 처리
+      2. 설치 : pip3 install lxml
+      3. soup = BeautifulSoup(파싱할문자열, 'lxml')
+    
+    - Tag를 찾는 2가지 방법
+      1. find를 통해 태그 하나씩 찾기
+      2. 태그 관계를 지정하여 찾기 (CSS Selector 사용)
+  
+  18. BeautifuleSoup : find()
+    - find() 메서드 사용
+      1. find (‘tag_name’) : 태그 이름으로 엘레먼트 찾기
+      2. find (‘css_class_name’) : CSS 클래스 명으로 엘레먼트 찾기
+        ```
+          soup.find(‘title’)
+          soup.find(‘.className’)
+        ```
+
+        ```
+          import requests
+          url = "http://www.kma.go.kr/weather/forecast/mid-term-rss3.jsp"
+          html = requests.get(url).text
+
+          # BeautifulSoup으로 분석하기
+          soup = BeautifulSoup(html, 'html.parser')
+
+          # 원하는 데이터 추출하기
+          title = soup.find("title").string
+          wf = soup.find("wf").string
+
+          print(title,wf)
+        ```
+  
+  19. BeautifuleSoup : find_all, select()
+    - find_all() 메소드 사용
+      1. find_all(‘tag_name’) : 태그 이름으로 엘레먼트 찾기
+      2. find_all(‘css_class_name’) : CSS 클래스 명으로 엘레먼트 찾기
+        ```
+          soup.find_all(‘a’)
+          soup.find_all(‘.className’)
+        ```
+    
+    - select() 메소드 사용
+      1. select(‘css_셀렉터’) : CSS 셀렉터 문법으로 엘레먼트 찾기 (배열로 반환)
+      2. select_one(‘css_셀렉터’) : 하나의 엘레먼트만 반환
+        ```
+          soup.select(‘#myId > div.className > a’)
+          soup.select_one(‘#myId > div.className > a’)
+        ```
+        - BeautifulSoup 는 CSS 셀렉터 문법 중 :nth-child 를 지원하지 않음
+  
+  20. BeautifulSoup : attrs()
+    - attrs 속성 사용
+      1. a.attrs :
+      2. 해당 엘레먼트에서 속성 추출하기
+      3. <a> 태그의 모든 속성을 dict 타입으로 반환
+        ```
+          >>> a = soup.find_all(‘a’)
+          >>> type(a.attrs)
+          <class ‘dict’>
+          >>> a[‘href’]
+          ‘a.html’
+        ```
+  
+  21. BeautifuleSoup : find(), find_all()
+    - 예시)멜론 TOP100 차트
+      ```
+        import requests
+        from bs4 import BeautifulSoup
+        headers = {
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:57.0) Gecko/20100101 Firefox/57.0',
+        }
+        html = requests.get('http://www.melon.com/chart/index.htm',headers=headers).text
+        soup = BeautifulSoup(html, 'html.parser')
+        tag_list = []
+        for tr_tag in soup.find(id='tb_list').find_all('tr'):
+            tag = tr_tag.find(class_='wrap_song_info')
+            if tag:
+                tag_sub_list = tag.find_all(href=lambda value: (value and 'playSong' in value))
+                tag_list.extend(tag_sub_list)
+        for idx, tag in enumerate(tag_list, 1):
+            print(idx, tag.text)
+      ```
+  
+  22. BeautifuleSoup : CSS Selector 사용
+    - CSS Selector를 통한 Tag 찾기 지원1
+      1. tag name : "tag_name"
+      2. tag id : "#tag_id"
+      3. tag class names : ".tag_class“
+
+    - CSS Selector를 통한 Tag 찾기 지원2
+      1. '*' : 모든 Tag
+      2. tag : 해당 모든 Tag
+      3. Tag1 > Tag2 : Tag1 의 직계인 모든 Tag2
+      4. Tag1 Tag2 : Tag1 의 자손인 모든 Tag2 (직계임이 요구되지 않음)
+      5. Tag1, Tag2 : Tag1이거나 Tag2인 모든 Tag
+      6. tag[attr] : attr속성이 정의된 모든 Tag
+      7. tag[attr="bar"] : attr속성이 "bar"문자열과 일치하는 모든 Tag
+      8. tag[attr*="bar"] : attr속성이 "bar"문자열과 부분 매칭되는 모든 Tag
+      9. tag[attr^="bar"] : attr속성이 "bar"문자열로 시작하는 모든 Tag
+      10. tag[attr$="bar"] : attr속성이 "bar"문자열로 끝나는 모든 Tag
+    
+    - CSS Selector를 통한 Tag 찾기 지원3
+      1. tag#tag_id : id가 tag_id인 모든 Tag
+      2. tag.tag_class : 클래스명 중에 tag_class가 포함된 모든 Tag
+      3. tag#tag_id.tag_cls1.tag_cls2 : id가 tag_id 이고, 클래스명 중에 tag_cls1와 tag_cls2가 모두 포함된 Tag
+      4. tag.tag_cls1.tag_cls2 : 클래스명 중에 tag_cls1와 tag_cls2가 모든 포함된 모든 Tag
+      5. tag.tag_cls1 .tag_cls2 : 클래스명 중에 tag_cls1이 포함된 Tag의 자식 중에 (직계가 아니어도 OK), 클래스명에 tag_cls2가 포함된 모든 Tag
+    
+    - CSS Selector를 지정할 때 주의사항
+      - 패턴을 너무 타이트하게 지정하시면, HTML 마크업이 조금만 변경되어도 태그를 찾을 수 없게 됩니다.
+      
+
+      
