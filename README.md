@@ -2433,5 +2433,424 @@ else:
     - CSS Selector를 지정할 때 주의사항
       - 패턴을 너무 타이트하게 지정하시면, HTML 마크업이 조금만 변경되어도 태그를 찾을 수 없게 됩니다.
       
+  23. 이미지 파일 다운로드
+    - res = requests.get(이미지 파일 경로)
+      - res.content : 이미지파일을 바이너리로 받아옴
+      - 해당 바이너리를 파일로 저장
+        ```
+          import requests
 
+          res = requests.get(
+          'http://www.jetbrains.com/idea/img/screenshots/idea_overview_5_1.png')
+
+          # print(res.content)
+
+          with open('img.png', 'wb') as f:
+            f.write(res.content)
+        ```
       
+  24. 헤더 수정
+    - user-agent 헤더 수정
+      - 기본 urllib 모듈을 사용했을 때 user-agent 
+      - Python-urllib/3.4
+      - 브라우저에서 요청하는 것 같이 보이기!!
+    
+    - requests 를 사용해 헤더를 별도로 설정하여 요청
+      ```
+        import requests
+
+        # 헤더 설정을 위해서 session 객체 생성
+        session = requests.Session()
+
+        # User-Agent 설정
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Macintosh . . . safari/604.1.38’
+        }
+
+        # 세션을 통해 get 요청을 시도
+        res = session.get('http://www.naver.com', headers=headers)
+
+        # 응답 받은 HTML 을 출력
+        print(res.text)
+      ```
+    
+    - 예시)네이버 웹툰
+      ```
+        import os
+        import requests
+
+        # URL 소스 :
+        http://comic.naver.com/webtoon/detail.nhn?titleId=119874&no=1015&weekday=tue
+        image_urls = [
+          'http://imgcomic.naver.net/webtoon/119874/1015/20170528204207_6e9df8e618b97520233bbb35e7d4eaaf_IMAG01_1.jpg',
+          'http://imgcomic.naver.net/webtoon/119874/1015/20170528204207_6e9df8e618b97520233bbb35e7d4eaaf_IMAG01_2.jpg',
+          'http://imgcomic.naver.net/webtoon/119874/1015/20170528204207_6e9df8e618b97520233bbb35e7d4eaaf_IMAG01_3.jpg',
+        ]
+        for image_url in image_urls:
+          response = requests.get(image_url)
+          image_data = response.content
+          filename = os.path.basename(image_url)
+          with open(filename, 'wb') as f:
+            print('writing to {} ({} bytes)'.format(filename, len(image_data)))
+            f.write(image_data)
+      ```
+  
+  25. 사람처럼 보이기 위한 체크리스트
+    1. 기계가 웹 서핑을 하는 것 같은 패턴을 보이면 IP가 차단될 수 있습니다.
+    2. 자바스크립트가 실행되기 전의 페이지는 아무 것도 없이 비어 있을 수 있습니다.
+    3. 폼을 전송하거나 POST 요청을 보낼 때는 서버에서 기대하는 모든 데이터를 보내야 합니다.
+      - 크롬 개발자 툴에서 network 탭을 통해 요청되는 정보를 확인
+      - 폼의 hidden 필드를 확인
+    4. 쿠키가 함께 전송되는 지 확인
+    5. 403 Forbidden 에러를 받는 다면 IP가 차단되었을 가능성도 있습니다.
+      - 새로운 IP로 요청을 시도하거나, 가까운 까페에 가서 스크래핑을 수행하세요
+    6. 사이트를 너무 빨리 이동하지 마세요
+      - 페이지 이동 시 지연시간을 추가
+    7. 헤더를 바꾸세요
+  
+  26. Selenium
+    1. 브라우저를 조종하여 데이터를 얻는 방법
+      - Selenium
+      - 브라우저를 직접 띄우기 때문에 css나 image 등 모든 데이터를 다운 받음
+      - 속도가 느리다.
+      - 동적 페이지도 크롤링이 가능하다. ( javascript 실행 가능)
+    
+    2. HTTP request를 날려서 데이터를 얻는 방법
+      - requests, scrapy
+      - 속도가 빠르다.
+      - Javascript 실행이 불가능함 -> Web page에 대한 사전 분석이 필요
+    
+    3. Selenium
+      - 웹 브라우저 자동화 tool
+      - Java, C#, Perl , PHP, Python , Ruby 등 다양한 언어 지원
+      - 직접 브라우저를 실행하여 python code로 mouse click, keyboard input 등의 event를 발생시킴
+      - 실제 브라우저로 실행한 것과 동일한 값을 얻을 수 있음
+      - 속도가 많이 느리다.
+    
+    4. Selenium 특징
+      - 주로 웹앱을 테스트 하는데 이용하는 프레임워크
+      - webdriver 라는 API를 통해 운영체제에 설치된 Chrome 등의 브라우저를 제어
+      - 브라우저를 직접 동작 시키기 때문에 JavaScript 등 비동적으로 혹은 뒤늦게 로드 되는 컨텐츠들을 가져올 수 있음
+      - 즉, 눈에 보이는 모든 컨텐츠를 다 가져올 수 있음
+      - 비교) requests.text는 브라우저 소스 보기와 같이 이후에 변화된 HTML은 제어 할 수 없다.
+    
+    5. Selenium - webdriver
+      1. Chrome WebDriver
+        - 크롬 웹드라이버 설치 시 로컬에 크롬 브라우저 반드시 설치 되어 있어야 함
+        - 크롬 드라이버 다운로드 (https://sites.google.com/a/chromium.org/chromedriver/downloads)
+        - zip 파일을 받고 압축을 풀면 chromedriver .exe라는 파일이 저장됨
+        - Selenium 객체를 지정할 때 크롬 드라이버의 위치가 필요
+    
+    6. Selenium - 사이트 브라우징
+      1. 먼저 webdriver 를 import
+        ```
+          from selenium import webdriver
+        ```
+      2. webdriver 객체 만들기
+        ```
+          from selenium import webdriver
+
+          # chromedriver 의 경로를 지정하여 웹드라이버 객체 생성
+          driver = webdriver.Chrome(‘./chromedriver’) 
+
+          # 암묵적으로 웹 자원 로드를 위해 최대 3초까지 기다린다.
+          driver.implicitly_wait(3)
+
+          # url 에 접근
+          driver.get(‘http://www.naver.com')
+        ```
+    
+    7. Selenium - 주요 메소드
+      1. URL 접근
+        - get(‘http://url.com')
+      2. 페이지의 단일 element 에 접근하는 API
+        - find_element_by_name(‘HTML_name’)
+        - find_element_by_id(‘HTML_id’)
+        - find_element_by_xpath(‘/html/body/some/xpath’)
+      3. 페이지의 여러 elements 에 접근하는 API
+        - find_elements_by_css_selector(‘#css > div.selector’)
+        - find_elements_by_class_name(‘some_class_name’)
+        - find_elements_by_tag_name(‘h1’)
+    
+    8. Selenium : find_element_by_css_selector
+      - driver 를 통해 여러 방법으로 DOM을 찾을 수 있지만, CSS Selector가 더 편리
+        ```
+          input_id = driver.find_element_by_css_selector('#id')
+          input_pw = driver.find_element_by_css_selector('#pw')
+          login_button = driver.find_element_by_css_selector(
+            '#frmNIDLogin > fieldset > span > input[type="submit"]'
+          )
+        ```
+      - 폼 관련 Selector : input[type=“submit”]
+        - input 태그 중 type 속성이 “submit” 인 엘레먼트
+    
+    9. Selenium - BeautifulSoup 과 같이 사용하기
+      - driver.page_source 를 사용하여 현재 렌더링 된 페이지 소스를 모두 가져옴
+        ```
+          from selenium import webdriver
+
+          driver = webdriver.Chrome(‘./chromedriver’)
+          driver.implicitly_wait(3)
+
+          # url 에 접근
+          driver.get(‘http://www.naver.com')
+
+          # 현재 페이지의 소스를 가져온다.
+          html = driver.page_source
+
+          # BeautifulSoup 객체를 생성
+          soup = BeautifulSoup(html, ‘lxml')
+
+          ...
+
+          # 브라우저 닫기
+          driver.quit()
+        ```
+  
+    10. 크롬 - Headless 모드 사용하기
+      ```
+        from selenium import webdriver
+
+        options = webdriver.ChromeOptions()
+        options.add_argument(‘headless’)
+        options.add_argument(‘window-size=1920x1080’)
+
+        driver = webdriver.Chrome(‘./chromedriver’, chrome_options=options)
+        driver.implicitly_wait(3)
+
+        # url 에 접근
+        driver.get(‘http://www.naver.com')
+
+        # 현재 화면 스크린샷으로 저장
+        driver.get_screenshot_as_file(‘main-page.png’)
+        
+        # ...이하 동일
+      ```
+  
+  26. 웹 API
+    1. 웹 API – 오픈 API 또는 API 라고 함
+      - 어떤 사이트의 기능을 외부로 공개 하는 것
+      - 일반적으로 HTTP 통신을 사용
+      - 요청의 결과로 주로 XML 이나 JSON 형태로 데이터를 응답함
+      - 최근에는 JSON 방식의 응답을 하는 API가 빠르게 늘어 나고 있음
+      - 유용한 형식으로 정리된 데이터를 제공 받을 수 있음
+
+    2. API 동작 방식
+      - 브라우저나 HTTP client 툴을 사용해 요청을 보냄 (http://api.github.com/users/vega2k)
+      - 응답은 JSON 형태로 반환
+    
+    3. JSON 포맷
+      - 데이타 교환의 표준 포맷 - JSON
+
+## Pandas를 활용한 데이터 분석
+  1. Pandas
+    - Pandas(http://pandas.pydata.org/)는 데이터 처리와 분석을 위한 파이썬 라이브러리입니다. R의 data.frame을 본떠서 설계한 DataFrame이라는 데이터 구조를 기반으로 만들어졌습니다.
+    - 간단하게 말하면 Pandas의 DataFrame은 엑셀의 스프레드시트와 비슷한 테이블 형태라고 할 수 있습니다. Pandas는 이 테이블을 수정하고 조작하는 다양한 기능을 제공합니다. 특히, SQL처럼 테이블에 쿼리나 조인을 수행할 수 있습니다.
+    - 전체 배열의 원소가 동일한 타입 이어야 하는 NumPy와는 달리 Pandas는 각 열의 타입이 달라도 됩니다(예를 들면 정수, 날짜, 부동소숫점, 문자열).
+    - SQL, 엑셀 파일, CSV 파일 같은 다양한 파일과 데이터베이스에서 데이터를 읽어 들일 수 있는 것이 Pandas가 제공하는 또 하나의 유용한 기능입니다.
+    - 10 Minutes to pandas라는 판다스의 공식 튜토리얼을 읽어보시는 것을 추천 드립니다.
+  
+  2. Pandas의 고유한 자료구조 - Series
+    - Series
+      1. Series는 pd.Series() 함수를 사용하여 정의함.
+      2. Python list와 numpy array가 이 함수의 인자로 입력됨.
+      3. Series는 각 성분의 인덱스와, 이에 대응되는 값으로 구성되어 있음.
+      4. Series 생성 시 인덱스는 0으로 시작하는 정수 형태의 기본 인덱스가 부여됨.
+      5. 기본 인덱스 대신 Series 생성 시 각 성분에 대한 인덱스를 사용자가 직접 명시할 수도 있음.
+        ```
+          obj = pd.Series([4, 7, -5, 3])
+          obj2 = pd.Series([4, 7, -5, 3], index=['d', 'b', 'a', 'c'])
+        ```
+    - Series obj의 인덱스만을 추출 : obj.index
+    - Series obj의 값만을 추출 : obj.values
+    - Series obj에 부여된 데이터형을 확인 : obj.dtype
+    - 인덱스에 대한 이름을 지정 : obj.name과 obj.index.name에 값을 대입해 줌
+  
+  3. Pandas의 고유한 자료구조 - DataFrame
+    - DataFrame
+      1. DataFrame은 pd.DataFrame() 함수를 사용하여 정의함.
+      2. Python 딕셔너리 혹은 numpy의 2차원 array가 이 함수의 인자로 입력됨.
+        ```
+          data = {
+            "names": ["soyul", "soyul", "soyul", "Charles", "Charles"], 
+            "year": [2014, 2015, 2016, 2015, 2016],
+            "points": [1.5, 1.7, 3.6, 2.4, 2.9]
+          }
+          df = pd.DataFrame(data)
+        ```
+      3. DataFrame에서는 서로 다른 두 종류의 인덱스가 각각 행 방향과 열 방향에 부여되어 있으며, 교차하는 지점에 실제 값이 위치해 있음.
+      4. 행 방향의 인덱스를 '인덱스', 열 방향의 인덱스를 '컬럼'이라고 부름.
+        - DataFrame의 인덱스 확인 : df.index
+        - DataFrame의 컬럼명 확인 : df.columns
+        - DataFrame의 값 확인 : df.values
+        - DataFrame의 행,열 갯수 확인 : df.shape
+  
+  4. Pandas DataFrame의 인덱싱
+    - DataFrame의 기본 인덱싱 – 열(column) 선택하고 조작하기
+      - df라는 이름의 DataFrame을 다음과 같이 정의합니다.
+        ```
+          data = {
+            "names": ["soyul", "soyul", "soyul", "Charles", "Charles"], 
+            "year": [2014, 2015, 2016, 2015, 2016], 
+            "points": [1.5, 1.7, 3.6, 2.4, 2.9]
+          }
+          df = pd.DataFrame( data, columns=["year", "names", "points", "penalty"], index=["one", "two", "three", "four", "five"])
+        ```
+    
+    - DataFrame의 기본 인덱싱 – 열(column) 선택하고 조작하기
+      - df에서 ‘year’ 열 만을 가져올 경우, ‘year’ 열의 값들이 Series 형태로 인덱스와 함께 표시됨
+        ```
+          df["year"]
+        ```
+      - df에서 복수개의 열을 가져올 경우, 중괄호 안에 컬럼 이름으로 구성된 리스트가 들어감
+        ```
+          df[["year", "points"]]
+        ```
+      - 특정 열을 이렇게 선택한 뒤 값을 대입하면, NaN 표시된 ‘penalty’열에 값을 지정함
+        ```
+          df["penalty"] = [0.1, 0.2, 0.3, 0.4, 0.5]
+        ```
+  
+  5. Pandas 데이터 그룹화 이해하기
+    - 그룹화의 흐름 : split-apply-combine
+      - pandas에서의 모든 그룹화의 흐름은 "split-apply-combine""이라는 키워드로 표현하기도 합니다.  그룹화하고자 하는 열의 값을 기준으로 데이터를 나누고(split), 각 그룹에 대한 통계 함수를 적용하여 (apply), 최종적인 통계량을 산출한 결과를 하나로 통합하여 표시하는(combine) 과정을 거칩니다.
+    
+    - 그룹화 함수 : groupby()
+      - 데이터 그룹화를 하기 위해서 Series 혹은 DataFrame에 대하여 .groupby() 함수를 사용합니다. groupby()를 수행하면 결과로 SeriesGroupBy 객체가 생성되어 진다. SeriesGroupBy 객체에 mean()과 같은 함수를 적용하면 그때 그룹화된 그룹에 대하여 평균을 산출한 결과를 얻을 수 있습니다.
+    
+    - 그룹화 함수 : Series 객체의 groupby() 사용
+      - df의 "key1" 열의 값을 기준으로 데이터를 먼저 그룹화를 진행한 뒤에, grouped 변수에 .mean() 함수를 적용하면, “key1” 열의 값을 기준으로 그룹화 된 각각의 그룹에 대하여 “data1” 열 값의 평균을 산출한 결과를 얻을 수 있습니다.
+        ```
+          df = pd.DataFrame({
+              'key1' : ['a', 'a', 'b', 'b', 'a'],
+              'key2' : ['one', 'two', 'one', 'two', 'one'],
+              'data1': np.random.randn(5),
+              'data2': np.random.randn(5)
+          })
+        grouped = df["data1"].groupby(df["key1"])
+        grouped.mean()
+        ```
+    
+    - 그룹화 함수 : DataFrame 객체의 groupby() 사용
+      - Series 객체 뿐만 아니라 DataFrame 객체에서도 groupby() 함수를 제공한다.
+        ```
+          df = pd.DataFrame({
+            'key1' : ['a', 'a', 'b', 'b', 'a'],
+            'key2' : ['one', 'two', 'one', 'two', 'one'],
+            'data1': np.random.randn(5),
+            'data2': np.random.randn(5)
+          })
+          df.groupby("key1").mean()
+          df.groupby("key1").count()
+          df.groupby(["key1", "key2"]).mean()
+          df.groupby(["key1", "key2"]).count()
+        ```
+    
+    - 그룹에 대해 반복문 사용하기
+      - 그룹에 대해 반복문을 수행하면 그룹화된 결과물에 대한 확인이 가능합니다.
+      - df.groupby("key1")을 실행한 결과를 반복문에서 순회할 대상으로 명시한 뒤, name과 group 변수에서 값을 받아서 출력하면, 그룹화 기준 열의 값과 그룹화된 결과물을 확인 가능
+        ```
+          for name, group in df.groupby("key1"):
+              print(name)
+              print(group)
+        ```
+
+        ```
+          for (k1, k2), group in df.groupby(["key1","key2"]):
+              print(k1, k2)
+              print(group)
+        ```
+  
+  6. Pandas
+    - 파일 읽어 오기
+      ```
+        import pandas as pd
+
+        # train.csv 파일을 읽어옵니다. 여기서 PassengerId라는 컬럼을 인덱스(index)로 지정
+        # 변수에 할당한 결과값은 데이터프레임(DataFrame)
+        train = pd.read_csv("data/train.csv",  index_col="PassengerId")
+
+        # train 변수에 할당된 데이터의 행렬 사이즈를 출력합니다. 출력은 (row, column) 으로 표시됩니다.
+        print(train.shape)
+
+        # 이후 .head()로 train 데이터프레임의 전체가 아닌 상위 5개를 띄웁니다.
+        train.head()
+
+        # 인덱스(index)를 가져옵니다. 여기서 index는 PassengerId와 동일합니다.
+        train.index
+
+        # 컬럼(columns)을 가져옵니다.
+        train.columns
+      ```
+    
+    - 행렬 : 열(column) 가져오기
+      ```
+        train["Survived"].head()
+        train[["Sex", "Pclass", "Survived"]].head()
+        columns = ["Sex", "Pclass", "Survived"]
+        train[columns].head()
+      ```
+    
+    - 행렬 : 행(row) 가져오기
+      ```
+        train.loc[1]
+        train.loc[1:7]
+        train.loc[[1, 3, 7, 13]]
+
+        passenger_ids = [1, 3, 7, 13]
+        train.loc[passenger_ids]
+      ```
+    
+    - 행렬 동시에 가져오기
+      ```
+        train.loc[1, "Sex"]
+        train.loc[1, ["Pclass", "Sex", "Survived"]]
+        train.loc[[1, 3, 7, 13], "Sex"]
+        train.loc[1:7, "Sex"]
+        train.loc[[1, 3, 7, 13], ["Sex", "Pclass", "Survived"]]
+      ```
+    
+    - Boolean Mask
+      ```
+        train[train["Sex"] == "male"].head()
+        train[train["Fare"] > 20].head()
+        train[train["Embarked"].isin(["Q", "S"])].head()
+        train[train["Age"].isnull()].head()
+        train[train["Age"].notnull()].head()
+        train[~train["Age"].isnull()].head()
+        train[(train["Age"].isnull()) | (train["Fare"].isnull())].head()
+        train[(train["Age"].isnull()) & (train["Fare"].isnull())]
+      ```
+    
+    - 기본 연산
+      ```
+        print(train["Fare"].mean())
+        print(train["Age"].max())
+        print(train["Age"].min())
+      ```
+    
+    - 컬럼 추가 & 수정
+      ```
+        train["DataCategory"] = "Titanic“
+        train["Id"] = range(0, 891)
+        train["FamilySize"] = train["SibSp"] + train["Parch"] + 1
+        train[["SibSp", "Parch", "FamilySize"]].head()
+        train["Nationality_FR"] = train["Embarked"] == "C"
+        train["Nationality_UK"] = train["Embarked"].isin(["S", "Q"])
+      ```
+
+      ```
+        train.loc[train["Embarked"] == "C", "Nationality"] = "France"
+        train.loc[train["Embarked"].isin(["S", "Q"]), "Nationality"] = "England“
+
+        train["Fare_Cheap"] = train["Fare"] < 30
+        train["Fare_Medium"] = (train["Fare"] >= 30) & (train["Fare"] < 100)
+        train["Fare_Expensive"] = train["Fare"] >= 100
+
+        train.loc[train["Fare"] < 30, "FareType"] = "Cheap"
+        train.loc[(train["Fare"] >= 30) & (train["Fare"] < 100), "FareType"] = "Med"
+        train.loc[train["Fare"] >= 100, "FareType"] = "Expensive“
+        
+        mean_age = train["Age"].mean()
+        train.loc[train["Age"].isnull(), "Age"] = mean_age
+      ```
