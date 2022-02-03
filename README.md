@@ -1,4 +1,4 @@
-# Multicampus
+## Multicampus
 
 ## 0. 목차
 **[1. 개요](#1-개요)**  
@@ -1526,7 +1526,7 @@ else:
 
 ### 2.8 10일차(2022-01-28)
 
-## RDBMS(Relational Database Management System) 이해
+#### RDBMS(Relational Database Management System) 이해
 
   1. 데이터베이스란?
   
@@ -1606,7 +1606,7 @@ else:
       MariaDB [mysql]> exit;
     ```
 
-## SQL DDL(Data Definition Language) 이해 및 실습
+#### SQL DDL(Data Definition Language) 이해 및 실습
   1. 데이터베이스
     - 데이터베이스 안에는 여러 개의 데이터베이스 이름이 존재한다.
     - 각 데이터베이스 이름 안에는 여러 개의 테이블이 존 재한다.
@@ -1770,7 +1770,7 @@ else:
           ALTER TABLE mytable DROP COLUMN model_type;
         ```
   
-## SQL DML(Data Manipulation Language) 이해 및 실습 (focusing on CRUD)
+#### SQL DML(Data Manipulation Language) 이해 및 실습 (focusing on CRUD)
   1. 4.1. CRUD [Create(생성), Read(읽기), Update(갱신), Delete(삭제)
     - 데이터 관리는 결국 데이터 생성 , 읽기(검색), 수정(갱신), 삭제를 한다는 의미
   
@@ -1906,7 +1906,7 @@ else:
             DELETE FROM 테이블명;
           ```
 
-## SQL DCL(Data Control Language) 이해 및 실습
+#### SQL DCL(Data Control Language) 이해 및 실습
   1. mysql 사용자 확인 , 추가 , 비밀번호 변경 , 삭제
     1. mysql 사용자 확인
       ```
@@ -1955,7 +1955,7 @@ else:
       1. ALL - 모든 권한 / SELECT, UPDATE - 조회, 수정 권한 등으로 권한 제한 가능
       2. DATABASE.TABLE - 특정 데이터베이스에 특정 테이블에만 권한을 줄 수 있음 / *.* - 모든 데이터베이스에 모든 테이블 권한을 가짐
 
-## SubQuery
+#### SubQuery
   - 쿼리안의 또 다른 쿼리 - subquery
     1. SELECT col1, (SELECT....) - 스칼라 서브쿼리(Scalar Sub Query) : 하나의 컬럼처럼 사용 (표현 용도)
     2. FROM(SELECT...) - 인라인 뷰(Inline View) : 하나의 테이블처럼 사용 (테이블 대체 용도)
@@ -1968,7 +1968,7 @@ else:
     - 일반 서브쿼리는 SELECT 절의 결과를 WHERE 절에서 하나의 변수(상수)처럼 사용하고 싶을 때 사용합니다.
     - 일반 서브쿼리는 WHERE 절에 사용하는 만큼, 조건에 필요한 단일 행 서브쿼리 / 다중 행 서브쿼리와 함께 사용됩니다.
 
-## 데이터수집과 분석 with Python
+#### 데이터수집과 분석 with Python
 
 - 웹 스크래핑 : 파이썬으로 데이터 수집/처리 에서의 위치
   1. 데이터 수집
@@ -2012,7 +2012,7 @@ else:
   5. 웹브라우저에서 수행되어 시각화와 스크립트의 저장이 간편함
   6. http://jupyter.org
 
-## Web Scraping : Requests, Beautifulsoup, Selenium
+#### Web Scraping : Requests, Beautifulsoup, Selenium
   1. 웹 데이터 수집
     - 웹 데이터
       - EMC - Digital Universe (2020년에는 35ZB, 생성된 데이터의 95% 디지털화)
@@ -2642,7 +2642,7 @@ else:
     3. JSON 포맷
       - 데이타 교환의 표준 포맷 - JSON
 
-## Pandas를 활용한 데이터 분석
+#### Pandas를 활용한 데이터 분석
   1. Pandas
     - Pandas(http://pandas.pydata.org/)는 데이터 처리와 분석을 위한 파이썬 라이브러리입니다. R의 data.frame을 본떠서 설계한 DataFrame이라는 데이터 구조를 기반으로 만들어졌습니다.
     - 간단하게 말하면 Pandas의 DataFrame은 엑셀의 스프레드시트와 비슷한 테이블 형태라고 할 수 있습니다. Pandas는 이 테이블을 수정하고 조작하는 다양한 기능을 제공합니다. 특히, SQL처럼 테이블에 쿼리나 조인을 수행할 수 있습니다.
@@ -2854,3 +2854,474 @@ else:
         mean_age = train["Age"].mean()
         train.loc[train["Age"].isnull(), "Age"] = mean_age
       ```
+  
+  7. PyMySQL 모듈
+    - Pymysql 이란?
+      1. mysql을 python에서 사용할 수 있는 라이브러리
+      2. http://pymysql.readthedocs.io/en/latest/index.html
+      3. pip install pymysql
+    
+    - 일반적인 mysql 핸들링 코드 작성 순서
+      1. PyMySql 모듈 import
+      2. pymysql.connect() 메소드를 사용하여 MySQL에 연결 및 호스트명, 포트, 로그인, 암호, 접속할 DB 등을 파라미터로 지정
+      3. MySQL 접속이 성공하면, Connection 객체로부터 cursor() 메서드를 호출하여 Cursor 객체를 가져옴
+      4. Cursor 객체의 execute() 메서드를 사용하여 SQL 문장을 DB 서버에 전송
+      5. SQL 쿼리의 경우 Cursor 객체의 fetchall(), fetchone(), fetchmany() 등의 메서드를 사용하여 서버로부터 가져온 데이터를 코드에서 활용
+      6. 삽입, 갱신, 삭제 등의 DML(Data Manipulation Language) 문장을 실행하는 경우, INSERT/UPDATE/DELETE 후 Connection 객체의 commit() 메서드를 사용하여 데이터를 확정
+      7. Connection 객체의 close() 메서드를 사용하여 DB 연결을 닫음
+
+      ```
+        import pymysql
+
+        # MySQL Connection 연결
+        conn = pymysql.connect(host='localhost', user='python', password='1111!', db='python_db', charset='utf8') #autocommit=True
+        print('pymysql.version : ',pymysql.__version__)
+
+        #데이터베이스 선택
+        conn.select_db('python_db')
+
+        #Cursor연결
+        c = conn.cursor()
+        try:
+          with conn.cursor() as c:
+              #데이터 삽입(개별)
+              c.execute("INSERT INTO users VALUES (1 ,'kim','kim@naver.com',\ '010-0000-0000', 'kim.com', %s)", (nowDatetime,))
+          conn.commit()
+        finally:
+          conn.close()
+      ```
+  
+  8. SqlAlchemy (SQL Toolkit and Object Relational Mapper)
+    1. SQLAlchemy는 관계형 데이터베이스에 강력하고 유연한 인터페이스를 제공하는 Python SQL Toolkit이며, Object Relation Mapper(ORM)입니다. ORM은 객체를 관계형 DB 테이블에 매핑 해주는 역할을 하는데 SQLAlchemy는 객체를 매핑하기 위해 특정 클래스를 상속받지 않아도 되기 때문에 높은 수준의 라이브러리라고 할 수 있습니다.
+    2. SQLAlchemy는 데이터 매퍼 패턴을 제공하는 옵션 구성 요소 인 ORM (Object-Relational Mapper)으로 가장 유명합니다.
+    3. Mike Bayer 이라는 개발자가 2005년에 발표(https://www.sqlalchemy.org/)
+      ```
+        공식 소스코드 저장소 :
+        https://github.com/zzzeek/sqlalchemy
+
+        설치 : 파이썬 팩키지 매니저인 pip를 이용
+
+        쉘> pip install sqlalchemy
+
+        쉘> pip show sqlalchemy
+        Name: SQLAlchemy
+        Version: 1.2.13
+        Summary: Database Abstraction Library
+        Home-page: http://www.sqlalchemy.org
+        Author: Mike Bayer
+        Author-email: mike_mp@zzzcomputing.com
+        License: MIT License
+        Location: c:\users\vega2k\miniconda3\lib\site-packages
+        Requires:
+      ```
+  
+  9. SQLAlchemy 모듈
+    - SQLAlchemy와 PyMySQL을 사용하여 DataFrame을 Table로 저장하기
+      ```
+        import pandas as pd
+        import pymysql
+
+        pymysql.install_as_MySQLdb()
+        from sqlalchemy import create_engine
+
+        try:
+            #엔진 생성
+            engine = create_engine\
+            ("mysql+mysqldb://python:"+"1111!"+"@localhost/python_db", encoding='utf-8')
+            conn = engine.connect()
+            df.to_sql(name='employee', con=engine,if_exists='append')
+        finally:
+            #모든 커넥션을 닫는다.
+            conn.close()
+            engine.dispose()
+      ```
+  
+  10. Pandas DataFrame의 methods
+    - read_csv() : csv file read
+      ```
+        df = pd.read_csv('baseballdatabank-master/core/Salaries.csv')
+      ```
+    - read_excel() : excel file read
+      ```
+        df = pd.read_excel('data\example.xlsx',sheet_name='Sheet1', index_col='park.key')
+      ```
+    - to_csv() : csv file write
+      ```
+        df = pd.to_csv(‘data/Salaries.csv‘,index=False)
+      ```
+    - to_excel() : excel file write
+      ```
+        df_name.to_excel('emp_output.xlsx', sheet_name = 'Sheet1')
+      ```
+    - to_sql() : table write
+      ```
+        df.to_sql(name='employee', con=engine, if_exists='append')
+      ```
+
+#### 데이터 시각화 라이브러리 – matplotlib, seaborn
+  1. matplotlib의 개요
+    - matplotlib 란?
+      - matplotlib은 numpy나 pandas를 사용하여 데이터를 분석한 결과를 시각화 하는 데 사용되는 대표적인 Python 데이터 시각화 라이브러리입니다. matplotlib에서는 DataFrame 혹은 Series 형태의 데이터를 가지고 다양한 형태의 플롯을 만들어 주는 기능을 지원합니다.
+      - https://matplotlib.org/
+  
+    - 플롯팅 옵션 지정
+      - 플롯을 그리기에 앞서, %matplotlib라는 플롯팅 옵션을 먼저 지정해야 jupyter notebook에서 그래프를 그려줄 수 있다.
+      - %matplotlib nbagg 설정은, 생성되는 플롯을 인터랙티브 하게 조작할 수 있음.
+      - %matplotlib inline 설정은 , 플롯을 일단 생성하면 이를 조작할 수 없음.
+        ```
+          %matplotlib inline
+        ```
+    
+    - 필요한 library import
+      ```
+        import matplotlib
+        import matplotlib.pyplot as plt
+        print(matplotlib.__version__)
+      ```
+
+  2. 용어 정의
+    - Figure
+      - Figure는 그림이 그려지는 도화지라고 생각하면 됩니다.
+        1. 우선 Figure를 그린 후, plt.subplots로 도화지를 분할해 각 부분에 그래프를 그리는 방식으로 진행합니다.
+        2. size를 조절하고 싶은 경우엔 fig.set_size_inches(18.5, 10.5) 또는 plt.figure(figsize=(10,5)) 또는 plt.rcParams['figure.figsize'] = (10,7)
+    - Axes
+      - Axes는 plot이 그려지는 공간입니다.
+    - Axis
+      - plot의 축입니다.
+  
+  3. Seaborn의 개요
+    - Seaborn 이란?
+      - seaborn은 matplotlib을 기반으로 다양한 색 테마, 차트 기능을 추가한 라이브러리입니다
+      - matplotlib에 의존성을 가지고 있습니다
+      - matplotlib에 없는 그래프(히트맵, 카운트플랏 등)을 가지고 있습니다
+      - https://seaborn.pydata.org/
+    - 필요한 library import
+      ```
+        import seaborn
+        print(matplotlib.__version__)
+        sns.set
+      ```
+
+### 2.9 11일차(2022-02-03)
+
+#### 깃(Git) & 깃허브(GitHub) - 깃 시작하기
+  1. 깃이란 무엇인가?
+    - 깃(Git) 의 탄생
+      * 2005 년 리누스 토르발스가 처음 소개
+      * 특징
+        1. 컴퓨터 파일의 변경사항을 추적
+        2. 여러 명의 사용자들 간에 해당 파일들의 작업을 조율하기 위한 분산 버전 관리 시스템
+      * 개발자들은 깃을 통해 수많은 소스 코드를 효율적으로 관리
+    
+    - 깃의 특징 
+      - 버전 관리 (Version Control) : 문서를 수정할 때마다 언제 수정했는지 , 어떤 것을 변경 했는지 편하고 구체적으로 기록하기 위한 버전 관리 시스템
+        - 문서를 작성한 뒤 원본도 남겨두고 수정한 내용을 저장해야 하는 경우 '다른 이름으로 저장' 을 주로 사용
+        - 깃을 사용한다면 ?
+          - 파일이름은 유지하면서 문서를 수정할 때마다 언제 수정했는지 , 어떤 것이 변경되었는지 기록 가능
+      - 백업 (Backup) : 현재 컴퓨터의 자료를 인터넷 상의 공간 원격 저장소에 백업
+        - 백업이란?
+          * 현재 내 컴퓨터에 있는 자료를 다른 곳에 복제
+          * USB 디스크 , 외장하드 , 드롭박스 (Dropbox) 등
+        - 깃허브 (GitHub)
+          * 깃 파일을 위한 원격 저장소 또는 온라인 저장소
+      - 협업 (Collaboration) : 원격 저장소를 기준으로 여러 사람이 함께 일할 수 있음
+        * 깃허브와 같은 온라인 서비스를 사용하면 여러 사람이 함께 일할 수 있음
+        * 깃허브(GitHub)의 장점
+          1. 팀원들이 파일을 편하게 주고받으면서 일할 수 있음
+          2. 누가 어느 부분을 수정했는지 기록에 남음
+  
+  2. 깃 프로그램의 종류
+    - 깃허브 데스크톱 (GitHub Desktop)
+      - 깃허브에서 제공하는 프로그램
+      - 그래픽 사용자 인터페이스(GUI)로 구현
+      - 사용이 쉬워 누구나 배울 수 있음
+      - 기본적인 기능만 제공
+
+    - 토터스깃 (TortoiseGit)
+      - 윈도우 전용 프로그램
+      - 윈도우 탐색기의 빠른 메뉴에 추가되는 프로그램
+    
+    - 소스트리 (Source Tree)
+      - 깃의 기본 기능부터 고급 기능까지 제공
+      - 사용법은 복잡하지만 익숙해지면 자유롭게 깃을 활용할 수 있음
+    
+    - 더 많은 깃 프로그램
+      - https://git scm.com/downloads/guis
+    
+    - 커맨드 라인 인터페이스(CLI)
+      - 터미널 창에 직접 명령을 입력해서 깃을 사용하는 방식
+      - 리눅스 명령어 및 깃 명령어를 알아야 사용 가능
+      - 대부분의 개발자들은 이 방식으로 깃을 사용
+  
+  3. 깃 설치하기
+    - https://git scm.com/
+    - 홈페이지에서 다운받은 설치파일로 설치 후 윈도우 검색 창에 git 입력 후 , [Git Bash] 클릭
+    - 깃 설치하기 macOS
+      - homebrew 설치하기
+        ```
+          $/bin/bash c "$(curl fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+        ```
+      - 깃 설치하기
+        ```
+          brew install git
+        ```
+    - Git Bash 화면에 다음 명령어 입력
+      ```
+        $ git
+      ```
+  
+  4. 깃 환경 설정
+    - 사용자 정보 입력
+      - 사용자 이름
+        ```
+          $ git config --global user.name "Minu"
+        ```
+      - 사용자 이메일
+        ```
+          $ git config --global user.email "minu@gmail.com"
+        ```
+  
+  5. 기본 리눅스 명령어
+    - 현재 디렉터리 위치 경로 : pwd
+    - 현재 디렉터리에 안에 있는 파일 또는 디렉터리 확인 : ls
+    - 파일과 디렉터리 상세 정보 확인 : ls -la
+    - ls 명령어 옵션
+        |옵션|설명|
+        |:---:|:---:|
+        |-a|숨김 파일과 디렉터리를 함께 표시|
+        |-l|파일이나 디렉터리의 상세 정보를 함께 표시|
+        |-r|파일의 정렬 순서를 거꾸로 표시|
+        |-t|파일 작성 시간 순으로 내림차순 표시|
+    - 화면 지우기 : clear
+    - 디렉터리 이동 : cd
+      - 현재 위치에서 상위 디렉터리로 이동 : cd..
+      - 현재 위치에서 하위 디렉터리로 이동 : cd 하위 디렉터리 이름
+      - 홈 디렉터리로 이동 : cd ~
+    - cd 명령어 옵션
+      |옵션|설명|
+      |:---:|:---:|
+      |~|현재 사용자의 홈 디렉터리(c/Users/ 계정이름)|
+      |./|현재 사용자가 작업 중인 디렉터리|
+      |../|현재 디렉터리의 상위 디렉터리|
+    - 디렉터리 생성
+      ```
+        $ mkdir 생성할 디렉터리 이름
+      ```
+      - 홈 디렉터리 안에 있는 Documents 디렉터리 에 test 디렉터리 생성
+        ```
+          $ cd ~/Documents
+          $ mkdir test
+        ```
+      - test 디렉터리 생성 확인 : ls
+    - 디렉터리 삭제
+      ```
+        $ rm -r 삭제할 디렉터리 이름
+      ```
+      - 홈 디렉터리 안에 있는 Documents 디렉터리 에 test 디렉터리 삭제
+        ```
+          $ rm -r test
+          $ ls
+        ```
+  
+  6. 빔(Vim) 사용하기
+    - 빔(Vim) 이란?
+      - 터미널에서 사용할 수 있는 대표적인 문서 편집기
+      - 홈디렉터리 /Documents/test 디렉터리 생성 후 이동
+        ```
+          $ cd ~/Documents
+          $ mkdir test
+          $ cd test
+        ```
+      - 현재 디렉터리(test)에 test.txt 파일 생성
+        ```
+          $ vim test.txt
+        ```
+    
+    - 입력 모드와 ex 모드
+      - ex 모드 : 저장, 종료 등 (입력 모드에서 Esc 누름)
+      - 입력모드 : 텍스트 입력, 수정 (ex모드에서 A 또는 I 누름)
+    - 내용 저장하기
+      - 콜론(:) 을 입력하면 "INSERT"가 있던 자리에 텍스트를 입력할 수 있음
+      - :wq 입력 후, Enter 키 누름
+    - ex 모드 명령어
+      - :w 또는 :write : 편집 중이던 문서를 저장
+      - :q 또는 :quit : 편집기를 종료
+      - :wq : 편집 중이던 문서를 저장하고 종료
+      - :q! : 문서를 저장하지 않고 편집기를 종료
+    - 텍스트 문서 내용 확인하기
+      ```
+        $ cat 파일이름
+      ```
+      - test.txt 파일 내용 확인
+        ```
+          $ cat test.txt
+        ```
+
+#### 깃(Git) & 깃허브(GitHub) - 깃으로 버전 관리하기
+  1. 깃 저장소 만들기
+    - 깃 초기화 하기
+      ```
+        $ git init
+      ```
+      - 원하는 디렉터리를 저장소로 사용할 수 있게 만들어 줌
+      - 초기화 후 .git 디렉터리 숨김 폴더 가 생성
+
+      - hello git 디렉터리 생성 후 이동
+        ```
+          $ mkdir hello git
+          $ cd hello-git
+        ```
+  
+  2. 버전 만들기
+    - 버전이란?
+      - 깃에서 문서를 수정하고 저장할 때마다 생기는 것
+      - 버전마다 변경 시점과 변경 내용을 확인할 수 있음
+      - 이전 버전으로 되돌아갈 수 있음
+
+    - 작업 트리(working tree)
+      - 파일 수정 , 저장 등의 작업을 하는 디렉터리
+      - 작업 디렉터리 (working directory) 라고도 함
+      - 우리 눈에 보이는 디렉터리를 말함
+    
+    - 스테이지(Stage)
+      - 버전으로 만들 파일이 대기하는 곳
+      - 눈에 보이지 않음
+    
+    - 저장소 (repository)
+      - 스테이지에서 대기하고 있던 파일들을 버전으로 만들어 저장하는 곳
+      - 눈에 보이지 않음
+    
+    - 버전 생성 과정
+      1. 작업 트리에서 파일을 수정하고 저장
+      2. 버전을 만들고 싶으면 스테이지에 넣음
+      3. 버전을 만들기 위해 깃에게 커밋 (commit)’ 명령을 내림
+      4. 스테이지에 있던 파일을 저장소에 새로운 버전으로 저장
+  
+    - 버전 만들기 (실습)
+      1. 작업 트리에서 빔으로 문서 수정하기
+        1. hello git 디렉터리로 이동 후 , 깃 상태 확인
+          ```
+            $ git status
+          ```
+        2. 새로운 파일 (hello.txt) 생성
+          ```
+            $ vim hello.txt
+          ```
+        3. 입력 모드 (A 또는 I) 로 변경 후 , 내용 입력
+        4. ex 모드 (Esc) 로 변경 후 , 문서 저장 (:wq)
+        5. 깃 상태 확인
+          ```
+            $ git status
+          ```
+        ** Untracked files **
+          - 깃에서 아직 한번도 관리하지 않은 파일을 의미
+      
+      2. 수정한 파일 스테이징하기
+        1. 스테이지에 수정한 파일 추가
+          ```
+            $ git add 파일명
+          ```
+        2. 깃 상태 확인
+          ```
+            $ git status
+          ```
+      
+      3. 스테이지에 올라온 파일 커밋하기
+        1. 파일 커밋
+          ```
+            $ git commit m 커밋 메시지
+          ```
+          - 커밋 메시지
+            - 커밋할 때 해당 버전에 어떤 변경 사항이 있었는지 확인하기 위한 메시지를 기록
+            - 영어로 작성하는 것이 좋음
+        2. 예 ) 커밋 메시지에 “message1” 작성
+          ```
+            $ git commit m “message1”
+          ```
+        3. 깃 상태 확인
+          ```
+            $ git status
+          ```
+          - nothing to commit : 버전으로 만들 파일이 없음
+          - working tree clean : 작업 트리에도 수정사항이 없음
+      
+      4. 커밋한 버전 확인하기
+        ```
+          $ git log
+        ```
+        - Author : 커밋을 만든 사람
+        - Date : 커밋 시간 및 커밋 메시지
+
+      5. 스테이징과 커밋 한번에 처리하기
+        - 한 번 이상 커밋한 파일을 다시 커밋할 때만 사용 가능
+          ```
+            $ git commit -am
+          ```
+        - hello.txt 파일 수정 (예시)
+          ```
+            $ vim hello.txt
+          ```
+
+          ```
+            $ git commit -am “message2”
+          ```
+  
+  3. 커밋 내용 확인하기
+    - 커밋 기록 확인하기
+      ```
+        $ git log
+      ```
+    
+    - 변경 사항 확인하기
+      ```
+        $ git diff
+      ```
+      - 작업 트리에 있는 파일과 스테이지에 있는 파일을 비교
+      - 스테이지에 있는 파일과 저장소에 있는 최신 커밋을 비교
+  
+  4. 단계마다 파일 상태 알아보기
+    - tracked 파일
+      - 깃이 상태를 계속 추적하고 있는 파일
+    
+    - untracked 파일
+      - 깃이 상태를 추적하지 않는 파일
+    
+    - 커밋 기록 확인하기
+      ```
+        $ git log
+      ```
+    
+    - 커밋 기록 자세하게 확인하기
+      ```
+        $ git log --stat
+      ```
+  
+  5. 작업 되돌리기
+    - 작업 트리에서 수정한 파일 되돌리기
+      ```
+        $ git restore 파일명
+      ```
+      - 파일을 수정한 후 , 소스가 정상적으로 작동하지 않는 등의 이유로 수정한 내용을 취소하고 가장 최신 버전으로 되돌려야 하는 경우에 사용
+      - restore 명령어로 되돌린 내용은 다시 복구할 수 없음
+    
+    - 스테이징 취소하기
+      ```
+        $ git restore staged 파일명
+      ```
+      - 수정한 파일을 스테이징했을 때 , 스테이징을 취소해야 하는 경우에 사용
+    
+    - 최신 커밋 취소하기
+      ```
+        $ git reset HEAD^
+      ```
+      - 수정한 파일을 스테이징하고 커밋까지 했을 때 가장 마지막에 한 커밋을 취소해야 하는 경우에 사용
+    
+    - reset 명령어 옵션
+      * --soft HEAD^
+        - 최근 커밋을 하기 전 상태로 작업 트리를 되돌림
+      * --mixed HEAD^ 
+        - 최근 커밋과 스테이징을 하기 전 상태로 작업 트리를 되돌림
+        - 옵션 없이 git reset 명령어를 사용할 경우 , 이 옵션으로 작동
+      * --hard HEAD^
+        - 최근 커밋과 스테이징 , 파일 수정을 하기 전 상태로 작업 트리를 되돌림
+        - 이 옵션으로 되돌린 내용은 복구할 수 없음
