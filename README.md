@@ -3554,3 +3554,242 @@ else:
         print(matplotlib.__version__)
         sns.set
       ```
+
+### 2.13 15일차(2022-02-09)
+
+### 2.14 16일차(2022-02-10)
+
+#### Python Web Programming with Django
+  1. Django 개요
+    1. Django (Python Full stack Web Framework)
+      - Django(/dʒæŋɡoʊ/ jang-goh/쟁고/장고)는 Python으로 만들어진 무료 오픈소스 웹 애플리케이션 프레임워크(web application framework)
+      - 쉽고 빠르게 웹사이트를 개발할 수 있도록 돕는 구성요소로 이루어진 웹 프레임워크
+      - 백엔드를 담당하는Lawrence Journal-World 신문사에서 2003년부터 개발하여, 2005년에 세상에 공개
+      - 2008년에 1.0 릴리즈 (Django Roadmap)
+      - 기타리스트 Django Reinhardt 이름을 따서, Django (쟁고, 장고)
+      - Django 와 비슷한 웹프레임워크들
+        - Flask : a micro framework for Python based on Werkzeug.
+        - Pyramid : a small, fast, down-to-earth
+        - Bottle : a fast and simple micro framework for small web-applications
+    
+    2. Django 설치 및 버전 확인
+      - Pypi에서 Django 확인해 보기 (https://pypi.org/project/Django/)
+      - Django 에서의 LTS(Long Term Support) 버전 대개 3년 동안 업데이트를 지원 (Django Roadmap)
+      - 공식 소스코드 저장소 : http://github.com/django/django
+      - 설치 : 파이썬 팩키지 매니저인 pip를 이용
+      - 쉘> pip install django==3.1.13
+      - 쉘> django-admin --version
+
+    3. MTV 개발 방식
+      - MTV(Model Template View) 패턴
+        1. Model : 테이블을 정의한다
+        2. Template : 사용자가 보게 될 화면의 모습을 정의한다.
+        3. View : 애플리케이션의 제어 흐름 및 처리 로직을 정의한다.
+
+        - 모델은 model.py파일에, 템플릿은 templates 디렉토리 하위의 *.html 파일에, 뷰는 views.py 파일에 작성하도록 처음부터 뼈대를 만들어 줍니다. 
+        - 모델,템플릿,뷰 모듈 간에 독립성을 유지할 수 있고, 소프트웨어 개발의 중요한 원칙인 느슨한 결합(Loose Coupling) 설계의 원칙에도 부합된다.
+        - Django에서 프로젝트를 생성하기 위해 startproject 및 startapp 명령을 실행하면 자동으로 프로젝트 뼈대(skeleton)에 해당하는 디렉토리와 파일들을 만들어 줍니다.
+        - Django’s Architecture (https://djangobook.com/mdj2-django-structure/)
+
+  2. Django 시작
+    1. Django 프로젝트 생성
+      - mypython 폴더 아래에 mydjango 하위 폴더를 생성한다.
+        ```
+          mypython> django-admin startproject mydjango
+        ```
+          - manage.py : 웹사이트 관리를 도와주는 역할을 하는 파일
+          - settings.py : 웹사이트 설정이 있는 파일
+          - urls.py : urlresolver가 사용하는 요청 패턴(URL규칙) 목록을 포함하고 있는 파일
+          - wsgi.py : Web Server Gateway Interface이며 Python의 표준 Gateway Interface 입니다.
+          - asgi.py : Asynchronous Server Gateway Interface WSGI와 비슷한 구조를 가지며, 비동기 통신을 지원한다.
+    
+    2. Django 프로젝트 설정 변경
+      - settings.py의 LANGUAGE_CODE와 TIME_ZONE 변경하기
+        ```
+          # mydjango/settings.py  <- 파일경로
+
+          LANGUAGE_CODE = 'ko'
+          TIME_ZONE = 'Asia/Seoul
+        ```
+      - settings.py에 정적 파일 경로를 추가함 STATIC_URL항목 바로 아래에 STATIC_ROOT을 추가
+        ```
+          import os
+          STATIC_URL = '/static/'
+          STATIC_ROOT = os.path.join(BASE_DIR, STATIC_URL)
+        ```
+    
+    3. Django 프로젝트 DB 생성과 Server 시작
+      - 데이터베이스를 생성
+        `mypython> python manage.py migrate`
+          - db.sqlite3 파일이 생성됨
+      - Server 시작
+        `mypython> python manage.py runserver`
+    
+    4. Superuser 생성 및 관리자 화면
+      - Superuser 계정 생성
+        `mypython> python manage.py createsuperuser`
+          - password를 체크 하므로 너무 짧거나 간단한 글자로 입력하면 안됩니다.
+      - http://localhost:8000/admin/ 으로 접속
+  
+  3. Blog App 작성 : Model클래스와 테이블
+    1. Django Model
+      - Django 내장 ORM(Object Relational Mapping) 
+      - ( https://docs.djangoproject.com/en/3.0/topics/db/models/ )
+      - SQL을 직접 작성하지 않아도, Django Model을 통해 데이터베이스로의 접근가능 (조회/추가/수정/삭제)
+      - <Python 클래스> 와 <데이터베이스 테이블> 을 매핑
+        - Model : DB 테이블과 매핑
+        - Model Instance : DB 테이블의 1 Row
+        - blog앱 Post모델 : blog_post 데이터베이스 테이블과 매핑
+        - blog앱 Comment모델 : blog_comment 데이터베이스 테이블과 매핑
+      - 커스텀 모델 정의 (blog/models.py)
+      - 데이터베이스 테이블 구조/타입을 먼저 설계를 한 다음에 모델 정의, 모델 클래스명은 단수형 (Posts가 아니라, Post)
+        ```
+          from django.db import models
+          class Post(models.Model):
+            title = models.CharField(max_length=100)
+            content = models.TextField()
+            created_at = models.DateTimeField(auto_now_add=True)
+            updated_at = models.DateTimeField(auto_now=True)
+        ```
+    
+    2. 지원하는 모델필드 타입 #ref
+      - Field Types
+        ```
+          AutoField, BigInteger, BinaryField,BooleanField, CharField, DateField, DateTimeField,DecimalField, DurationField, EmailField, FileField,ImageField, IntegerField, GenericIPAddressField, PositiveIntegerField, PositiveSmallIntegerfield, SlugField, TextField, URLField, UUIDField 등
+        ```
+      - Relationship Types
+        `ForeignKey, ManyToManyField, OneToOneField`
+    
+    3. 데이터 타입 매핑
+      - 파이썬 데이터타입과 데이터베이스 데이터타입을 매핑
+        ```
+          AutoField (int), BinaryField (bytes), BooleanField (bool), NullBooleanField (None, bool), CharField/TextField/ EmailField/GenericIPAddressField/SlugField/URLField(str)
+        ```
+      - 같은 파이썬 데이터 타입에 매핑 되더라도, "데이터 형식" 에 따라 여러 Model Field Types 로 나뉨
+    
+    4. 필드 옵션
+      - 자주 쓰는 필드 옵션
+        - null (DB 옵션) : DB 필드에 NULL 허용 여부 (디폴트 : False)
+        - unique (DB 옵션) : 유일성 여부
+        - blank : 입력값 유효성(validation)검사할 때 empty값 허용여부(디폴트:False)
+        - default : 디폴트 값 지정. 값이 지정되지 않았을 때 사용
+        - choices (form widget 용) : select box source로 사용
+        - validators : 입력 값 유효성 검사를 수행할 함수를 다수 지정, 각 필드마다 고유한 validators 들이 이미 등록되어 있기도 함 ( 이메일만 받기, 최대길이 제한, 최소길이 제한, 최대값 제한, 최소값 제한, etc)
+        - verbose_name : 필드 레이블. 지정되지 않으면 필드명이 쓰여짐.
+        - help_text (form widget 용) : 필드 입력 도움말
+    
+    5. 첫번째 앱 <blog> 앱 생성
+      1. App 디렉토리 생성
+        `mypython> python manage.py startapp blog`
+          - django/conf/app_template 구성으로 App 디렉토리가 생성되어진다.
+      2. App을 프로젝트에 등록 : 아래와 같이 mydjango/settings.py을 편집하여, INSTALLED_APPS 항목 끝에 blog App 이름을 추가한다
+        ```
+          INSTALLED_APPS = [
+            # 생략
+            'blog',
+          ]
+        ```
+    
+    6. blog앱 글(Post) Model 만들기
+      1. Post(게시글)의 속성들
+        - title(제목)
+        - text(내용)
+        - author(글쓴이)
+        - created_date(작성일)
+        - published_date(게시일)
+      
+      2. Model 객체는 blog/models.py 파일에 선언하여 모델을 만듭니다. 이 Model을 저장하면 그 내용이 데이터베이스에 저장되는 것입니다.
+
+        ```
+          from django.db import models
+          from django.utils import timezone
+
+          # Create your models here.
+          class Post( models.Model):
+              # 작성자
+              author = models.ForeignKey ('auth.User', on_delete = models.CASCADE)
+              # 제목
+              title = models.CharField (max_length = 200)
+              # 내용
+              text = models.TextField()
+              # 작성일
+              created_date = models.DateTimeField ( default=timezone.now)
+              # 게시일
+              published_date = models.DateTimeField (blank=True , null=True)
+
+        ```
+      
+    7. DB에 테이블 만들기
+      1. 마이그레이션 파일(migration file) 생성하기
+        ```
+          mypython> python manage.py makemigrations blog
+
+          # 정상 출력 결과
+          Migrations for 'blog':
+            blog\migrations\0001_initial.py
+            - Create model Post
+        ```
+      2. 실제 데이터베이스에 Model 추가를 반영하기
+        ```
+          mypython> python manage.py migrate blog
+
+          # 정상 출력 결과
+          Operations to perform:
+            Apply all migrations: blog
+          Running migrations:
+            Applying blog.0001_initial... OK
+        ```
+    
+    8. Django Admin(관리자)
+      1. 관리자 페이지에서 만든 모델을 보기 위해 Post 모델을 등록
+        ```
+          # blog/admin.py
+
+          from django.contrib import admin
+          from .models import Post
+
+          admin.site.register(Post)
+        ```
+      2. 관리자 화면에서 확인하기
+        - http://localhost:8000/admin/ 으로 접속
+    
+    9. Migrations #ref
+      1. django-south(https://south.readthedocs.io/en/latest/) 프로젝트가 킥스타터 펀딩 (£17,952, 507 Backers)을 통해, Django 1.7에 포함
+        - 모델 변경내역 히스토리 관리
+        - 모델의 변경내역을 Database Schema (데이터베이스 데이터 구조)로 반영시키는 효율적인 방법을 제공
+      2. 관련 명령
+        - 쉘> python manage.py makemigrations <app-name> # 마이그레이션 파일 생성
+        - 쉘> python manage.py migrate <app-name> # 마이그레이션 적용
+        - 쉘> python manage.py showmigrations <app-name> # 마이그레이션 적용 현황
+        - 쉘> python manage.py sqlmigrate <app-name> <migration-name>   # 지정 마이그레이션의 SQL 내역
+
+    10. migration 파일 생성 및 적용
+      1. 마이그레이션 파일 (초안) 생성하기 : makemigrations 명령
+      2. 해당 마이그레이션 파일을 DB에 반영하기 : migrate 명령
+    
+    11. Migrate (Forward/Backward)
+      1. 쉘> python manage.py migrate <app-name>
+        - 미적용 <마이그레이션 파일> 부터 <최근 마이그레이션 파일> 까지
+        - "Forward 마이그레이션" 이 순차적으로 수행
+      2. 쉘> python manage.py migrate <app-name> <마이그레이션 파일명>
+        - <지정된 마이그레이션 파일> 이 <현재 적용된 마이그레이션> 보다 이후이면, "Forward 마이그레이션" 이 순차적으로 수행 이전이면, "Backward 마이그레이션" 이 순차적으로 수행 (롤백)
+        - 전체 파일명을 지정 하지 않더라도, 유일한 1개의 파일명을 판독 가능하면, 파일명 일부로도 지정 가능
+          ```
+            blog/migrations/0001_initial.py
+            blog/migrations/0002_create_field.py
+            blog/migrations/0002_update_field.py
+            python manage.py migrate blog 000 # FAIL (다수 파일에 해당)
+            python manage.py migrate blog 100 # FAIL (해당되는 파일이 없음)
+            python manage.py migrate blog 0001 # OK
+            python manage.py migrate blog 0002 # FAIL (다수 파일에 해당)
+            python manage.py migrate blog 0002_c # OK
+            python manage.py migrate blog 0002_create # OK
+            python manage.py migrate blog 0002_update # OK
+            python manage.py migrate blog zero # blog앱의 모든 마이그레이션을 취소
+          ```
+    
+    12. 필수 입력 필드를 추가
+      - 기존 모델 클래스에 필수 필드를 추가하여 makemigrations 수행
+      - 필수 입력 필드를 추가하므로, 기존 Row들에 필드를 추가할 때, 어떤 값으로 채워 넣을 지 묻습니다.
+        1. 선택1> 지금 값을 입력
+        2. 선택2> 모델 클래스를 수정하여 디폴트 값을 제공
