@@ -3739,7 +3739,11 @@ else:
           Running migrations:
             Applying blog.0001_initial... OK
         ```
-    
+
+### 2.15 17일차(2022-02-11)
+
+#### Python Web Programming with Django 지난 수업 이어서
+
     8. Django Admin(관리자)
       1. 관리자 페이지에서 만든 모델을 보기 위해 Post 모델을 등록
         ```
@@ -3793,3 +3797,510 @@ else:
       - 필수 입력 필드를 추가하므로, 기존 Row들에 필드를 추가할 때, 어떤 값으로 채워 넣을 지 묻습니다.
         1. 선택1> 지금 값을 입력
         2. 선택2> 모델 클래스를 수정하여 디폴트 값을 제공
+  
+  4. Blog App 작성 : URL Routing
+    1. Django URLConf (configuration)란?
+      - 프로젝트/settings.py 에 최상위 URLConf 모듈을 지정
+        - URLConf는 장고에서 URL과 일치하는 view를 찾기 위한 패턴들의 집합이다.
+        - 특정 URL과 View 매핑 List
+        - Django 서버로 Http 요청이 들어올 때마다, URLConf 매핑 List를 처음부터 끝까지 순차적으로 찾으며 검색합니다.
+          ```
+            from django.conf.urls import include, url
+            from django.contrib import admin
+
+            Urlpatterns = [
+                url(r'^admin/', admin.site.urls),
+                url(r'', include('blog.urls')),
+            ]
+          ```
+
+    2. 정규 표현식(Regex)
+      1. 정규 표현식이란?
+        - 문자열의 패턴, 규칙, Rule을 정의하는 방법
+      2. 파이썬3 정규 표현식 라이브러리
+        - https://docs.python.org/3/library/re.html
+      3. 정규 표현식 예시
+        - 최대 3자리 숫자 : "[0-9]{1,3}" 혹은 "\d{1,3}"
+        - 휴대폰번호 : "010[1-9]\d{7}“
+        - 한글이름 2글자 혹은 3글자 : "[ㄱ-힣]{2,3}"
+        - 성이 "이" 인 이름 : "이[ㄱ-힣]{1,2}"
+      4. 다양한 1글자 패턴
+        - 숫자 1글자 : "[0123456789]" 또는 "[0-9]" 또는 "\d"
+        - 알파벳 소문자 1글자 : "[abcdefghijklmnopqrstuvwxyz]" 혹은 "[a-z]"
+        - 알파벳 대문자 1글자 : "[ABCDEFGHIJKLMNOPQRSTUVWXYZ]" 혹은 "[A-Z]"
+        - 알파벳 대/소문자 1글자 : "[a-zA-Z]"
+        - 16진수 1글자 : "[0-9a-fA-F]"
+        - 문자열의 시작을 지정 : "^"
+        - 문자열의 끝을 지정 : "$"
+        - 한글 1글자 : "[ㄱ-힣]"
+      5. 반복횟수 지정
+        - "\d?" : 숫자 0회 또는 1회
+        - "\d*" : 숫자 0회 이상
+        - "\d+" : 숫자 1회 이상
+        - "\d{m}" : 숫자 m글자
+        - "\d{m,n}" : 숫자 m글자 이상, n글자 이하
+        - 주의 : 정규 표현식은 띄워 쓰기 하나에도 민감합니다.
+      6. 휴대폰 번호 example
+        ```
+          import re
+          def validate_phone_number(number):
+            if not re.match(r'^01[016789][1-9]\d{6,7}$', number):
+                return False
+            # 후에 Form Validator에서는 forms.ValidationError예외를 발생시킴
+            return True
+          print(validate_phone_number('01012341234')) # True
+          print(validate_phone_number('010123412')) # False
+          print(validate_phone_number('01012341234a')) # False
+        ```
+      7. url 매핑 example
+        - http://www.mysite.com/post/12345/라는 요청이 있을 때 12345는 글번호 정규표현식으로 url 패턴을 만들어 숫자 값과 매칭되게 할 수 있음 
+        - ^post/(\d+)/$.
+          - ^post/ : url이(오른쪽부터) post/로 시작합니다
+          - (\d+) : 숫자(한 개 이상)가 있습니다. 
+          - / : /뒤에 문자가 있습니다.
+          - $ : url 마지막이 /로 끝납니다.
+    
+    8. Django URLConf (configuration) 설정하기
+      1. main urls.py
+        - admin/로 시작하는 모든 URL을 view와 매핑하여 찾아냅니다.
+        - http://127.0.0.1:8000/' 요청이 오면 views.post_list를 보여준다.
+          ```
+            # mydjango/urls.py
+
+            from django.contrib import admin
+            from django.urls import path
+            from blog import views
+
+            urlpatterns = [
+                path('admin/', admin.site.urls),
+                path('',views.post_list),
+            ]
+          ```
+      2. blog/urls.py
+        - blog/urls.py를 작성하여 blog와 관련된 url들을 따로 정의함
+          ```
+            # mydjango/urls.py
+
+            from django.contrib import admin
+            from django.urls import path, include
+
+            urlpatterns = [
+                path('admin/', admin.site.urls),
+                path('', include('blog.urls')),
+            ]
+          ```
+        
+        - 'http://127.0.0.1:8000/' 요청이 오면 views.post_list를 보여준다.
+          ```
+            # blog/urls.py
+
+            from django.urls import path
+            from . import views
+
+            urlpatterns = [
+                path('', views.post_list, name='post_list'),
+            ]
+          ```
+        
+  5. Blog App 작성 : View
+    1. View의 역할
+      - View는 애플리케이션의 "로직"을 포함하며 모델에서 필요한 정보를 받아 와서 템플릿에 전달하는 역할을 한다.
+      - View는 Model과 Template을 연결하는 역할을 한다.
+      - URLConf에 매핑된 Callable Object
+        - 첫번째 인자로 HttpRequest 인스턴스를 받습니다.
+        - 반드시 HttpResponse 인스턴스를 리턴 해야 합니다.
+        - https://docs.djangoproject.com/en/1.11/ref/request-response/
+    2. blog/views.py
+      - post_list라는 함수(def) 만들어 요청(request)을 받아서 직접 문자열로 HTML형식 응답(response)하기
+        ```
+          # blog/views.py
+          
+          from django.http import HttpResponse
+
+          def post_list(request):
+              name = '장고'
+              return HttpResponse('''<h1>Hello Django</h1>
+              <p>{name}</p>'''.format(name=name))
+        ```
+    3. blog/views.py 수정
+      - post_list라는 함수(def) 만들어 요청(request)을 넘겨받아 render 메서드를 호출합니다
+      - 함수는 호출하여 받은(return) blog/post_list.html 템플릿을 보여줍니다.
+        ```
+          # blog/views.py
+
+          from django.shortcuts import render
+
+          def post_list(request):
+              return render(request,'blog/post_list.html')
+        ```
+  
+  6. blog App 작성 : Template
+    1. Template의 역할
+      - Template은 정보를 일정한 형태로 표시하기 위해 재사용 가능한 파일을 말함
+      - Django의 template 양식은 HTML을 사용합니다.
+      - 템플릿은 blog/templates/blog 디렉토리에 저장합니다.
+        ```
+          # blog/templates/blog/post_list.html
+          
+          <html>
+              <head>
+                  <title>Django blog</title>
+              </head>
+              <body>
+                  <p>Hi there!</p>
+                  <p>It works!</p>
+              </body>
+          </html>
+        ```
+    2. post_list.html 템플릿 수정
+      ```
+        # blog/templates/blog/post_list.html
+
+        <html>
+            <head>
+                <title>Django blog</title>
+            </head>
+            <body>
+                <div>
+                    <h1><a href="">Django’s Blog</a></h1>
+                </div>
+
+                <div>
+                    <p>published: 14.06.2014, 12:14</p>
+                    <h2><a href="">My first post</a></h2>
+                    <p>Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Donec id elit non mi porta
+                    gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit
+                    amet risus.</p>
+                </div>
+
+                <div>
+                    <p>published: 14.06.2014, 12:14</p>
+                    <h2><a href="">My second post</a></h2>
+                    <p>Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Donec id elit non mi porta
+                    gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut f.</p>
+                </div>
+            </body>
+        </html>
+      ```
+  7. blog App 작성 : ORM과 쿼리셋(QuerySets)
+    1. QuerySet이란?
+      - 쿼리셋(QuerySet)은 DB로부터 데이터를 읽고, 필터링을 하거나, 정렬을 할 수 있습니다.
+      - 쿼리셋을 사용하기 위해 먼저 python shell을 실행한다.
+      - 인터렉티브 콘솔(Interactive Console) 실행
+        `mypython> python manage.py shell`
+    2. 모든 객체 조회하기
+      - 모든 객체를 조회하기 위해 all() 함수를 사용합니다. 
+        ```
+          >>> Post.objects.all()
+          Traceback (most recent call last):
+                File "<console>", line 1, in <module>
+          NameError: name "Post" is not defined
+
+          >>> from blog.models import Post
+
+          >>> Post.objects.all()
+          <QuerySet> [<Post: my post title>, <Post: another post title>]
+        ```
+    3. 객체 생성하기
+      1. 객체 생성
+        - 객체를 저장하기 위해 create() 함수를 사용합니다.
+        - 작성자(author)로서 User(사용자) 모델의 인스턴스를 가져와 전달 해줘야 합니다
+          ```
+            >>> from django.contrib.auth.models import User
+
+            >>> User.objects.all()
+            <QuerySet [<User: ola>]>
+
+            >>> me = User.objects.get(username='ola')
+
+            >>> Post.objects.create(author=me, title = 'Sample title', text='Test')
+
+            >>> Post.objects.all()
+            <QuerySet [<Post: my post title>, <Post: another post title>]>
+          ```
+      2. 필터링 하기
+        - 원하는 조건으로 데이터를 필터링 한다. filter() 괄호 안에 원하는 조건을 넣어 주면 됩니다.
+          1. 특정 사용자가 작성한 글을 찾고자 할 때
+            ```
+              >>> Post.objects.filter(author=me)
+              [<Post: Sample title>, <Post: Post number 2>, <Post: My 3rd post!>, <Post: 4th title of post>]
+            ```
+          2. 글의 제목(title)에 'title' 이라는 글자가 들어간 글을 찾고자 할 때
+            ```
+              >>> Post.objects.filter(title__contains='title')
+              [<Post: Sample title>, <Post: 4th title of post>]
+            ```
+          3.  게시일(published_date)로 과거에 작성한 글을 필터링하여 목록을 가져올 때
+            ```
+              >>> from django.utils import timezone
+              >>> Post.objects.filter(published_date__lte=timezone.now())
+            ```
+          4. 게시(publish)하려는 Post의 인스턴스를 가져온다.
+            `>>> post = Post.objects.get(title="Sample title"`
+          5. 가져온 Post 인스턴스를 publish() 메서드를 이용하여 게시한다.
+            `>>> post.publish()`
+          6. 게시일(published_date)로 과거에 작성한 글을 필터링하여 목록을 다시 가져온다.
+            ```
+              >>> Post.objects.filter(published_date__lte=timezone.now())
+              [<Post: Sample title>]
+            ```
+      3. 정렬하기
+        1. 작성일(created_date) 기준으로 오름차순으로 정렬하기
+          ```
+            >>> Post.objects.order_by('created_date')
+            [<Post: Sample title>, <Post: Post number 2>, <Post: My 3rd post!>, <Post: 4th title of post>]
+          ```
+        2.  작성일(created_date) 기준으로 내림차순으로 정렬하기 : – 을 붙이면 내림차순 정렬
+          ```
+            >>> Post.objects.order_by('-created_date')
+            [<Post: 4th title of post>, <Post: My 3rd post!>,<Post: Post number 2>, <Post: Sample title>]
+          ```
+        3. 쿼리셋들을 함께 연결(chaining) 하기
+          `Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')`
+
+### 2.16 18일차(2022-02-14)
+
+#### Python Web Programming with Django 지난 수업 이어서
+
+  8. blog App 작성 : 템플릿에서 동적 데이터 처리
+    - View에서 동적(dynamic) 데이터 생성하기
+      1. View의 수정
+        - View는 DB에 저장되는 Model에서 정보를 가져올 때 쿼리셋(QuerySet)을 사용하며, 템플릿에 전달하는 역할을 한다.
+          - 게시일(published_date) 기준으로 과거에 작성한 글을 필터링하여 정렬하여 글 목록 가져오기
+            ```
+              # blog/views.py
+
+              from django.shortcuts import render
+              from django.utils import timezone
+              from .models import Post
+
+              def post_list(request):
+                  posts = Post.objects.filter(published_date__lte=timezone.now()).\
+                  order_by('published_date')
+                  return render(request, 'blog/post_list.html', {'posts': posts})
+            ```
+    - Template에서 동적(dynamic) 데이터 사용하기
+      2. Template의 수정 1
+        - Template에서는 view에서 저장한 posts 변수를 받아와서 HTML에 출력한다.
+        - 변수의 값을 출력하려면 중괄호를 사용한다.
+        - {% for %} 와 {% endfor %} 사이에서 목록의 모든 객체를 반복하여 출력함.
+          ```
+            # blog/templates/blog/post_list.html
+
+            <div>
+                <h1><a href="/">Django’s Blog</a></h1>
+            </div>
+
+            {% for post in posts %}
+                {{ post }}
+            {% endfor %}
+          ```
+      3. Template의 수정 2
+        - |linebreaksbr 같이 파이프 문자(|)를 사용하여, 블로그 글 텍스트에서 행이 바뀌면 문단으로 변환하여 출력한다.
+          ```
+            # blog/templates/blog/post_list.html
+            
+            <div>
+                <h1><a href="/">Django’s Blog</a></h1>
+            </div>
+
+            {% for post in posts %}
+                <div>
+                    <p>published: {{ post.published_date }}</p>
+                    <h1><a href="">{{ post.title }}</a></h1>
+                    <p>{{ post.text|linebreaksbr }}</p>
+                </div>
+            {% endfor %}
+          ```
+    - Template Engine
+      - Django Template Engine : Django 기본 지원 템플릿 엔진
+      - https://docs.djangoproject.com/en/3.0/topics/templates/
+      - Django Template Engine Syntax
+        ```
+          {% extends "base.html" %}
+          {% for row in rows %}
+              <tr>
+                  {% for name in row %}
+                      <td>{{ name }}</td>
+                  {% endfor %}
+              </tr>
+          {% endfor %}
+        ```
+    
+    - Template Engine 문법
+      1. Variables
+        - {{ first_name }}
+        - {{ mydict.key }} : dict의 key에 attr 처럼 접근
+        - {{ myobj.attr }}
+        - {{ myobj.func }} : 함수 호출도 attr 처럼 접근. 인자 있는 함수 호출 불가
+        - {{ mylist.0 }} : 인덱스 접근도 attr 처럼 접근
+      2. Django Template Tag
+        - {% %} 1개 쓰이기도 하며, 2개 이상이 조합되기도 함.
+        - 빌트인 Tag가 지원되며, 장고앱 별로 커스텀 Tag 추가 가능
+          ```
+            block, comment, csrf_token, extends, for, for ... empty, if, ifchanged, include, load, lorem, now, url, verbatim, with 등
+          ```
+      3. block tag
+        - 템플릿 상속에서 사용
+        - 자식 템플릿이 오버라이딩 할 block 영역을 정의
+        - 자식 템플릿은 부모가 정의한 block에 한해서 재 정의만 가능. 그 외는 모두 무시됩니다/
+          ```
+            {% block block-name %}
+                block 내에 내용을 쓰실 수 있습니다.
+            {% endblock %}
+          ```
+      4. Comment Tag : 템플릿 주석
+        ```
+          {% comment "Optional note" %}
+              이 부분은 렌더링 되지 않습니다.
+          {% endcomment %}
+        ```
+      5. csrf_token tag
+        - Cross Site Request Forgeries를 막기 위해 CSRF Middleware가 제공됨
+        - 이는 HTML Form의 POST요청에서 CSRF토큰을 체크하며, 이때 CSRF토큰이 필요
+        - csrf_token tag를 통해 CSRF토큰을 발급받을 수 있습니다
+          ```
+            <form method="POST" action="">
+                {% csrf_token %}
+                <input type="text" name="author" />
+                <textarea name="message"></textarea>
+                <input type="submit" />
+            </form>
+          ```
+      6. extends tag
+        - 자식 템플릿에서 부모 템플릿 상속을 명시
+        - extends tag는 항상 템플릿의 처음에 위치해야 합니다
+        - 상속받은 자식 템플릿은 부모 템플릿에서 정의한 block만 재정의할 수 있습니다.
+          `{% extends "base.html" %}`
+      7. for tag
+        - 지정 객체를 순회하며 파이썬의 for문과 동일
+          ```
+            {% for athlete in athlete_list %}
+                <li>{{ athlete.name }}</li>
+            {% endfor %}
+          ```
+      8. for ... empty tag
+        - for tag 내에서 지정 object를 찾을 수 없거나, 비었을 때 empty block이 수행
+          ```
+            {% for athlete in athlete_list %}
+                <li>{{ athlete.name }}</li>
+            {% empty %}
+                <li>Sorry, no athletes in this list.</li>
+            {% endfor %}
+          ```
+      9. if tag
+        - 파이썬의 if문과 동일
+          ```
+            {% if athlete_list %}
+                Number of athletes: {{ athlete_list|length }}
+            {% elif athlete_in_locker_room_list %}
+                Athletes should be out of the locker room soon!
+            {% else %}
+                No athletes.
+            {% endif %}
+          ```
+      10. url tag
+        - URL Reverse를 수행한 URL문자열을 출력
+        - 인자 처리는 django.shortcuts.resolve_url 함수와 유사하게 처리하나, get_absolute_url 처리는 하지 않음.
+          ```
+            {% url "some-url-name-1" %}
+            {% url "some-url-name-2" arg arg2 %}
+            {% url "some-url-name-2" arg arg2 as the_url %}
+          ```
+  9. blog App 작성 : 템플릿에 CSS 적용하기
+    - 정적(static) 파일 처리하기
+      1. CSS 파일 작성
+        - static 디렉토리 안에 css 디렉토리를 만들고 blog.css라는 파일을 작성.
+          ```
+            # blog/static/css/blog.css
+            
+            h1 a {
+                color: #FCA205;
+                font-family: 'Lobster';
+            }
+            body { padding-left: 15px;}
+          ```
+
+          ```
+            # blog/templates/blog/post_list.html
+
+            {% load static %}
+            <html>
+                <head>
+                    <title>Django's blog</title>
+                    <link rel="stylesheet" href="{% static 'css/blog.css' %}">
+                </head>
+          ```
+      2. 부트스트랩(Bootstrap) 적용하기
+        - Bootstrap을 설치하려면.html파일 내 <head>에 아래의 링크를 넣어야 합니다.
+          ```
+            # blog/templates/blog/post_list.html
+
+            {% load static %}
+            <html>
+                <head>
+                    <title>Django's blog</title>
+                    <link rel="stylesheet"
+                    href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+                    <link rel="stylesheet"
+                    href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+                    <link rel="stylesheet"
+                    href="http://fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext"
+                    type="text/css">
+                    <link rel="stylesheet" href="{% static 'css/blog.css' %}">
+                </head>
+          ```
+      3. 완성된 blog.css
+        ```
+          # blog/static/css/blog.css
+          
+          .page-header {
+              background-color: #ff9400;
+              margin-top: 0;
+              padding: 20px 20px 20px 40px;
+          }
+          .page-header h1, .page-header h1 a, .page-header h1 a:visited, .page-header h1 a:active {
+              color: #ffffff;
+              font-size: 36pt;
+              text-decoration: none;
+          }
+          .content { margin-left: 40px; }
+          h1, h2, h3, h4 { font-family: 'Lobster', cursive; }
+          .date { color: #828282; }
+          .save { float: right; }
+          .post-form textarea, .post-form input { width: 100%; }
+          .top-menu, .top-menu:hover, .top-menu:visited {
+              color: #ffffff;
+              float: right;
+              font-size: 26pt;
+              margin-right: 20px;
+          }
+          .post { margin-bottom: 70px; }
+          .post h1 a, .post h1 a:visited { color: #000000; }
+        ```
+      4. 완성된 post_list.html
+        ```
+          # blog/templates/blog/post_list.html
+
+          <body> 
+          <div class="page-header"> 
+              <h1><a href="/">Django Blog</a></h1>
+          </div>
+          <div class="content container"> 
+              <div class="row">
+                  <div class="col-md-8">
+                      {% for post in posts %} 
+                        <div class="post"> 
+                            <div class="date"> 
+                                <p>published: {{ post.published_date }}</p>
+                            </div>
+                            <h1><a href="">{{ post.title }}</a></h1>
+                            <p>{{ post.text|linebreaksbr }}</p>
+                        </div>
+                      {% endfor %}
+                  </div>
+              </div>
+          </div>
+          </body>
+          </html>
+        ```
