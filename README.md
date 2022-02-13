@@ -4304,3 +4304,648 @@ else:
           </body>
           </html>
         ```
+  
+  10. blog App 작성 : 템플릿 상속하기(Template Inheritance)
+    1. Template 상속(Inheritance) 하기
+      - Template 상속(Inheritance)이란?
+        - Template 상속을 사용하면 동일한 정보/레이아웃을 사용 하고자 할 때, 모든 파일마다 같은 내용을 반복해서 입력 할 필요가 없게 됩니다.
+        - 또한 수정할 부분이 생겼을 때도, 각각 모든 파일을 수정 할 필요 없이 한번만 수정하면 됩니다.
+      - 기본 템플릿 html 생성하기
+        - 기본 템플릿은 웹사이트 내 모든 페이지에 확장되어 사용되는 가장 기본적인 템플릿입니다.
+        - blog/templates/blog/에 base.html 파일을 생성한다.
+        - post_list.html에 있는 모든 내용을 base.html에 아래 내용을 복사해 붙여 넣는다.
+    2. 기본 템플릿 작성하기
+      - {% for post in posts %}{% endfor %} 사이에 있는 코드를 제거하고
+      - {% block content %}{% endblock %} 으로 변경한다. 
+        ```
+          # blog/templates/blog/base.html
+
+          <body>
+              <div class="page-header">
+                  <h1><a href="/">Django Blog</a></h1>
+              </div>
+              <div class="content container">
+                  <div class="row">
+                      <div class="col-md-8">
+                          {% block content %}
+                          {% endblock %}
+                      </div>
+                  </div>
+              </div>
+          </body>
+        ```
+      - post_list.html 수정하기
+        - {% block content %}와 {% endblock %} 사이에 {% for post in posts %}부터 {% endfor %} 코드를 넣는다.
+        - 두 템플릿을 연결하기 위해 {% extends 'blog/base.html' %} 코드를 추가한다.
+          ```
+            # blog/templates/blog/post_list.html
+
+            {% extends 'blog/base.html' %}
+
+            {% block content %}
+                {% for post in posts %}
+                    <div class="post">
+                        <div class="date">
+                            {{ post.published_date }}
+                        </div>
+                        <h1><a href="">{{ post.title }}</a></h1>
+                        <p>{{ post.text|linebreaksbr }}</p>
+                        </div>
+                {% endfor %}
+            {% endblock %}
+
+          ```
+  
+  11. blog App 작성 : Post Detail (글 상세) 페이지 작성하기
+
+    1. urls.py에 url 추가
+      - ^은 "시작"을 뜻합니다.
+      - post/란 URL이 post 문자를 포함해야 한다는 것을 말합니다
+      - (?P<pk>\d+) 정규표현식은 장고가 pk 변수에 값을 넣어 view로 전송하겠다는 뜻입니다, \d은 숫자만 올 수 있다는 것을 말합니다. +는 하나 또는 그 이상의 숫자가 올 수 있습니다
+      - /은 다음에 / 가 한 번 더 와야 한다는 의미입니다.
+      - $는 "마지막"을 말합니다. 그 뒤로 더는 문자가 오면 안 됩니다
+      - 따라서 http://127.0.0.1:8000/post/5/라고 입력하면, post_detail view를 찾아 매개변수 pk가 5인 값을 찾아 view로 전달합니다.
+        ```
+          # blog/urls.py
+
+          from django.urls import path
+          from . import views
+
+          urlpatterns = [
+              path('', views.post_list, name='post_list'),
+              path('post/<int:pk>/', views.post_detail, name='post_detail'),
+          ]
+
+        ```
+
+    2. post_list.html에 Post detail 페이지 링크 추가
+      - {% %}는 장고 템플릿 태그이며, post_detail은 url에서 정의한 view name이다.
+      - post.pk는 Post 모델의 primary key(기본키)를 의미합니다.
+        ```
+          # blog/templates/blog/post_list.html
+
+          {% extends 'blog/base.html' %}
+
+          {% block content %}
+              {% for post in posts %}
+                  <div class="post">
+                      <div class="date">
+                          {{ post.published_date }}
+                      </div>
+                      <h1><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h1>
+                      <p>{{ post.text|linebreaksbr }}</p>
+                  </div>
+              {% endfor %}
+          {% endblock %}
+        ```
+
+    3. views.py에 post_detail() 함수 추가
+      - def post_detail(request, pk):라고 정의하며, urls(pk)과 동일하게 이름을 사용해야 합니다.
+      - 블로그 게시글 한 개만 보려면 Post.objects.get(pk=pk) 쿼리셋을 작성해야 하는데 만약 해당 primary key(pk)의 Post를 찾지 못하면 오류가 날 수 있으므로 Django에서는 이를 해결하기 위해 get_object_or_404라는 특별한 기능을 제공한다.
+        ```
+          # blog/views.py
+
+          from django.shortcuts import render, get_object_or_404
+          from .models import Post
+
+          def post_detail(request, pk):
+              post = get_object_or_404(Post, pk=pk)
+              return render(request, 'blog/post_detail.html', {'post': post})
+        ```
+    
+    4. post_detail.html 페이지 추가
+      - base.html을 확장하고, content블록에서 블로그 글의 게시일, 제목과 내용을 보이게 한다.
+      - {% if ... %} ... {% endif %}라는 템플릿 태그에서는 post의 게시일(published_date)이 있는지, 없는지를 확인합니다.
+        ```
+          # blog/templates/blog/post_detail.html
+
+          {% extends 'blog/base.html' %}
+
+          {% block content %}
+              <div class="post">
+                  {% if post.published_date %}
+                      <div class="date">
+                          {{ post.published_date }}
+                      </div>
+                  {% endif %}
+                  <h1>{{ post.title }}</h1>
+                  <p>{{ post.text|linebreaksbr }}</p>
+              </div>
+          {% endblock %}
+        ```
+
+  12. blog App 작성 : Django Form (글 추가)
+
+    1. Form이란?
+      - Model클래스와 유사하게 Form클래스를 정의
+      - 주요 역할 : 커스텀 Form클래스를 통해
+        - 입력 폼 HTML 생성 : .as_table(), .as_p(), .as_ul() 기본제공
+        - 입력 폼 값 검증(validation) 및 값 변환
+    
+    2. Form 처리 : HTTP Method에 따라
+      - 폼 처리 시에 같은 URL(즉 같은 뷰)에서 GET/POST로 나눠 처리
+      - GET방식으로 요청 : 입력 폼을 보여줍니다.
+      - POST방식으로 요청 : 데이터를 입력 받아 유효성 검증 과정을 거칩니다.
+        - 검증 성공 시 : 해당 데이터를 저장하고 SUCCESS URL로 이동
+        - 검증 실패 시 : 오류 메시지와 함께 입력 폼을 다시 보여줍니다.
+    
+    3. Django Form
+      1. step1: Form 클래스 정의
+        ```
+          from django import forms
+
+          class PostForm(forms.Form):
+              title = forms.CharField()
+              text = forms.CharField(widget=forms.Textarea)
+        ```
+      
+      2. step2: 필드 유효성 검사 함수 추가 적용
+        ```
+          from django import forms
+
+          def min_length_3_validator(value):
+              if len(value) < 3:
+                  raise forms.ValidationError('3글자 이상 입력해주세요.')
+
+
+          from django import forms
+
+          class PostForm(forms.Form):
+              title = forms.CharField(validators=[min_length_3_validator])
+              text = forms.CharField(widget=form.Textarea)
+        ```
+      
+      3. step3: View 함수 내에서 Form 인스턴스 생성
+        - GET요청을 통해 View 함수가 호출이 될 때, GET/POST 요청을 구분해서 Form 인스턴스 생성
+          ```
+            # myapp/views.py
+
+            from .forms import PostForm
+
+            if request.method == 'POST':
+                # POST 요청일 때
+                form = PostForm(request.POST, request.FILES)
+            else:
+                # GET 요청일 때
+                form = PostForm()
+          ```
+      
+      4. step4: POST요청에 한해 입력 값 유효성 검증
+        ```
+          # myapp/views.py
+
+          if request.method == 'POST':
+              # POST인자는 request.POST와 request.FILES를 제공받음.
+              form = PostForm(request.POST, request.FILES)
+              # 인자로 받은 값에 대해서, 유효성 검증 수행
+              if form.is_valid():   # 검증이 성공하면, True 리턴
+                  # 검증에 성공한 값들을 dict타입으로 제공받아서 이 값을 DB에 저장하기
+                  form.cleaned_data
+                  post = Post(**form.cleaned_data) # DB에 저장하기
+                  post.save()
+                  return redirect('/success_url/')
+              else:     # 검증에 실패하면, form.errors와 form.각필드.errors 에 오류정보를 저장
+                  form.errors
+          else:
+              form = PostForm()
+          return render(request, 'myapp/form.html', {'form': form})
+        ```
+
+      5. step5: 템플릿을 통해 HTML폼 생성
+        - 유효성 검증에서 실패했을 때 Form 인스턴스를 통해 HTML폼 출력하고,오류 메시지도 있다면 같이 출력
+          ```
+            <table>
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <table>{{ form.as_table }}</table>
+                    <input type="submit" />
+                </form>
+            </table>
+          ```
+
+    4. Django ModelForm 클래스
+      1. Model Form이란?
+        - 지정된 Model로부터 필드 정보를 읽어 들여, form fields 를 세팅
+          ```
+            class PostForm(forms.ModelForm):
+                class Meta:
+                    model = Post
+                    fields = '__all__'    # 전체필드지정 혹은 list로 읽어올 필드명 지정
+          ```
+        - 내부적으로 model instance를 유지
+        - 유효성 검증에 통과한 값들로, 지정 model instance로의 저장 (save)을 지원 (Create or Update)
+    
+    5. Django Form vs ModelForm
+      ```
+        from django import forms
+        from .models import Post
+
+        class PostForm(forms.Form):
+            title = forms.CharField()
+            text = forms.CharField(widget=forms.Textarea)
+        # 생성되는 Form Field는 PostForm과 거의 동일
+        class PostModelForm(forms.ModelForm):
+            class Meta:
+                model = Post
+                fields = ['title', 'text']
+      ```
+    
+    6. Post New ( 글 추가 ) 페이지 작성하기
+      1. forms.py 추가
+        - ModelForm을 생성해 자동으로 Model에 결과물을 저장할 수 있다.
+        - Form을 하나 만들어서 Post 모델에 적용한다.
+        - blog 디렉토리 안에 forms.py라는 파일을 작성한다.
+          - forms.ModelForm은 django에 이 폼이 ModelForm이라는 것을 알려주는 구문이다
+          - class Meta 구문은 Form을 만들기 위해서 어떤 model이 쓰여야 하는지 django에 알려주는 구문, 이 폼에 필드는 title과 text만 보여지게 된다.
+          - created_date는 글이 등록되는 시간이다.
+            ```
+              # blog/forms.py
+
+              from django import forms
+              from .models import Post
+
+              class PostForm(forms.ModelForm):
+                  class Meta:
+                      model = Post
+                      fields = ('title', 'text',)
+            ```
+      
+      2. urls.py에 Post New(글 추가) url 추가
+        - ^은 "시작"을 뜻합니다.
+        -  post/new란 URL이 post 문자를 포함해야 한다는 것을 말합니다
+        - /은 다음에 / 가 한 번 더 와야 한다는 의미입니다.
+        -  $는 "마지막"을 말합니다. 그 뒤로 더는 문자가 오면 안 됩니다.
+          ```
+            # blog/urls.py
+
+            from django.urls import path
+            from . import views
+
+            urlpatterns = [
+                path('', views.post_list, name='post_list'),
+                path('post/<int:pk>/', views.post_detail, name='post_detail'),
+                path('post/new/', views.post_new, name='post_new'),
+            ]
+          ```
+      
+      3. base.html에 Post New(글 추가) 페이지 링크 추가
+        - blog/templates/blog/base.html 파일을 열어서, page-header 라는 div class에 등록 폼 link를 하나 추가한다.
+        - 새로운 view는 post_new입니다.
+        - 부트스트랩 테마에 있는 glyphicon glyphicon-plus 클래스로 더하기 기호가 보이게 됩니다.
+          ```
+            # blog/templates/blog/base.html
+
+            <div class="page-header">
+                <a href="{% url 'post_new' %}" class="top-menu">
+                <span class="glyphicon glyphicon-plus"></span></a>
+                <h1><a href="/">Django's Blog</a></h1>
+            </div>
+          ```
+      
+      4. views.py에 post_new() 함수 추가
+        - 새 Post 폼을 추가하기 위해 PostForm() 함수를 호출하도록 하여 템플릿에 넘깁니다.
+          ```
+            # blog/views.py
+
+            from .forms import PostForm
+
+            def post_new(request):
+                form = PostForm()
+                return render(request, 'blog/post_edit.html', {'form': form})
+          ```
+      
+      5. post_edit.html 페이지 추가
+        - {{ form.as_p }}를 HTML 태그로 폼을 감싸세요. <form method="POST">...</form>
+        - <form ...>을 열어 {% csrf_token %}를 추가하세요. 이 작업은 폼 보안을 위해 중요합니다. HTML Form의 POST요청에서 CSRF 토큰을 체크하며, 이때 CSRF토큰이 필요합니다. csrf_token tag를 통해 CSRF 토큰을 발급 받을 수 있습니다.
+          ```
+            # blog/templates/blog/post_edit.html
+
+            {% extends 'blog/base.html' %}
+
+            {% block content %}
+                <h1>New post</h1>
+                <form method="POST" class="post-form">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="save btn btn-default">Save</button>
+                </form>
+            {% endblock %}
+          ```
+      
+      6. Form 저장하기 1
+        - 등록 Form의 두 가지 상황
+          1. 첫번째 : 처음 페이지에 접속 했을 때, 새 글을 쓸 수 있게 Form이 비어 있습니다. 이때의 Http method는 GET
+          2. 두번째 : Form에 입력된 데이터를 view 페이지로 가지고 올 때입니다. 이때의 Http method는 POST
+            ```
+              # blog/views.py
+
+              from .forms import PostForm
+
+              def post_new(request):
+                  if request.method == "POST":
+                      form = PostForm(request.POST)
+                  else:
+                      form = PostForm()
+                  return render(request, 'blog/post_edit.html', {'form': form})
+            ```
+      
+      7. Form 저장하기 2
+        - 폼에 들어있는 값들이 올바른 지를 확인하기 위해 form.is_valid()을 사용합니다. 작업을 두 단계로 나눈다.
+          1. 첫번째 : form.save()로 폼을 저장하는 작업, commit=False란 데이터를 바로 Post 모델에 저장하지 않는다는 뜻입니다.
+          2. 두번째 : author와 published_date를 추가하는 작업, post.save()는 변경사항을 유지하고 새 블로그 글이 만들어 집니다
+            ```
+              # blog/views.py
+
+              if form.is_valid():
+                  post = form.save(commit=False)
+                  post.author = request.user
+                  post.published_date = timezone.now()
+                  post.save()
+            ```
+
+      8. Form 저장하기 3
+        -  새 블로그 글을 작성한 다음에 post_detail 페이지로 이동 합니다.
+        - post_detail은 이동 해야 할 view의 name이고, post_detail view는 pk=post.pk를 사용해서 view에게 값을 넘겨줍니다.
+        - post는 새로 생성한 블로그 글입니다.
+          ```
+            from django.shortcuts import redirect
+
+            return redirect('post_detail', pk=post.pk)
+          ```
+      
+      9. 완성된 post_new 함수
+        ```
+          # blog/views.py
+
+          from django.shortcuts import redirect
+
+          def post_new(request):
+              if request.method == "POST":
+                  form = PostForm(request.POST)
+                  if form.is_valid():
+                      post = form.save(commit=False)
+                      post.author = request.user
+                      post.published_date = timezone.now()
+                      post.save()
+                      return redirect('post_detail', pk=post.pk)
+              else:
+                  form = PostForm()
+              return render(request, 'blog/post_edit.html', {'form': form})
+        ```
+  
+  12. blog App 작성 : Django Form (글 수정)
+
+    1. urls.py에 Post Edit(글 수정) url 추가
+      - ^은 "시작"을 뜻합니다.
+      - post/1/edit란 URL이 post 문자를 포함 해야 한다는 것을 말합니다
+      - /은 다음에 / 가 한 번 더 와야 한다는 의미입니다.
+      - $는 "마지막"을 말합니다. 그 뒤로 더는 문자가 오면 안 됩니다.
+        ```
+          # blog/urls.py
+
+          from django.urls import path
+          from . import views
+
+          urlpatterns = [
+              path('', views.post_list, name='post_list'),
+              path('post/<int:pk>/', views.post_detail, name='post_detail'),
+              path('post/new/', views.post_new, name='post_new'),
+              path('post/<int:pk>/edit/', views.post_edit, name='post_edit'),
+          ]
+
+        ```
+    
+    2. post_detail.html에 Post Edit(글 수정) 페이지 링크 추가
+      - blog/templates/blog/post_detail.html 파일을 열어서, link를 하나 추가한다
+      - 새로운 view는 post_edit입니다.
+      - 부트스트랩 테마에 있는 glyphicon glyphicon-pencil 클래스로 보이게 됩니다.
+        ```
+          # blog/templates/blog/post_detail.html
+
+          <div class="post">
+              {% if post.published_date %}
+                  <div class="date">
+                      {{ post.published_date }}
+                  </div>
+              {% endif %}
+              <a class="btn btn-default" href="{% url 'post_edit' pk=post.pk %}">
+              <span class="glyphicon glyphicon-pencil"></span></a>
+              <h1>{{ post.title }}</h1>
+              <p>{{ post.text|linebreaksbr }}</p>
+          </div>
+        ```
+    
+    3. views.py에 post_edit() 함수 추가
+      - 작업을 두 단계로 나눈다.
+        1. 첫 번째: url로부터 추가로 pk 매개변수를 받아서 처리합니다.
+        2. 두 번째: get_object_or_404(Post, pk=pk)를 호출하여 수정하고자 하는 글의 Post 모델 인스턴스(instance)로 가져온 데이터를 폼을 만들 때와 폼을 저장할 때 사용하게 됩니다.
+          ```
+            # blog/views.py
+
+            @login_required
+            def post_edit(request, pk):
+                post = get_object_or_404(Post, pk=pk)
+                if request.method == "POST":
+                    form = PostForm(request.POST, instance=post)
+                    if form.is_valid():
+                        post = form.save(commit=False)
+                        post.author = request.user
+                        post.published_date = timezone.now()
+                        post.save()
+                        return redirect('post_detail', pk=post.pk)
+            else:
+                form = PostForm(instance=post)
+            return render(request, 'blog/post_edit.html', {'form': form})
+          ```
+
+  13. blog App 작성 : Django Form (글 삭제)
+
+    1. urls.py에 Post remove(글 삭제) url 추가
+      ```
+        # blog/urls.py
+        
+        from django.urls import path
+        from . import views
+
+        urlpatterns = [
+            path('', views.post_list, name='post_list'),
+            path('post/<int:pk>/', views.post_detail, name='post_detail'),
+            path('post/new/', views.post_new, name='post_new'),
+            path('post/<int:pk>/edit/', views.post_edit, name='post_edit'),
+            path('post/<int:pk>/remove/', views.post_remove, name='post_remove'),
+        ]
+      ```
+    
+    2. post_detail.html에 Post Remove(글 삭제) 페이지 링크 추가
+      - blog/templates/blog/post_detail.html 파일을 열어서, link를 하나 추가한다.
+      - 새로운 view는 post_remove입니다.
+      - 부트스트랩 테마에 있는 glyphicon glyphicon-remove 클래스로 보이게 됩니다.
+        ```
+          # blog/templates/blog/post_detail.html
+
+          <div class="post">
+              {% if post.published_date %}
+                  <div class="date">
+                      {{ post.published_date }}
+                  </div>
+              {% endif %}
+              <a class="btn btn-default" href="{% url 'post_remove' pk=post.pk %}">
+              <span class="glyphicon glyphicon-remove"></span></a>
+              <h1>{{ post.title }}</h1>
+              <p>{{ post.text|linebreaksbr }}</p>
+          </div>
+        ```
+    
+    3. views.py에 post_remove() 함수 추가
+      - 작업을 두 단계로 나눈다
+        1. 첫 번째: url로부터 추가로 pk 매개변수를 받아서 처리 합니다.
+        2. 두 번째: get_object_or_404(Post, pk=pk)를 호출하여 삭제 하고자 하는 글의 Post 모델 인스턴스(instance)로 가져 와서 삭제 처리를 한다. 
+          ```
+            # blog/views.py
+
+            @login_required
+            def post_remove(request, pk):
+                post = get_object_or_404(Post, pk=pk)
+                post.delete()
+                return redirect('post_list')
+          ```
+
+  13. blog App 작성 : 로그인/로그아웃 처리하기
+    1. 로그인 처리하기
+      1. @login_required 데코레이터
+        - 로그인 사용자만 포스트를 접근 할 수 있도록 post_new, post_edit, post_remove의 View들을 보호하려고 한다면
+        - Django에서 제공하는 django.contrib.auth.decorators 모듈 안의 login_required 데코레이터를 사용하면 된다.
+        - login_required 데코레이터는 로그인 페이지로 리다이렉션(Redirection) 된다.
+          - 주의: 로그인 되어 있는 admin 페이지를 로그아웃 해야 함
+          - https://docs.djangoproject.com/en/3.0/topics/auth/default/#auth-web-requests
+
+          ```
+            from django.contrib.auth.decorators import login_required
+
+            @login_required
+            def post_new(request):
+                [...]
+          ```
+      
+      2. urls.py 에 login url 추가
+        - blog/urls.py가 아니라 myjango/urls.py에 로그인 url 추가
+          ```
+            # mydjango/urls.py
+
+            from django.contrib import admin
+            from django.urls import path, include
+            from django.contrib.auth import views as auth_views
+            
+            urlpatterns = [
+                path('admin/', admin.site.urls),
+                path('', include('blog.urls')),
+                path('accounts/login/', auth_views.LoginView.as_view(template_name="registration/login.html"), name="login"),
+            ]
+          ```
+      
+      3. 로그인 페이지 템플릿 추가
+        - blog/templates/registration 디렉토리를 생성하고, login.html 파일 작성
+          ```
+            # blog/templates/registration/login.html
+
+            {% extends "blog/base.html" %}
+
+            {% block content %}
+                {% if form.errors %}
+                    <p>이름과 비밀번호가 일치하지 않습니다. 다시 시도해주세요.</p>
+                {% endif %}
+
+                <form method="post" action="{% url 'login' %}">
+                    {% csrf_token %}
+                    <table class="table table-bordered table-hover">
+                    <tr>
+                        <td>{{ form.username.label_tag }}</td><td>{{ form.username }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ form.password.label_tag }}</td><td>{{ form.password }}</td>
+                    </tr>
+                    </table>
+
+                    <input type="submit" value="login" class="btn btn-primary btn-lg" />
+                    <input type="hidden" name="next" value="{{ next }}" />
+                </form>
+            {% endblock %}
+          ```
+      
+      4. settings.py 에 설정 추가
+        - 로그인 하면 최상위 index 레벨에서 로그인이 된다.
+          ```
+            # mydjango/settings.py
+
+            LOGIN_REDIRECT_URL = '/'
+          ```
+    
+    2. 로그인 여부 체크하기
+      1. base.html 수정
+        - 인증이 되었을 때는 추가/수정 버튼을 보여주고, 인증이 되지 않았을 때는 로그인 버튼을 보여줌
+          ```
+            # blog/templates/blog/base.html
+
+            <div class="page-header">
+                {% if user.is_authenticated %}
+                    <a href="{% url 'post_new' %}" class="top-menu">
+                    <span class="glyphicon glyphicon-plus"></span></a>
+                {% else %}
+                    <a href="{% url 'login' %}" class="top-menu">
+                    <span class="glyphicon glyphicon-lock"></span></a>
+                {% endif %}
+                <h1><a href="/">Django's Blog</a></h1>
+            </div>
+          ```
+      
+      2. post_detail.html에 수정
+        - 로그인 사용자만 글을 수정, 삭제 할 수 있도록 체크하기
+        - {% if %} 태그를 추가해 관리자로 로그인한 사용자들 만 글 수정,삭제 링크가 보일 수 있게 만든다.
+          ```
+            # blog/templates/blog/post_detail.html
+
+            {% if user.is_authenticated %}
+                <a class="btn btn-default" href="{% url 'post_edit' pk=post.pk %}">
+                <span class="glyphicon glyphicon-pencil"></span></a>
+                <a class="btn btn-default" href="{% url 'post_remove' pk=post.pk %}">
+                <span class="glyphicon glyphicon-remove"></span></a>
+            {% endif %}
+          ```
+
+    3. 로그아웃 처리하기
+      1. base.html 수정
+        - “Hello <사용자이름>” 구문을 추가하여 인증된 사용자라는 것을 알려주고, logout link를 추가함
+          ```
+            # blog/templates/blog/base.html
+
+            <div class="page-header">
+                {% if user.is_authenticated %}
+                    <a href="{% url 'post_new' %}" class="top-menu">
+                    <span class="glyphicon glyphicon-plus"></span></a>
+                    <p class="top-menu">Hello {{ user.username }}<small>
+                    (<a href="{% url 'logout' %}?next={{request.path}}">Log
+                    out</a>)</small></p>
+                {% else %}
+                    <a href="{% url 'login' %}" class="top-menu">
+                    <span class="glyphicon glyphicon-lock"></span></a>
+                {% endif %}
+                <h1><a href="/">Django's Blog</a></h1>
+            </div>
+          ```
+      
+      2. urls.py 에 logout url 추가
+        - blog/urls.py가 아니라 myjango/url.py에 로그아웃 url 추가
+          ```
+            # mydjango/urls.py
+
+            from django.contrib import admin
+            from django.urls import path, include
+            from django.contrib.auth import views as auth_views
+            
+            urlpatterns = [
+                path('admin/', admin.site.urls),
+                path('', include('blog.urls')),
+                path('accounts/login/', auth_views.LoginView.as_view(template_name="registration/login.html"), name="login"),
+                path('accounts/logout/', auth_views.LogoutView.as_view(), {'next': None}, name='logout'),
+            ]
+          ```
