@@ -4915,6 +4915,7 @@ else:
     3. 로그아웃 처리하기
       1. base.html 수정
         - “Hello <사용자이름>” 구문을 추가하여 인증된 사용자라는 것을 알려주고, logout link를 추가함
+		    
           ```
             # blog/templates/blog/base.html
 
@@ -4935,6 +4936,7 @@ else:
       
       2. urls.py 에 logout url 추가
         - blog/urls.py가 아니라 myjango/url.py에 로그아웃 url 추가
+		    
           ```
             # mydjango/urls.py
 
