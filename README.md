@@ -4870,14 +4870,14 @@ else:
                     <input type="hidden" name="next" value="{{ next }}" />
                 </form>
             {% endblock %}
-          ```
+           ```
       
       4. settings.py 에 설정 추가
         - 로그인 하면 최상위 index 레벨에서 로그인이 된다.
           ```
-            # mydjango/settings.py
+		    # mydjango/settings.py
 
-            LOGIN_REDIRECT_URL = '/'	    
+		    LOGIN_REDIRECT_URL = '/'	    
           ```
     
     2. 로그인 여부 체크하기
