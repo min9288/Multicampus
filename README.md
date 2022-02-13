@@ -4877,11 +4877,11 @@ else:
           ```
             # mydjango/settings.py
 
-            LOGIN_REDIRECT_URL = '/'
-		    
+            LOGIN_REDIRECT_URL = '/'	    
           ```
     
     2. 로그인 여부 체크하기
+		    
       1. base.html 수정
         - 인증이 되었을 때는 추가/수정 버튼을 보여주고, 인증이 되지 않았을 때는 로그인 버튼을 보여줌
           ```
