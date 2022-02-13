@@ -4938,16 +4938,16 @@ else:
         - blog/urls.py가 아니라 myjango/url.py에 로그아웃 url 추가
 		    
           ```
-            # mydjango/urls.py
+		    # mydjango/urls.py
 
-            from django.contrib import admin
-            from django.urls import path, include
-            from django.contrib.auth import views as auth_views
-            
-            urlpatterns = [
-                path('admin/', admin.site.urls),
-                path('', include('blog.urls')),
-                path('accounts/login/', auth_views.LoginView.as_view(template_name="registration/login.html"), name="login"),
-                path('accounts/logout/', auth_views.LogoutView.as_view(), {'next': None}, name='logout'),
-            ]
+		    from django.contrib import admin
+		    from django.urls import path, include
+		    from django.contrib.auth import views as auth_views
+
+		    urlpatterns = [
+			path('admin/', admin.site.urls),
+			path('', include('blog.urls')),
+			path('accounts/login/', auth_views.LoginView.as_view(template_name="registration/login.html"), name="login"),
+			path('accounts/logout/', auth_views.LogoutView.as_view(), {'next': None}, name='logout'),
+		    ]
           ```
