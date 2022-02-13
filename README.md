@@ -4878,6 +4878,7 @@ else:
             # mydjango/settings.py
 
             LOGIN_REDIRECT_URL = '/'
+		    
           ```
     
     2. 로그인 여부 체크하기
