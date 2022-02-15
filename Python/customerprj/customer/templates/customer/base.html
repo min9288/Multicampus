@@ -1,23 +1,21 @@
+<!DOCTYPE html>
 {% load static %}
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>Django Blog</title>
+    <title>Django Customer</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext">
-    <link rel="stylesheet" href="{% static 'css/blog.css' %}">
+    <link rel="stylesheet" href="{% static 'css/customer.css' %}">
 </head>
 <body>
     <div class="page-header">
-        <a href="{% url 'post_new' %}" class="top-menu">
+        <a href="{% url 'customer_new' %}" class="top-menu">
             <span class="glyphicon glyphicon-plus"></span>
         </a>
-        <h1><a href="{% url 'post_list_home' %}">Django Blog</a></h1>
+        <h1><a href="{% url 'customer_list' %}">Django Customer</a></h1>
     </div>
-    <!-- HTML 주석 -->
-    {# 파이썬 주석1 #}
-    {% comment %} 파이썬 주석2 {% endcomment %}
     <div class="content container">
         <div class="row">
             <div class="col-md-8">

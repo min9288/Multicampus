@@ -1,13 +1,19 @@
 from django.db import models
 from django.utils import timezone
+from django import forms
 
 
-# Create your models here.
-class Post( models.Model):
+# title 필드의 length가 2보다 작으면 검증오류 발생시키는 함수 선언하기
+def min_length_2_validator(value):
+    if len(value) < 2:
+        # ValidataionError 예외를 강제로 발생시킨다
+        raise forms.ValidationError('title은 2글자 이상 입력해 주세요!')
+
+class Post(models.Model):
     # 작성자
     author = models.ForeignKey ('auth.User', on_delete = models.CASCADE)
     # 제목
-    title = models.CharField (max_length = 200)
+    title = models.CharField (max_length = 200, validators=[min_length_2_validator])
     # 내용
     text = models.TextField()
     # 작성일

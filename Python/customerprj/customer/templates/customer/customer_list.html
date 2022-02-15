@@ -1,10 +1,20 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-    <h1>홀호롷ㄹ</h1>
-</body>
-</html>
+{% extends 'customer/base.html' %}
+
+{% block content %}
+    {% for cust in customers %}
+        <div class="post">
+            <h1><a href="{% url 'customer_detail' pk=cust.pk %}">{{ cust.name }}</a></h1>
+            <p>{{ cust.email }}</p>
+            <div class="date">
+                <p>생년월일: {{ cust.birthdate }}</p>
+            </div>
+        {% if cust.gender is True %}
+            <p>남자</p>
+        {% else %}
+            <p>여자</p>
+        {% endif %}
+        </div>
+    {% empty %}
+        <p>Customer Not Exist!</p>
+    {% endfor %}
+{% endblock %}
