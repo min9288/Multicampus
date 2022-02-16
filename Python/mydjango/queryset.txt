@@ -1,0 +1,293 @@
+C:\mypython\mydjango>python manage.py shell
+Python 3.8.8 (default, Apr 13 2021, 15:08:03) [MSC v.1916 64 bit (AMD64)]
+Type 'copyright', 'credits' or 'license' for more information
+IPython 7.22.0 -- An enhanced Interactive Python. Type '?' for help.
+
+In [1]: from blog.models import Post
+
+In [2]: Post.objects.all()
+Out[2]: <QuerySet [<Post: 첫번째글1>, <Post: 두번째글2>, <Post: 세번째글3>]>
+
+In [3]: exit()
+
+C:\mypython\mydjango>python manage.py shell
+Python 3.8.8 (default, Apr 13 2021, 15:08:03) [MSC v.1916 64 bit (AMD64)]
+Type 'copyright', 'credits' or 'license' for more information
+IPython 7.22.0 -- An enhanced Interactive Python. Type '?' for help.
+
+In [1]: from blog.models import Post
+
+In [2]: Post.objects.all()
+Out[2]: <QuerySet [<Post: 첫번째글(1)>, <Post: 두번째글(2)>, <Post: 세번째글(3)>]>
+
+In [3]: type(Post.objects.all())
+Out[3]: django.db.models.query.QuerySet
+
+In [4]: for post in Post.objects.all():
+   ...:     print(type(post), post)
+   ...:
+<class 'blog.models.Post'> 첫번째글(1)
+<class 'blog.models.Post'> 두번째글(2)
+<class 'blog.models.Post'> 세번째글(3)
+
+In [5]: posts = Post.objects.all()
+
+In [6]: posts
+Out[6]: <QuerySet [<Post: 첫번째글(1)>, <Post: 두번째글(2)>, <Post: 세번째글(3)>]>
+
+In [7]: for post in posts:
+   ...:     print(post.title, post.id, post.text, post.created_date)
+   ...:
+첫번째글 1 첫번째글 내용 2022-02-11 00:16:04+00:00
+두번째글 2 두번째글 내용 2022-02-11 00:16:51+00:00
+세번째글 3 세번째글 내용 2022-02-11 01:34:46+00:00
+
+In [8]: posts[0]
+Out[8]: <Post: 첫번째글(1)>
+
+In [9]: posts[0].title
+Out[9]: '첫번째글'
+
+In [10]: posts[2].text
+Out[10]: '세번째글 내용'
+
+In [11]: In [11]:
+
+In [11]: from django.contrib.auth.models import User
+
+In [12]:
+
+In [12]: User.objects.all()
+Out[12]: <QuerySet [<User: python>]>
+
+In [13]: User.objects.get(username='python')
+Out[13]: <User: python>
+
+In [14]: me = User.objects.get(username='python')
+
+In [15]: me
+Out[15]: <User: python>
+
+In [16]: me.id
+Out[16]: 1
+
+In [17]: me.username
+Out[17]: 'python'
+
+In [18]: me.password
+Out[18]: 'pbkdf2_sha256$216000$NBIjahWwnYAc$ugqFzn04VTAKGRymd88KWhBKg7MyWCI4zRGE7+nMCuc='
+
+In [19]: me.email
+Out[19]: 'aa@aa.com'
+
+In [20]: post1 = Post.objects.get(title='첫번째글')
+
+In [21]: post1
+Out[21]: <Post: 첫번째글(1)>
+
+In [22]: post1.id
+Out[22]: 1
+
+In [23]: post1.title
+Out[23]: '첫번째글'
+
+In [24]: post1.author
+Out[24]: <User: python>
+
+In [25]: post.author.id
+Out[25]: 1
+
+In [26]: post.author.username
+Out[26]: 'python'
+
+In [27]: post1.author.username
+Out[27]: 'python'
+
+In [28]: post1.author.password
+Out[28]: 'pbkdf2_sha256$216000$NBIjahWwnYAc$ugqFzn04VTAKGRymd88KWhBKg7MyWCI4zRGE7+nMCuc='
+
+In [29]: post1.author.email
+Out[29]: 'aa@aa.com'
+
+In [30]: post2 = Post.objects.get(id=2)
+
+In [31]: post2
+Out[31]: <Post: 두번째글(2)>
+
+In [32]: posts
+Out[32]: <QuerySet [<Post: 첫번째글(1)>, <Post: 두번째글(2)>, <Post: 세번째글(3)>]>
+
+In [33]: posts[1]
+Out[33]: <Post: 두번째글(2)>
+
+In [34]: print(post2.title, post2.text, post2.created_date, post2.author.username, post2.author.email)
+두번째글 두번째글 내용 2022-02-11 00:16:51+00:00 python aa@aa.com
+
+In [35]: post2_1 = Post.objects.get(title='두번째글')
+
+In [36]: post2_1
+Out[36]: <Post: 두번째글(2)>
+
+In [37]: type(post2.author)
+Out[37]: django.contrib.auth.models.User
+
+In [38]: me = User.objects.get(username='python')
+
+In [39]: me
+Out[39]: <User: python>
+
+In [40]: Post.objects.create(author=me,title='sample',text='sample text')
+Out[40]: <Post: sample(4)>
+
+In [41]: Post.objects.all()
+Out[41]: <QuerySet [<Post: 첫번째글(1)>, <Post: 두번째글(2)>, <Post: 세번째글(3)>, <Post: sample(4)>]>
+
+In [42]: post4 = Post.objects.get(id=4)
+
+In [43]: print(post4.title,post4.text)
+sample sample text
+
+In [44]: Post.objects.filter(title__contains='sample')
+Out[44]: <QuerySet [<Post: sample(4)>]>
+
+In [45]: from django.utils import timezone
+
+In [46]: timezone.now()
+Out[46]: datetime.datetime(2022, 2, 11, 4, 14, 21, 944672, tzinfo=<UTC>)
+
+In [47]: Post.objects.filter(published_date__lte = timezone.now())
+Out[47]: <QuerySet [<Post: 두번째글(2)>, <Post: 세번째글(3)>]>
+
+In [49]: for p in Post.objects.all():
+    ...:     print(p.id,p.published_date)
+    ...:
+1 None
+2 2022-02-11 00:17:07+00:00
+3 2022-02-11 01:35:09+00:00
+4 None
+
+In [50]: p1 = Post.objects.get(id=1)
+
+In [51]: p1.publish()
+In [52]: for p in Post.objects.all():
+    ...:     print(p.id,p.published_date)
+    ...:
+1 2022-02-11 04:22:18.979528+00:00
+2 2022-02-11 00:17:07+00:00
+3 2022-02-11 01:35:09+00:00
+4 None
+
+In [53]: timezone.now()
+Out[53]: datetime.datetime(2022, 2, 11, 4, 24, 44, 894168, tzinfo=<UTC>)
+
+In [54]: print(p1.id, p1.pk)
+1 1
+
+In [55]: Post.objects.order_by('created_date')
+Out[55]: <QuerySet [<Post: 첫번째글(1)>, <Post: 두번째글(2)>, <Post: 세번째글(3)>, <Post: sample(4)>]>
+
+In [56]: Post.objects.order_by('-created_date')
+Out[56]: <QuerySet [<Post: sample(4)>, <Post: 세번째글(3)>, <Post: 두번째글(2)>, <Post: 첫번째글(1)>]>
+
+In [57]: Post.objects.filter(title__contains='글')
+Out[57]: <QuerySet [<Post: 첫번째글(1)>, <Post: 두번째글(2)>, <Post: 세번째글(3)>]>
+
+In [58]: Post.objects.filter(title__contains='글').order_by('-created_date')
+Out[58]: <QuerySet [<Post: 세번째글(3)>, <Post: 두번째글(2)>, <Post: 첫번째글(1)>]>
+
+In [59]: from django.shortcuts import get_object_or_404
+
+In [60]: get_object_or_404(Post,pk=1)
+Out[60]: <Post: 첫번째글(1)>
+
+In [61]: post_obj = get_object_or_404(Post,pk=1)
+
+In [62]:
+
+In [62]: type(post_obj)
+Out[62]: blog.models.Post
+
+In [63]: post_404 = get_object_or_404(Post,pk=100)
+In [64]: post3 = get_object_or_404(Post,pk=3)
+
+In [65]: post3
+Out[65]: <Post: 세번째글(3)>
+
+In [66]: post3.delete()
+
+Out[66]: (1, {'blog.Post': 1})
+
+In [67]: Post.objects.all()
+Out[67]: <QuerySet [<Post: 첫번째글(1)>, <Post: 두번째글(2)>, <Post: sample(4)>]>
+
+------------------------Comment 추가-------------------------
+In [1]: from blog.models import Post, Comment
+In [2]: Post.objects.all()
+Out[2]: <QuerySet [<Post: 첫번째글(1)>, <Post: 두번째글(2)>, <Post: sample(4)>, <Post: 파이썬언어(5)>, <Post: eee(6)>, <Post: test(7)>, <Post: 144(8)>]>
+
+In [3]: Comment.objects.all()
+Out[3]: <QuerySet [<Comment: 첫번째글의 댓글입니다.(1)>, <Comment: 두번째글의 댓글(2)>, <Comment: 테스트댓글(3)>, <Comment: 길동이 단 댓글(4)>]>
+
+In [5]: post1 = Post.objects.get(id=1)
+
+In [6]: post1
+Out[6]: <Post: 첫번째글(1)>
+
+In [7]: post1.comments.all()
+
+Out[7]: <QuerySet [<Comment: 첫번째글의 댓글입니다.(1)>, <Comment: 테스트댓글(3)>]>
+In [9]: for comm in post1.comments.all():
+   ...:     print(comm.id, comm.author, comm.text, comm.approved_comment)
+   ...:
+   ...:
+
+In [10]: post2 = Post.objects.get(id=2)
+
+In [11]: post2.comments.all()
+
+In [12]: post2.comments.count()
+
+In [13]: for com in post2.comments.all():
+    ...:     print(com.id, com.text, com.created_date, com.post)
+    ...:
+In [14]: for com in post2.comments.all():
+    ...:     print(com.id, com.approved_comment)
+    ...:
+
+In [15]: for com in post2.comments.all():
+    ...:     com.approve()
+    ...:
+
+In [16]: for com in post2.comments.all():
+    ...:     print(com.id, com.approved_comment)
+    ...:
+In [17]: comment2 = Comment.objects.get(id=2)
+
+In [18]: comment2
+
+In [19]: print(comment2.author, comment2.approved_comment, comment2.post, comment2.post.id, comment2.post.author)
+
+In [22]: comment2.approved_comment = False
+
+In [23]: comment2.approved_comment
+
+In [24]: comment2.save()
+
+In [25]: comment2.approved_comment
+
+In [2]: post = Post.objects.get(id=1)
+
+In [3]: post.comments.count()
+Out[3]: 3
+
+In [4]: post.comments.filter(approved_comment=True).count()
+Out[4]: 2
+
+In [5]: post.comments.filter(approved_comment=True)
+Out[5]: <QuerySet [<Comment: 첫번째글의 댓글입니다.(1)>, <Comment: 테스트댓글(3)>]>
+
+In [6]: post.comments.filter(approved_comment=False)
+Out[6]: <QuerySet [<Comment: 승인되지 않은 댓글(6)>]>
+
+In [7]: post.comments.filter(approved_comment=False).count()
+Out[7]: 1

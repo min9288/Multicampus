@@ -1,16 +1,20 @@
 {% extends 'customer/base.html' %}
 
 {% block content %}
-        <div class="post">
-            <h1>{{ customer.name }}</h1>
-            <p>{{ customer.email }}</p>
-            <div class="date">
-                <p>생년월일: {{ customer.birthdate }}</p>
-            </div>
-            {% if customer.gender is True %}
-                <p>남자</p>
-            {% else %}
-                <p>여자</p>
-            {% endif %}
+    <div class="post">
+        <h1>{{ customer.name }}</h1>
+        <p>{{ customer.email }}</p>
+        <div class="date">
+            <p>생년월일 : {{ customer.birthdate }}</p>
         </div>
+        {% if customer.gender is True %}
+            <p>남자</p>
+        {% else %}
+            <p>여자</p>
+        {% endif %}
+
+        <a class="btn btn-default" href="{% url 'customer_edit' pk=customer.pk %}">
+            <span class="glyphicon glyphicon-pencil"></span>
+        </a>
+    </div>
 {% endblock %}

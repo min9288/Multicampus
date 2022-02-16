@@ -51,7 +51,5 @@ h1, h2, h3, h4 {
 }
 
 li {
-    list-style-type: none;
-    float: left;
-    margin-left: 20px;
+    list-style-type: none; float: left; margin-right: 20px;
 }
