@@ -1,0 +1,45 @@
+.contentFlexBox{
+    display: flex;
+}
+
+.infoBox{
+    padding: 30px;
+    width: 50%;
+}
+.videoBox{
+    padding: 30px;
+    width: 50%;
+}
+
+.infoDetail{
+    margin-bottom: 30px;
+}
+
+.pageNavi{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 50px;
+    
+}
+.videoText{
+    color: black;
+}
+.infoText{
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
+
+.contentBox{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.searchWarpBox{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}

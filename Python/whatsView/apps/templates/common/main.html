@@ -1,0 +1,35 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What's View</title>
+    <!-- 부트스트랩 minty CSS -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <!-- 글꼴적용(NotoSans 폰트) -->
+    <link rel="stylesheet" href="{% static 'css/font.css' %}">
+    <!-- default css -->
+    <link rel="stylesheet" href="{% static 'css/default.css' %}">
+    <!-- js -->
+    <script src="{% static 'js/jquery-3.3.1.js' %}" type="text/javascript"></script>
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}" type="text/javascript"></script>
+
+</head>
+<body>
+    <div class="container">
+        <div class="mainBox">
+            <div class="logoBox">
+                <img src="{% static 'img/logo_transparent.png' %}" class="mainLogo">
+            </div>
+            <div class="searchBox">
+                <form class="d-flex">
+                    <input class="form-control me-sm-2" type="text" placeholder="검색어를 입력">
+                    <button class="btn btn-info my-2 my-sm-0" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

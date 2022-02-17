@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="38d38136-e198-421e-88ec-7c45cdcc6e74" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mydjango/blog/templates/blog/pagination.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../mini_project_WhatsView/all.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../mini_project_WhatsView/css/all.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../mini_project_WhatsView/css/bootstrap.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../mini_project_WhatsView/css/bootstrap.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../mini_project_WhatsView/css/default.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../mini_project_WhatsView/css/font.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../mini_project_WhatsView/defaultForm.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../mini_project_WhatsView/font/NotoSansKR-Black.otf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../mini_project_WhatsView/font/NotoSansKR-Bold.otf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../mini_project_WhatsView/font/NotoSansKR-Light.otf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../mini_project_WhatsView/font/NotoSansKR-Medium.otf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../mini_project_WhatsView/font/NotoSansKR-Regular.otf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../mini_project_WhatsView/font/NotoSansKR-Thin.otf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../mini_project_WhatsView/img/logo_transparent.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../mini_project_WhatsView/img/topLogo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../mini_project_WhatsView/info.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../mini_project_WhatsView/js/bootstrap.bundle.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../mini_project_WhatsView/js/bootstrap.bundle.min.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../mini_project_WhatsView/js/jquery-3.3.1.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../mini_project_WhatsView/main.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../mini_project_WhatsView/video.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/Python.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Python.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mydjango/blog/templates/blog/post_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/mydjango/blog/templates/blog/post_list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mydjango/blog/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/mydjango/blog/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mydjango/mydjango/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/mydjango/mydjango/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mydjango/queryset.txt" beforeDir="false" afterPath="$PROJECT_DIR$/mydjango/queryset.txt" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectId" id="25EqPHPN89zvnp2ZkKdR8QreQFD" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/whatsView" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="38d38136-e198-421e-88ec-7c45cdcc6e74" name="Changes" comment="" />
+      <created>1645102567875</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1645102567875</updated>
+      <workItem from="1645102576396" duration="67000" />
+      <workItem from="1645102782324" duration="33000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+</project>

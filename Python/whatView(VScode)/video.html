@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What's View</title>
+    <!-- 부트스트랩 minty CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.css">
+    <!-- 글꼴적용(NotoSans 폰트) -->
+    <link rel="stylesheet" href="/css/font.css">
+    <!-- default css -->
+    <link rel="stylesheet" href="/css/default.css">
+    <!-- all css -->
+    <link rel="stylesheet" href="/css/all.css">
+    <!-- bootswatch css 모음 -->
+    <link rel="stylesheet" href="../5/minty/bootstrap.css">
+    <link rel="stylesheet" href="../_vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../_vendor/prismjs/themes/prism-okaidia.css">
+    <link rel="stylesheet" href="../_assets/css/custom.min.css">
+    <!-- bootswatch 자바스크립트 모음 -->
+    <script src="../_vendor/jquery/dist/jquery.min.js"></script>
+    <script src="../_vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../_vendor/prismjs/prism.js" data-manual></script>
+    <script src="../_assets/js/custom.js"></script>
+    
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <a href="#">
+                <div> 
+                    <img src="img/topLogo.png" class="topLogo">
+                </div> 
+            </a>
+            <div class="searchWarpBox">
+                <div class="searchBox">
+                    <form class="d-flex">
+                        <input class="form-control me-sm-2" type="text" placeholder="검색어를 입력">
+                        <button class="btn btn-info my-2 my-sm-0" type="submit">Search</button>
+                    </form>
+                </div>
+            </div>
+            <div> 
+                <a href="#" class="naviText">ALL</a>
+                <a href="#" class="naviText">INFO</a>
+                <a href="#" class="naviText">VIDEO</a>
+            </div>
+        </header>
+        <div class="main">
+            <div class="contentBox">
+                <div class="videoBox">
+                    <a href="#" style="text-decoration: none;">
+                        <div class="card mb-3">
+                            <div class="card-body videoText">
+                                <h5 class="card-title">영상제목</h5>
+                                <h6 class="card-subtitle text-muted">채널주인</h6>
+                            </div>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="d-block user-select-none" width="100%" height="200" aria-label="Placeholder: video cap" focusable="false" role="img" preserveAspectRatio="xMidYMid slice" viewBox="0 0 318 180" style="font-size:1.125rem;text-anchor:middle">
+                                <rect width="100%" height="100%" fill="#868e96"></rect>
+                                <text x="50%" y="50%" fill="#dee2e6" dy=".3em">video cap</text>
+                            </svg>
+                            <div class="card-body videoText">
+                                <p class="card-text">동영상 소개글</p>
+                            </div>
+                            <div class="card-footer text-muted">
+                                게시일
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="pageNavi">
+                <ul class="pagination">
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#">&laquo;</a>
+                    </li>
+                    <li class="page-item active">
+                        <a class="page-link" href="#">1</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">2</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">3</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">4</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">5</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">&raquo;</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <footer class="footer">
+            <div style="font-size:.6rem;"> 
+                <span>공지사항</span> | 
+                <span>문의사항</span> | 
+                <span>서비스소개</span> 
+            </div> 
+            <a href="#">
+                <div style="margin-top:1rem;"> 
+                    <img src="img/logo_transparent.png" class="bottomLogo">
+                </div>
+            </a>
+        </footer>
+    </div>
+</body>
+</html>

@@ -13,4 +13,6 @@
     {% empty %}
         <p>Blog(글)이 없습니다.</p>
     {% endfor %}
+
+    {% include 'blog/pagination.html' with page=post_list %}
 {% endblock %}

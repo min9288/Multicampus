@@ -1,0 +1,39 @@
+@charset "UTF-8";
+
+.mainBox{
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	align-items: center;
+	margin-top: 200px;
+}
+.mainBox .mainLogo{
+	width: 500px;
+}
+
+.searchBox{
+	width: 600px;
+}
+
+.header{
+	text-align:center; 
+	margin-bottom:2px;
+}
+
+.footer{
+	text-align:center;
+	margin-top:2px;
+}
+
+.topLogo{
+	width: 200px;
+}
+.bottomLogo{
+	width: 100px;
+}
+
+.naviText{
+	text-decoration: none;
+	margin-right: 5px;
+	margin-left: 5px;
+}
