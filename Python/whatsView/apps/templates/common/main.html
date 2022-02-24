@@ -23,12 +23,12 @@
             <div class="logoBox">
                 <img src="{% static 'img/logo_transparent.png' %}" class="mainLogo">
             </div>
-            <div class="searchBox">
-                <form class="d-flex">
-                    <input class="form-control me-sm-2" type="text" placeholder="검색어를 입력">
+            <form class="d-flex" method="GET" action="{% url 'all' %}">
+                <div class="searchBox" style="display: flex">
+                    <input class="form-control me-sm-2" type="text" placeholder="검색어를 입력" name="searchValue" value="{{ searchValue }}">
                     <button class="btn btn-info my-2 my-sm-0" type="submit">Search</button>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
     </div>
 </body>

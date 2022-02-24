@@ -1,0 +1,50 @@
+{% extends 'common/base.html' %}
+{% block content %}
+    <div class="contentBox">
+        <div class="videoBox">
+            <a href="#" style="text-decoration: none;">
+                <div class="card mb-3">
+                    <div class="card-body videoText">
+                        <h5 class="card-title">영상제목</h5>
+                        <h6 class="card-subtitle text-muted">채널주인</h6>
+                    </div>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="d-block user-select-none" width="100%" height="200" aria-label="Placeholder: video cap" focusable="false" role="img" preserveAspectRatio="xMidYMid slice" viewBox="0 0 318 180" style="font-size:1.125rem;text-anchor:middle">
+                        <rect width="100%" height="100%" fill="#868e96"></rect>
+                        <text x="50%" y="50%" fill="#dee2e6" dy=".3em">video cap</text>
+                    </svg>
+                    <div class="card-body videoText">
+                        <p class="card-text">동영상 소개글</p>
+                    </div>
+                    <div class="card-footer text-muted">
+                        게시일
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="pageNavi">
+        <ul class="pagination">
+            <li class="page-item disabled">
+                <a class="page-link" href="#">&laquo;</a>
+            </li>
+            <li class="page-item active">
+                <a class="page-link" href="#">1</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#">2</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#">3</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#">4</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#">5</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#">&raquo;</a>
+            </li>
+        </ul>
+    </div>
+{% endblock %}

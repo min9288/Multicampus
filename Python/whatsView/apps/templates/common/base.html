@@ -12,25 +12,34 @@
     <link rel="stylesheet" href="{% static 'css/font.css' %}">
     <!-- default css -->
     <link rel="stylesheet" href="{% static 'css/default.css' %}">
+    <!-- all css -->
+    <link rel="stylesheet" href="{% static 'css/all.css' %}">
     <!-- js -->
     <script src="{% static 'js/jquery-3.3.1.js' %}" type="text/javascript"></script>
     <script src="{% static 'js/bootstrap.bundle.min.js' %}" type="text/javascript"></script>
     
 </head>
-<body>
+<body onload="fnReplaceTag();">
     <div class="container">
         <header class="header">
-            <div> 
-                <img src="{% static 'img/topLogo.png' %}" class="topLogo">
-            </div> 
-            <div> 
-                <span>ALL</span> |
-                <span>INFO</span> |
-                <span>VIDEO</span> 
+            <a href="/">
+                <div>
+                    <img src="{% static 'img/topLogo.png' %}" class="topLogo">
+                </div>
+            </a>
+            <div class="searchWarpBox">
+                <form class="d-flex" method="GET" action="{% url 'all' %}">
+                    <div class="searchBox" style="display: flex">
+                        <input class="form-control me-sm-2" type="text" placeholder="검색어를 입력" name="searchValue" value="{{ searchValue }}">
+                        <button class="btn btn-info my-2 my-sm-0" type="submit">Search</button>
+                    </div>
+                </form>
             </div>
+
         </header>
         <div class="main">
-            
+            {%  block content %}
+            {%  endblock %}
         </div>
         <footer class="footer">
             <div style="font-size:.6rem;"> 
@@ -38,10 +47,11 @@
                 <span>문의사항</span> | 
                 <span>서비스소개</span> 
             </div> 
-            <div style="margin-top:1rem;"> 
-                <img src="{% static 'img/logo_transparent.png' %}" class="bottomLogo">
-            </div>
-
+            <a href="/">
+                <div style="margin-top:1rem;">
+                    <img src="{% static 'img/logo_transparent.png' %}" class="bottomLogo">
+                </div>
+            </a>
         </footer>
     </div>
 </body>
