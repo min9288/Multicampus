@@ -156,5 +156,5 @@ ROOT_DIR = os.path.dirname(BASE_DIR)
 SECRET_DEBUG_FILE = os.path.join(ROOT_DIR, '.config_secret/settings_debug.json')
 
 # add for Youtube API
-YOUTUBE_API_KEY = 'AIzaSyAWvSovFGym1Wj9116pOIGF4Fcx4wigK3Y'
+YOUTUBE_API_KEY = '유튜브 키'
 

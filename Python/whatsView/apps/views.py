@@ -88,7 +88,7 @@ def all(request):
             #  youtube search value
             url = 'https://www.googleapis.com/youtube/v3/search'
             params = {
-                'key': 'AIzaSyAWvSovFGym1Wj9116pOIGF4Fcx4wigK3Y',
+                'key': '유튜브 키',
                 'part': 'snippet',
                 'type': 'video',
                 'maxResults': '12',
